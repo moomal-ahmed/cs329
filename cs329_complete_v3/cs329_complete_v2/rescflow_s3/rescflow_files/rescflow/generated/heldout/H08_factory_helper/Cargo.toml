@@ -1,0 +1,11 @@
+[package]
+name = "gen_h08_factory_helper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rescflow_rt = { path = "../../../rescflow_rt" }
+
+[[bin]]
+name = "prog"
+path = "src/main.rs"

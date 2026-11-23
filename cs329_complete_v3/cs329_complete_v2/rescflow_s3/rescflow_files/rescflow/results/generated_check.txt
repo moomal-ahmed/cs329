@@ -1,0 +1,36 @@
+== benchmarks: 20 programs: matches_go 15, review 4, unsupported 1; runs identical to Go: 71/71
+   01_local                       A  matches_go       line 10: OWNED_GUARD
+   02_early_before                A  matches_go       line 11: OWNED_GUARD
+   03_early_after                 A  matches_go       line 10: OWNED_GUARD
+   04_failed_acquire              A  matches_go       line 10: OWNED_GUARD
+   05_two_lifo                    A  matches_go       line 10: OWNED_GUARD; line 13: OWNED_GUARD
+   06_nested_block                A  matches_go       line 11: OWNED_GUARD (hoisted to function scope)
+   07_conditional                 A  matches_go       line 11: OPTION_GUARD
+   08_loop                        A  matches_go       line 12: DEFER_STACK
+   09_return_open                 A  matches_go       
+   10_return_closed               C  review           
+   11_global_escape               A  matches_go       
+   12_alias                       A  matches_go       line 11: OWNED_GUARD
+   13_eager_argument              A  matches_go       line 10: OWNED_GUARD
+   14_late_closure                A  matches_go       line 10: CELL_CLOSURE_GUARD
+   15_closure_parameter           A  matches_go       line 10: OWNED_GUARD
+   16_named_result                C  review           
+   17_panic_unwind                A  matches_go       line 8: CATCH_UNWIND (recover); line 11: OWNED_GUARD
+   18_helper_boundary             C  review           
+   19_double_close                C  review           
+   20_interface_dispatch          A  unsupported       | line 15: type closer (only struct types are supported); line 10: type example.com/rescflow/benchmarks/20_interface_dispatch.closer is outside the generator's subset; line 10: no zero value for example.com/rescflow/benchmarks/20_interface_dispatch.closer; line 10: expression tracked{…}; line 11: deferred method call on c
+== heldout: 14 programs: matches_go 12, review 2; runs identical to Go: 76/76
+   H01_loop_count                 A  matches_go       line 15: DEFER_STACK
+   H02_two_per_iteration          A  matches_go       line 12: DEFER_STACK; line 15: DEFER_STACK
+   H03_conditional_in_loop        A  matches_go       line 13: DEFER_STACK
+   H04_closure_two_vars           A  matches_go       line 13: CELL_CLOSURE_GUARD
+   H05_field_alias                A  matches_go       line 11: OWNED_GUARD
+   H06_method_defer               A  matches_go       line 8: OWNED_GUARD
+   H07_early_return_in_loop       A  matches_go       line 12: DEFER_STACK
+   H08_factory_helper             A  matches_go       line 15: OWNED_GUARD
+   H09_nested_calls               A  matches_go       line 10: OWNED_GUARD; line 16: OWNED_GUARD
+   H10_close_error_join           A  matches_go       line 10: RESULT_SLOT_GUARD
+   H11_panic_from_callee          A  matches_go       line 9: CATCH_UNWIND (recover); line 12: OWNED_GUARD
+   H12_path_dependent_ownership   B  matches_go       line 11: OWNED_GUARD
+   H13_goroutine_defer            C  review           
+   H14_dynamic_closer             C  review           

@@ -1,0 +1,8 @@
+[package]
+name = "rescflow_rt"
+version = "0.1.0"
+edition = "2021"
+description = "Runtime support for RescFlow's Go-to-Rust translations of deferred resource cleanup"
+license = "MIT"
+
+[dependencies]

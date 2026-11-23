@@ -1,0 +1,3105 @@
+{
+  "benchmarks": [
+    {
+      "program": "01_local",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "02_early_before",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 11: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "early\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "early\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "03_early_after",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nearly\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nearly\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "04_failed_acquire",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "05_two_lifo",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD",
+        "line 13: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nbody\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nbody\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "06_nested_block",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 11: OWNED_GUARD (hoisted to function scope)"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\ninside\nafter-block\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\ninside\nafter-block\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "07_conditional",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 11: OPTION_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "defer"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nbody-end\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nbody-end\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "defer"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "defer"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nbody-end\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nbody-end\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "08_loop",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 12: DEFER_STACK"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:3:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "09_return_open",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "10_return_closed",
+      "category": "C",
+      "status": "review",
+      "forms": [],
+      "unsupported": [],
+      "runs": []
+    },
+    {
+      "program": "11_global_escape",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "12_alias",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 11: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "13_eager_argument",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "14_late_closure",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: CELL_CLOSURE_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nclose A false\nuse B true\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nclose A false\nuse B true\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "15_closure_parameter",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "16_named_result",
+      "category": "C",
+      "status": "review",
+      "forms": [],
+      "unsupported": [],
+      "runs": []
+    },
+    {
+      "program": "17_panic_unwind",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 8: CATCH_UNWIND (recover)",
+        "line 11: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\npanic\nclose A false\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\npanic\nclose A false\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "18_helper_boundary",
+      "category": "C",
+      "status": "review",
+      "forms": [],
+      "unsupported": [],
+      "runs": []
+    },
+    {
+      "program": "19_double_close",
+      "category": "C",
+      "status": "review",
+      "forms": [],
+      "unsupported": [],
+      "runs": []
+    },
+    {
+      "program": "20_interface_dispatch",
+      "category": "A",
+      "status": "unsupported",
+      "forms": [],
+      "unsupported": [
+        "line 15: type closer (only struct types are supported)",
+        "line 10: type example.com/rescflow/benchmarks/20_interface_dispatch.closer is outside the generator's subset",
+        "line 10: no zero value for example.com/rescflow/benchmarks/20_interface_dispatch.closer",
+        "line 10: expression tracked{\u2026}",
+        "line 11: deferred method call on c"
+      ],
+      "runs": []
+    }
+  ],
+  "heldout": [
+    {
+      "program": "H01_loop_count",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 15: DEFER_STACK"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            "0"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "after-loop\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "after-loop\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "1"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nafter-loop\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nafter-loop\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "3"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [
+            "3"
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "1"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "1"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nafter-loop\nclose 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nafter-loop\nclose 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "3"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "3"
+          ],
+          "inject": "openat:3:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            "3"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H02_two_per_iteration",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 12: DEFER_STACK",
+        "line 15: DEFER_STACK"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a true\nacquire 1b true\nafter-loop\nclose 1b true\nclose 1a true\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 o4 c4 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a true\nacquire 1b true\nafter-loop\nclose 1b true\nclose 1a true\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 o4 c4 c3 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:3:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a false\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a false\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0a false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a true\nacquire 0b false\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0a true\nacquire 0b false\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:4:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a true\nacquire 1b false\nclose 1a true\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a true\nacquire 1b false\nclose 1a true\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a true\nacquire 1b true\nafter-loop\nclose 1b false\nclose 1a true\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 o4 c4 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0a true\nacquire 0b true\nacquire 1a true\nacquire 1b true\nafter-loop\nclose 1b false\nclose 1a true\nclose 0b true\nclose 0a true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 o4 c4 c3 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0a false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0a false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H03_conditional_in_loop",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 13: DEFER_STACK"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nclose 1 true\nacquire 2 true\nafter-loop\nclose 2 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 o3 c3 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nclose 1 true\nacquire 2 true\nafter-loop\nclose 2 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 o3 c3 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:3:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nclose 1 true\nacquire 2 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nclose 1 true\nacquire 2 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nclose 1 false\nacquire 2 true\nafter-loop\nclose 2 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 o3 c3 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nclose 1 false\nacquire 2 true\nafter-loop\nclose 2 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 o3 c3 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H04_closure_two_vars",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 13: CELL_CLOSURE_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse A true\nclose A true\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse A true\nclose A true\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          }
+        },
+        {
+          "args": [
+            "swap"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse A true\nclose A false\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse A true\nclose A false\nclose B true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c1 c2"
+          }
+        },
+        {
+          "args": [
+            "swap"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "swap"
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "swap"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B false\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H05_field_alias",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 11: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H06_method_defer",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 8: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nafter-run\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nafter-run\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nafter-run\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nafter-run\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H07_early_return_in_loop",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 12: DEFER_STACK"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nacquire 2 true\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nacquire 2 true\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nearly\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nearly\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:3:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nacquire 2 true\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nacquire 2 true\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 o3 c3 c2 c1"
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "early"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 true\nacquire 1 true\nearly\nclose 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire 0 true\nacquire 1 true\nearly\nclose 1 false\nclose 0 true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire 0 false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H08_factory_helper",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 15: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:ENOENT",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H09_nested_calls",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: OWNED_GUARD",
+        "line 16: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:2:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B false\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B false\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B false\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nacquire B true\nuse B true\nclose B false\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 o2 c2 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H10_close_error_join",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 10: RESULT_SLOT_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nresult-error false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nresult-error false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:ENOENT",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nresult-error true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H11_panic_from_callee",
+      "category": "A",
+      "status": "matches_go",
+      "forms": [
+        "line 9: CATCH_UNWIND (recover)",
+        "line 12: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nrecovered\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H12_path_dependent_ownership",
+      "category": "B",
+      "status": "matches_go",
+      "forms": [
+        "line 11: OWNED_GUARD"
+      ],
+      "unsupported": [],
+      "runs": [
+        {
+          "args": [
+            ""
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "keep"
+          ],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            ""
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [
+            "keep"
+          ],
+          "inject": "openat:1:EMFILE",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        },
+        {
+          "args": [
+            "keep"
+          ],
+          "inject": "close:1:EIO",
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          },
+          "rust": {
+            "stdout": "acquire A true\nreturned\nuse A true\nclose A false\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": "o1 c1"
+          }
+        },
+        {
+          "args": [],
+          "inject": null,
+          "verdict": "SAME",
+          "go": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          },
+          "rust": {
+            "stdout": "acquire A false\nreturned\n",
+            "rc": 0,
+            "stderr1": "",
+            "os": ""
+          }
+        }
+      ]
+    },
+    {
+      "program": "H13_goroutine_defer",
+      "category": "C",
+      "status": "review",
+      "forms": [],
+      "unsupported": [],
+      "runs": []
+    },
+    {
+      "program": "H14_dynamic_closer",
+      "category": "C",
+      "status": "review",
+      "forms": [],
+      "unsupported": [],
+      "runs": []
+    }
+  ]
+}

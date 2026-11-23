@@ -1,0 +1,6 @@
+rescflow_rt ports vs Go: 28/28 runs identical (stdout, exit code, stderr, OS open/close order)
+  01 case01_local           runs  5  same as Go  5
+  08 case08_loop            runs  7  same as Go  7
+  10 case10_return_closed   runs  5  same as Go  5
+  14 case14_late_closure    runs  6  same as Go  6
+  17 case17_panic_unwind    runs  5  same as Go  5

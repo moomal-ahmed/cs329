@@ -1,0 +1,40 @@
+== benchmarks: categories agree on 20/20 programs
+   confusion (expected->decided): A->A: 16, C->C: 4
+  01_local                       expected A  decided A  ok   f@8: OWNED_GUARD
+  02_early_before                expected A  decided A  ok   f@9: OWNED_GUARD
+  03_early_after                 expected A  decided A  ok   f@8: OWNED_GUARD
+  04_failed_acquire              expected A  decided A  ok   f@8: OWNED_GUARD
+  05_two_lifo                    expected A  decided A  ok   f@8: OWNED_GUARD; g@11: OWNED_GUARD
+  06_nested_block                expected A  decided A  ok   f@9: OWNED_GUARD
+  07_conditional                 expected A  decided A  ok   f@8: OPTION_GUARD
+  08_loop                        expected A  decided A  ok   f@10: DEFER_STACK
+  09_return_open                 expected A  decided A  ok   f@8: OWNERSHIP_RETURN
+  10_return_closed               expected C  decided C  ok   f@8: REVIEW
+  11_global_escape               expected A  decided A  ok   f@8: GLOBAL_OWNER
+  12_alias                       expected A  decided A  ok   f@8: OWNED_GUARD
+  13_eager_argument              expected A  decided A  ok   f@8: OWNED_GUARD; g@11: EXPLICIT_CLOSE
+  14_late_closure                expected A  decided A  ok   f@8: CELL_CLOSURE_GUARD; g@11: CELL_CLOSURE_GUARD
+  15_closure_parameter           expected A  decided A  ok   f@8: OWNED_GUARD; g@11: EXPLICIT_CLOSE
+  16_named_result                expected C  decided C  ok   f@8: REVIEW
+  17_panic_unwind                expected A  decided A  ok   f@9: OWNED_GUARD + CATCH_UNWIND
+  18_helper_boundary             expected C  decided C  ok   f@8: REVIEW
+  19_double_close                expected C  decided C  ok   f@8: REVIEW
+  20_interface_dispatch          expected A  decided A  ok   f@8: DYN_GUARD
+   review reports: 4 for 4 C decisions; 10, 18, 19 reported as C: yes
+== heldout: categories agree on 14/14 programs
+   confusion (expected->decided): A->A: 11, B->B: 1, C->C: 2
+  H01_loop_count                 expected A  decided A  ok   f@13: DEFER_STACK
+  H02_two_per_iteration          expected A  decided A  ok   f@10: DEFER_STACK; g@13: DEFER_STACK
+  H03_conditional_in_loop        expected A  decided A  ok   f@10: DEFER_STACK
+  H04_closure_two_vars           expected A  decided A  ok   f@8: CELL_CLOSURE_GUARD; g@10: CELL_CLOSURE_GUARD
+  H05_field_alias                expected A  decided A  ok   f@8: OWNED_GUARD
+  H06_method_defer               expected A  decided A  ok   f@12: CALLEE_OWNS
+  H07_early_return_in_loop       expected A  decided A  ok   f@10: DEFER_STACK
+  H08_factory_helper             expected A  decided A  ok   f@8: OWNERSHIP_RETURN + OWNED_GUARD
+  H09_nested_calls               expected A  decided A  ok   g@8: OWNED_GUARD; f@14: OWNED_GUARD
+  H10_close_error_join           expected A  decided A  ok   f@8: RESULT_SLOT_GUARD
+  H11_panic_from_callee          expected A  decided A  ok   f@10: OWNED_GUARD + CATCH_UNWIND
+  H12_path_dependent_ownership   expected B  decided B  ok   f@8: OWNERSHIP_RETURN | OWNED_GUARD
+  H13_goroutine_defer            expected C  decided C  ok   f@12: REVIEW
+  H14_dynamic_closer             expected C  decided C  ok   f@8: REVIEW
+   review reports: 2 for 2 C decisions

@@ -1,0 +1,5 @@
+line 15: type closer (only struct types are supported)
+line 10: type example.com/rescflow/benchmarks/20_interface_dispatch.closer is outside the generator's subset
+line 10: no zero value for example.com/rescflow/benchmarks/20_interface_dispatch.closer
+line 10: expression tracked{…}
+line 11: deferred method call on c

@@ -1,0 +1,598 @@
+[
+  {
+    "case": "01",
+    "port": "case01_local",
+    "args": [
+      ""
+    ],
+    "inject": null,
+    "origin": "label",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "01",
+    "port": "case01_local",
+    "args": [
+      ""
+    ],
+    "inject": "openat:1:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "01",
+    "port": "case01_local",
+    "args": [
+      ""
+    ],
+    "inject": "close:1:EIO",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\nuse A true\nclose A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "01",
+    "port": "case01_local",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "01",
+    "port": "case01_local",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [
+      ""
+    ],
+    "inject": null,
+    "origin": "label",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 o3 c3 c2 c1"
+    },
+    "rust": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 o3 c3 c2 c1"
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [
+      ""
+    ],
+    "inject": "openat:1:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire 0 false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire 0 false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [
+      ""
+    ],
+    "inject": "openat:2:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 false\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 false\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [
+      ""
+    ],
+    "inject": "openat:3:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 c2 c1"
+    },
+    "rust": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 c2 c1"
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [
+      ""
+    ],
+    "inject": "close:1:EIO",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 o3 c3 c2 c1"
+    },
+    "rust": {
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 false\nclose 1 true\nclose 0 true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 o3 c3 c2 c1"
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire 0 false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire 0 false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "08",
+    "port": "case08_loop",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    }
+  },
+  {
+    "case": "10",
+    "port": "case10_return_closed",
+    "args": [
+      ""
+    ],
+    "inject": null,
+    "origin": "label",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "10",
+    "port": "case10_return_closed",
+    "args": [
+      ""
+    ],
+    "inject": "openat:1:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "10",
+    "port": "case10_return_closed",
+    "args": [
+      ""
+    ],
+    "inject": "close:1:EIO",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nclose A false\nreturned\nuse A false\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\nclose A false\nreturned\nuse A false\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "10",
+    "port": "case10_return_closed",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "10",
+    "port": "case10_return_closed",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    }
+  },
+  {
+    "case": "14",
+    "port": "case14_late_closure",
+    "args": [
+      ""
+    ],
+    "inject": null,
+    "origin": "label",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 c1 c2"
+    },
+    "rust": {
+      "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 c1 c2"
+    }
+  },
+  {
+    "case": "14",
+    "port": "case14_late_closure",
+    "args": [
+      ""
+    ],
+    "inject": "openat:1:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "14",
+    "port": "case14_late_closure",
+    "args": [
+      ""
+    ],
+    "inject": "openat:2:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nacquire B false\nclose B true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\nacquire B false\nclose B true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "14",
+    "port": "case14_late_closure",
+    "args": [
+      ""
+    ],
+    "inject": "close:1:EIO",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\nacquire B true\nclose A false\nuse B true\nclose B true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 c1 c2"
+    },
+    "rust": {
+      "stdout": "acquire A true\nacquire B true\nclose A false\nuse B true\nclose B true\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 o2 c1 c2"
+    }
+  },
+  {
+    "case": "14",
+    "port": "case14_late_closure",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "14",
+    "port": "case14_late_closure",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    }
+  },
+  {
+    "case": "17",
+    "port": "case17_panic_unwind",
+    "args": [
+      ""
+    ],
+    "inject": null,
+    "origin": "label",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "17",
+    "port": "case17_panic_unwind",
+    "args": [
+      ""
+    ],
+    "inject": "openat:1:EMFILE",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "17",
+    "port": "case17_panic_unwind",
+    "args": [
+      ""
+    ],
+    "inject": "close:1:EIO",
+    "origin": "injected",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A true\npanic\nclose A false\nrecovered\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    },
+    "rust": {
+      "stdout": "acquire A true\npanic\nclose A false\nrecovered\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": "o1 c1"
+    }
+  },
+  {
+    "case": "17",
+    "port": "case17_panic_unwind",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "acquire A false\nreturned\n",
+      "rc": 0,
+      "stderr1": "",
+      "os": ""
+    }
+  },
+  {
+    "case": "17",
+    "port": "case17_panic_unwind",
+    "args": [],
+    "inject": null,
+    "origin": "extra",
+    "verdict": "SAME",
+    "go": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    },
+    "rust": {
+      "stdout": "",
+      "rc": 2,
+      "stderr1": "panic: pass input file path",
+      "os": ""
+    }
+  }
+]
