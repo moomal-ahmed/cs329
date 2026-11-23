@@ -1,0 +1,370 @@
+{
+  "benchmarks": {
+    "agree": 20,
+    "programs": 20,
+    "confusion": {
+      "A->A": 16,
+      "C->C": 4
+    },
+    "rows": [
+      {
+        "program": "01_local",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@8: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "02_early_before",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@9: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "03_early_after",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@8: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "04_failed_acquire",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@8: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "05_two_lifo",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@8: OWNED_GUARD",
+          "g@11: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "06_nested_block",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@9: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "07_conditional",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OPTION_GUARD",
+        "decided_plans": [
+          "f@8: OPTION_GUARD"
+        ]
+      },
+      {
+        "program": "08_loop",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "DEFER_STACK",
+        "decided_plans": [
+          "f@10: DEFER_STACK"
+        ]
+      },
+      {
+        "program": "09_return_open",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNERSHIP_RETURN",
+        "decided_plans": [
+          "f@8: OWNERSHIP_RETURN"
+        ]
+      },
+      {
+        "program": "10_return_closed",
+        "expected": "C",
+        "decided": "C",
+        "agree": true,
+        "expected_plan": "REVIEW",
+        "decided_plans": [
+          "f@8: REVIEW"
+        ]
+      },
+      {
+        "program": "11_global_escape",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "GLOBAL_OWNER",
+        "decided_plans": [
+          "f@8: GLOBAL_OWNER"
+        ]
+      },
+      {
+        "program": "12_alias",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@8: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "13_eager_argument",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD + EXPLICIT_CLOSE",
+        "decided_plans": [
+          "f@8: OWNED_GUARD",
+          "g@11: EXPLICIT_CLOSE"
+        ]
+      },
+      {
+        "program": "14_late_closure",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "CELL_CLOSURE_GUARD",
+        "decided_plans": [
+          "f@8: CELL_CLOSURE_GUARD",
+          "g@11: CELL_CLOSURE_GUARD"
+        ]
+      },
+      {
+        "program": "15_closure_parameter",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD + EXPLICIT_CLOSE",
+        "decided_plans": [
+          "f@8: OWNED_GUARD",
+          "g@11: EXPLICIT_CLOSE"
+        ]
+      },
+      {
+        "program": "16_named_result",
+        "expected": "C",
+        "decided": "C",
+        "agree": true,
+        "expected_plan": "REVIEW",
+        "decided_plans": [
+          "f@8: REVIEW"
+        ]
+      },
+      {
+        "program": "17_panic_unwind",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNED_GUARD",
+        "decided_plans": [
+          "f@9: OWNED_GUARD + CATCH_UNWIND"
+        ]
+      },
+      {
+        "program": "18_helper_boundary",
+        "expected": "C",
+        "decided": "C",
+        "agree": true,
+        "expected_plan": "REVIEW",
+        "decided_plans": [
+          "f@8: REVIEW"
+        ]
+      },
+      {
+        "program": "19_double_close",
+        "expected": "C",
+        "decided": "C",
+        "agree": true,
+        "expected_plan": "REVIEW",
+        "decided_plans": [
+          "f@8: REVIEW"
+        ]
+      },
+      {
+        "program": "20_interface_dispatch",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "DYN_GUARD",
+        "decided_plans": [
+          "f@8: DYN_GUARD"
+        ]
+      }
+    ]
+  },
+  "heldout": {
+    "agree": 14,
+    "programs": 14,
+    "confusion": {
+      "A->A": 11,
+      "B->B": 1,
+      "C->C": 2
+    },
+    "rows": [
+      {
+        "program": "H01_loop_count",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "EXPLICIT_STATE: DeferStack, LIFO; loop may run 0, 1 or N times",
+        "decided_plans": [
+          "f@13: DEFER_STACK"
+        ]
+      },
+      {
+        "program": "H02_two_per_iteration",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "EXPLICIT_STATE: one DeferStack shared by both resources, LIFO across iterations",
+        "decided_plans": [
+          "f@10: DEFER_STACK",
+          "g@13: DEFER_STACK"
+        ]
+      },
+      {
+        "program": "H03_conditional_in_loop",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "EXPLICIT_STATE: DeferStack, push only on even iterations; explicit close otherwise",
+        "decided_plans": [
+          "f@10: DEFER_STACK"
+        ]
+      },
+      {
+        "program": "H04_closure_two_vars",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "EXPLICIT_STATE: f, g (and their names) live in cells read by the deferred closure at exit",
+        "decided_plans": [
+          "f@8: CELL_CLOSURE_GUARD",
+          "g@10: CELL_CLOSURE_GUARD"
+        ]
+      },
+      {
+        "program": "H05_field_alias",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "LOCAL: h.f aliases f; deferred argument evaluated at registration; guard at function scope",
+        "decided_plans": [
+          "f@8: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "H06_method_defer",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "OWNERSHIP_TRANSFER: run() takes ownership (no caller use afterwards); guard inside run",
+        "decided_plans": [
+          "f@12: CALLEE_OWNS"
+        ]
+      },
+      {
+        "program": "H07_early_return_in_loop",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "EXPLICIT_STATE: DeferStack drained on the early return inside the loop",
+        "decided_plans": [
+          "f@10: DEFER_STACK"
+        ]
+      },
+      {
+        "program": "H08_factory_helper",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "LOCAL after summary: openChecked returns a fresh resource on success; guard in scenario",
+        "decided_plans": [
+          "f@8: OWNERSHIP_RETURN + OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "H09_nested_calls",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "LOCAL x2: each function owns its own guard; B closes at inner() exit, before A is used",
+        "decided_plans": [
+          "g@8: OWNED_GUARD",
+          "f@14: OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "H10_close_error_join",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "EXPLICIT_STATE: close error joined into named result only if no earlier error; explicit close, not Drop",
+        "decided_plans": [
+          "f@8: RESULT_SLOT_GUARD"
+        ]
+      },
+      {
+        "program": "H11_panic_from_callee",
+        "expected": "A",
+        "decided": "A",
+        "agree": true,
+        "expected_plan": "LOCAL + recovery: guard drops during unwinding; catch_unwind for the recover defer",
+        "decided_plans": [
+          "f@10: OWNED_GUARD + CATCH_UNWIND"
+        ]
+      },
+      {
+        "program": "H12_path_dependent_ownership",
+        "expected": "B",
+        "decided": "B",
+        "agree": true,
+        "expected_plan": "Two plans (return ownership vs local guard). Choice rule: the defer is registered only after the returning branch, so move on the \"keep\" path and use a guard on the other; return Option<File>",
+        "decided_plans": [
+          "f@8: OWNERSHIP_RETURN | OWNED_GUARD"
+        ]
+      },
+      {
+        "program": "H13_goroutine_defer",
+        "expected": "C",
+        "decided": "C",
+        "agree": true,
+        "expected_plan": "Out of scope: resource acquired and deferred inside a goroutine; report, do not translate",
+        "decided_plans": [
+          "f@12: REVIEW"
+        ]
+      },
+      {
+        "program": "H14_dynamic_closer",
+        "expected": "C",
+        "decided": "C",
+        "agree": true,
+        "expected_plan": "Deferred Close dispatches to one of two implementations chosen at run time; on the noop path A is never closed. No single owner or cleanup plan; report",
+        "decided_plans": [
+          "f@8: REVIEW"
+        ]
+      }
+    ]
+  }
+}

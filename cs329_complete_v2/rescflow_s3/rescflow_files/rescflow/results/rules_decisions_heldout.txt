@@ -1,0 +1,127 @@
+== step 3: translation decisions
+  program H01_loop_count               A   [f@13=A]
+  program H02_two_per_iteration        A   [f@10=A g@13=A]
+  program H03_conditional_in_loop      A   [f@10=A]
+  program H04_closure_two_vars         A   [f@8=A g@10=A]
+  program H05_field_alias              A   [f@8=A]
+  program H06_method_defer             A   [f@12=A]
+  program H07_early_return_in_loop     A   [f@10=A]
+  program H08_factory_helper           A   [f@8=A]
+  program H09_nested_calls             A   [g@8=A f@14=A]
+  program H10_close_error_join         A   [f@8=A]
+  program H11_panic_from_callee        A   [f@10=A]
+  program H12_path_dependent_ownership B   [f@8=B]
+  program H13_goroutine_defer          C   [f@12=C]
+  program H14_dynamic_closer           C   [f@8=C]
+
+  [A] heldout/H01_loop_count/main.go:13 (var f in H01_loop_count.scenario)
+      rule: A: single plan from the facts
+      plan: DEFER_STACK
+      fact: defer@15 in H01_loop_count.scenario: registration loop; f: value fixed at registration = {f@13}
+
+  [A] heldout/H02_two_per_iteration/main.go:10 (var f in H02_two_per_iteration.scenario)
+      rule: A: single plan from the facts
+      plan: DEFER_STACK
+      fact: defer@12 in H02_two_per_iteration.scenario: registration loop; f: value fixed at registration = {f@10}
+
+  [A] heldout/H02_two_per_iteration/main.go:13 (var g in H02_two_per_iteration.scenario)
+      rule: A: single plan from the facts
+      plan: DEFER_STACK
+      fact: defer@15 in H02_two_per_iteration.scenario: registration loop; g: value fixed at registration = {g@13}
+
+  [A] heldout/H03_conditional_in_loop/main.go:10 (var f in H03_conditional_in_loop.scenario)
+      rule: A: single plan from the facts
+      plan: DEFER_STACK
+      fact: defer@13 in H03_conditional_in_loop.scenario: registration loop; f: value fixed at registration = {f@10}
+
+  [A] heldout/H04_closure_two_vars/main.go:8 (var f in H04_closure_two_vars.scenario)
+      rule: A: single plan from the facts
+      plan: CELL_CLOSURE_GUARD
+      fact: defer@13 in H04_closure_two_vars.scenario: registration always; fn: cell t16(fn), read at exit; f: cell t0(f), read at exit; gn: cell t17(gn), read at exit; g: cell t7(g), read at exit
+      fact: the deferred closure reads a variable at exit and acts on different resources on different paths
+
+  [A] heldout/H04_closure_two_vars/main.go:10 (var g in H04_closure_two_vars.scenario)
+      rule: A: single plan from the facts
+      plan: CELL_CLOSURE_GUARD
+      fact: defer@13 in H04_closure_two_vars.scenario: registration always; fn: cell t16(fn), read at exit; f: cell t0(f), read at exit; gn: cell t17(gn), read at exit; g: cell t7(g), read at exit
+      fact: the deferred closure reads a variable at exit and acts on different resources on different paths
+
+  [A] heldout/H05_field_alias/main.go:8 (var f in H05_field_alias.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@11 in H05_field_alias.scenario: registration always; t8: value fixed at registration = {f@8}
+
+  [A] heldout/H06_method_defer/main.go:12 (var f in H06_method_defer.scenario)
+      rule: A: single plan from the facts
+      plan: CALLEE_OWNS
+      fact: defer@8 in H06_method_defer.(*logFile).run: registration always; t1: value fixed at registration = {input#0}
+      fact: cleanup happens inside callee H06_method_defer.(*logFile).run
+
+  [A] heldout/H07_early_return_in_loop/main.go:10 (var f in H07_early_return_in_loop.scenario)
+      rule: A: single plan from the facts
+      plan: DEFER_STACK
+      fact: defer@12 in H07_early_return_in_loop.scenario: registration loop; f: value fixed at registration = {f@10}
+
+  [A] heldout/H08_factory_helper/main.go:8 (var f in H08_factory_helper.openChecked)
+      rule: A: single plan from the facts
+      plan: OWNERSHIP_RETURN + OWNED_GUARD
+      fact: escape: line 10: returned to the caller of H08_factory_helper.openChecked (ownership transfer)
+      fact: defer@15 in H08_factory_helper.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] heldout/H09_nested_calls/main.go:8 (var g in H09_nested_calls.inner)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in H09_nested_calls.inner: registration always; g: value fixed at registration = {g@8}
+
+  [A] heldout/H09_nested_calls/main.go:14 (var f in H09_nested_calls.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@16 in H09_nested_calls.scenario: registration always; f: value fixed at registration = {f@14}
+
+  [A] heldout/H10_close_error_join/main.go:8 (var f in H10_close_error_join.scenario)
+      rule: A: single plan from the facts
+      plan: RESULT_SLOT_GUARD
+      fact: defer@10 in H10_close_error_join.scenario: registration always; f: cell t1(f), read at exit; err: cell t0(err), read at exit
+      fact: close error flows into named result "err"
+
+  [A] heldout/H11_panic_from_callee/main.go:10 (var f in H11_panic_from_callee.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD + CATCH_UNWIND
+      fact: defer@12 in H11_panic_from_callee.scenario: registration always; f: value fixed at registration = {f@10}
+      fact: a deferred cleanup runs on a recovered panic path
+
+  [B] heldout/H12_path_dependent_ownership/main.go:8 (var f in H12_path_dependent_ownership.scenario)
+      rule: B: transfer on one path, local defer on another
+      plan: OWNERSHIP_RETURN | OWNED_GUARD
+      choice rule: the defer is registered only on paths that keep the file, so: move the file out (OWNERSHIP_RETURN) on the transferring path, and create the guard on the others; the producer's result becomes Option<File>
+      fact: escape: line 10: returned to the caller of H12_path_dependent_ownership.scenario (ownership transfer)
+      fact: defer@11 in H12_path_dependent_ownership.scenario (always) acts on it
+
+  [C] heldout/H13_goroutine_defer/main.go:12 (var f in H13_goroutine_defer.scenario$1)
+      rule: C: missing fact or ownership conflict
+      plan: REVIEW
+      REVIEW: acquired inside a goroutine: cleanup order relative to the caller is unknown
+      REVIEW: fact unavailable (goroutine, line 12): resource acquired, used or released inside a goroutine (`go` statement)
+
+  [C] heldout/H14_dynamic_closer/main.go:8 (var f in H14_dynamic_closer.scenario)
+      rule: C: missing fact or ownership conflict
+      plan: REVIEW
+      REVIEW: fact unavailable (dispatch-multi, line 12): interface method call with several possible implementations
+      REVIEW: released by some but not all possible implementations at line 12 (H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close)
+      REVIEW: a path leaves the file open (may still be open when H14_dynamic_closer.scenario returns at line 14 (state Open|Closed)); is that intended?
+
+== could not be resolved (2)
+  [goroutine] heldout/H13_goroutine_defer/main.go:12 H13_goroutine_defer.scenario$1  resources=[f@12]
+    construct:    resource acquired, used or released inside a goroutine (`go` statement)
+    missing fact: the happens-before order between the goroutine's cleanup and the rest of the program
+    why:          the analysis models a single sequential call stack. A defer inside a goroutine runs when that goroutine's function returns; that moment is ordered with the parent only through synchronization (WaitGroup, channels, mutexes) whose semantics RescFlow does not interpret
+    consequence:  the cleanup point relative to the caller is unknown; a Rust translation would also need Send/'static ownership (e.g. move into the thread, Arc<Mutex<..>>) that the analysis cannot justify
+    human input:  state the synchronization contract (e.g. `wg.Wait()` joins the goroutine before the caller continues) and whether the resource may move to another thread
+    detail:       acquired inside a function started with `go`
+  [dispatch-multi] heldout/H14_dynamic_closer/main.go:12 H14_dynamic_closer.scenario  resources=[f@8]
+    construct:    interface method call with several possible implementations
+    missing fact: which concrete type receives the call at run time
+    why:          the interface value is built from different concrete types on different paths, and the implementations do not have the same effect on the resource (one releases it, another does not)
+    consequence:  release is path-dependent: on at least one path the resource is never closed by this call. No single ownership plan covers both
+    human input:  decide which implementation is intended to own cleanup, or make the close explicit on every path
+    detail:       possible targets: H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close

@@ -1,0 +1,144 @@
+== step 3: translation decisions
+  program 01_local                     A   [f@8=A]
+  program 02_early_before              A   [f@9=A]
+  program 03_early_after               A   [f@8=A]
+  program 04_failed_acquire            A   [f@8=A]
+  program 05_two_lifo                  A   [f@8=A g@11=A]
+  program 06_nested_block              A   [f@9=A]
+  program 07_conditional               A   [f@8=A]
+  program 08_loop                      A   [f@10=A]
+  program 09_return_open               A   [f@8=A]
+  program 10_return_closed             C   [f@8=C]
+  program 11_global_escape             A   [f@8=A]
+  program 12_alias                     A   [f@8=A]
+  program 13_eager_argument            A   [f@8=A g@11=A]
+  program 14_late_closure              A   [f@8=A g@11=A]
+  program 15_closure_parameter         A   [f@8=A g@11=A]
+  program 16_named_result              C   [f@8=C]
+  program 17_panic_unwind              A   [f@9=A]
+  program 18_helper_boundary           C   [f@8=C]
+  program 19_double_close              C   [f@8=C]
+  program 20_interface_dispatch        A   [f@8=A]
+
+  [A] benchmarks/01_local/main.go:8 (var f in 01_local.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in 01_local.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/02_early_before/main.go:9 (var f in 02_early_before.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@11 in 02_early_before.scenario: registration always; f: value fixed at registration = {f@9}
+
+  [A] benchmarks/03_early_after/main.go:8 (var f in 03_early_after.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in 03_early_after.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/04_failed_acquire/main.go:8 (var f in 04_failed_acquire.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in 04_failed_acquire.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/05_two_lifo/main.go:8 (var f in 05_two_lifo.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in 05_two_lifo.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/05_two_lifo/main.go:11 (var g in 05_two_lifo.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@13 in 05_two_lifo.scenario: registration always; g: value fixed at registration = {g@11}
+
+  [A] benchmarks/06_nested_block/main.go:9 (var f in 06_nested_block.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@11 in 06_nested_block.scenario: registration always; f: value fixed at registration = {f@9}
+
+  [A] benchmarks/07_conditional/main.go:8 (var f in 07_conditional.scenario)
+      rule: A: single plan from the facts
+      plan: OPTION_GUARD
+      fact: defer@11 in 07_conditional.scenario: registration conditional; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/08_loop/main.go:10 (var f in 08_loop.scenario)
+      rule: A: single plan from the facts
+      plan: DEFER_STACK
+      fact: defer@12 in 08_loop.scenario: registration loop; f: value fixed at registration = {f@10}
+
+  [A] benchmarks/09_return_open/main.go:8 (var f in 09_return_open.scenario)
+      rule: A: single plan from the facts
+      plan: OWNERSHIP_RETURN
+      fact: escape: line 10: returned to the caller of 09_return_open.scenario (ownership transfer)
+
+  [C] benchmarks/10_return_closed/main.go:8 (var f in 10_return_closed.scenario)
+      rule: C: missing fact or ownership conflict
+      plan: REVIEW
+      REVIEW: uses the file after it is closed (use after close at line 20 (call 10_return_closed.useFile)); Rust ownership rejects this. Which side should own the file?
+
+  [A] benchmarks/11_global_escape/main.go:8 (var f in 11_global_escape.scenario)
+      rule: A: single plan from the facts
+      plan: GLOBAL_OWNER
+      fact: escape: line 10: stored in global example.com/rescflow/benchmarks/11_global_escape.saved
+
+  [A] benchmarks/12_alias/main.go:8 (var f in 12_alias.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@11 in 12_alias.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/13_eager_argument/main.go:8 (var f in 13_eager_argument.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in 13_eager_argument.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/13_eager_argument/main.go:11 (var g in 13_eager_argument.scenario)
+      rule: A: single plan from the facts
+      plan: EXPLICIT_CLOSE
+      fact: released by an explicit close, no defer
+
+  [A] benchmarks/14_late_closure/main.go:8 (var f in 14_late_closure.scenario)
+      rule: A: single plan from the facts
+      plan: CELL_CLOSURE_GUARD
+      fact: defer@10 in 14_late_closure.scenario: registration always; f: cell t0(f), read at exit
+      fact: the deferred closure reads a variable at exit and acts on different resources on different paths
+
+  [A] benchmarks/14_late_closure/main.go:11 (var g in 14_late_closure.scenario)
+      rule: A: single plan from the facts
+      plan: CELL_CLOSURE_GUARD
+      fact: defer@10 in 14_late_closure.scenario: registration always; f: cell t0(f), read at exit
+      fact: the deferred closure reads a variable at exit and acts on different resources on different paths
+
+  [A] benchmarks/15_closure_parameter/main.go:8 (var f in 15_closure_parameter.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD
+      fact: defer@10 in 15_closure_parameter.scenario: registration always; f: value fixed at registration = {f@8}
+
+  [A] benchmarks/15_closure_parameter/main.go:11 (var g in 15_closure_parameter.scenario)
+      rule: A: single plan from the facts
+      plan: EXPLICIT_CLOSE
+      fact: released by an explicit close, no defer
+
+  [C] benchmarks/16_named_result/main.go:8 (var f in 16_named_result.scenario)
+      rule: C: missing fact or ownership conflict
+      plan: REVIEW
+      REVIEW: closes the file twice (double close: already closed when released at line 10 (defer@10 at return@12)); which close is the real one?
+
+  [A] benchmarks/17_panic_unwind/main.go:9 (var f in 17_panic_unwind.scenario)
+      rule: A: single plan from the facts
+      plan: OWNED_GUARD + CATCH_UNWIND
+      fact: defer@11 in 17_panic_unwind.scenario: registration always; f: value fixed at registration = {f@9}
+      fact: a deferred cleanup runs on a recovered panic path
+
+  [C] benchmarks/18_helper_boundary/main.go:8 (var f in 18_helper_boundary.scenario)
+      rule: C: missing fact or ownership conflict
+      plan: REVIEW
+      REVIEW: uses the file after it is closed (use after close at line 11 (call 18_helper_boundary.useFile)); Rust ownership rejects this. Which side should own the file?
+
+  [C] benchmarks/19_double_close/main.go:8 (var f in 19_double_close.scenario)
+      rule: C: missing fact or ownership conflict
+      plan: REVIEW
+      REVIEW: closes the file twice (double close: already closed when released at line 10 (defer@10 at return@12)); which close is the real one?
+
+  [A] benchmarks/20_interface_dispatch/main.go:8 (var f in 20_interface_dispatch.scenario)
+      rule: A: single plan from the facts
+      plan: DYN_GUARD
+      fact: defer@11 in 20_interface_dispatch.scenario: registration always; c: value fixed at registration = {f@8}

@@ -1,0 +1,5233 @@
+{
+  "schema": "rescflow-analysis/v1",
+  "go": "go1.26.5",
+  "patterns": [
+    "./benchmarks/..."
+  ],
+  "packages": [
+    {
+      "path": "example.com/rescflow/benchmarks/01_local",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/02_early_before",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/03_early_after",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/04_failed_acquire",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/05_two_lifo",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/06_nested_block",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/07_conditional",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/08_loop",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/09_return_open",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/10_return_closed",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/11_global_escape",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/12_alias",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/13_eager_argument",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/14_late_closure",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/15_closure_parameter",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/16_named_result",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/17_panic_unwind",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/18_helper_boundary",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/19_double_close",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/benchmarks/20_interface_dispatch",
+      "analyzed": true
+    }
+  ],
+  "records": [
+    {
+      "id": "benchmarks/01_local/main.go:8",
+      "var": "f",
+      "func": "01_local.scenario",
+      "file": "benchmarks/01_local/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "01_local.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "01_local.scenario",
+          "line": 11,
+          "kind": "use",
+          "via": "call 01_local.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "01_local.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "01_local.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/01_local.closeFile(\"A\":string, t2)",
+          "targets": [
+            "01_local.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/02_early_before/main.go:9",
+      "var": "f",
+      "func": "02_early_before.scenario",
+      "file": "benchmarks/02_early_before/main.go",
+      "line": 9,
+      "acquire": "os.Open(t7)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "02_early_before.scenario",
+          "line": 9,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "02_early_before.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "02_early_before.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/benchmarks/02_early_before.closeFile(\"A\":string, t9)",
+          "targets": [
+            "02_early_before.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@9}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@13": [
+              "f@9"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/03_early_after/main.go:8",
+      "var": "f",
+      "func": "03_early_after.scenario",
+      "file": "benchmarks/03_early_after/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "03_early_after.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "03_early_after.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@11",
+          "state": "Open"
+        },
+        {
+          "func": "03_early_after.scenario",
+          "line": 12,
+          "kind": "use",
+          "via": "call 03_early_after.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "03_early_after.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "03_early_after.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/03_early_after.closeFile(\"A\":string, t2)",
+          "targets": [
+            "03_early_after.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@11": [
+              "f@8"
+            ],
+            "return@13": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/04_failed_acquire/main.go:8",
+      "var": "f",
+      "func": "04_failed_acquire.scenario",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "line": 8,
+      "acquire": "os.Open(t1)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "04_failed_acquire.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "04_failed_acquire.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "04_failed_acquire.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/04_failed_acquire.closeFile(\"A\":string, t3)",
+          "targets": [
+            "04_failed_acquire.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/05_two_lifo/main.go:8",
+      "var": "f",
+      "func": "05_two_lifo.scenario",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        },
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@15",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/05_two_lifo.closeFile(\"A\":string, t2)",
+          "targets": [
+            "05_two_lifo.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ],
+            "return@15": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/05_two_lifo/main.go:11",
+      "var": "g",
+      "func": "05_two_lifo.scenario",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 11,
+      "acquire": "os.Open(t5)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 11,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 13,
+          "kind": "release",
+          "via": "defer@13 at return@15",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "05_two_lifo.scenario",
+          "line": 13,
+          "call": "example.com/rescflow/benchmarks/05_two_lifo.closeFile(\"B\":string, t7)",
+          "targets": [
+            "05_two_lifo.closeFile"
+          ],
+          "captures": [
+            "g: value fixed at registration = {g@11}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@15": [
+              "g@11"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/06_nested_block/main.go:9",
+      "var": "f",
+      "func": "06_nested_block.scenario",
+      "file": "benchmarks/06_nested_block/main.go",
+      "line": 9,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "06_nested_block.scenario",
+          "line": 9,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "06_nested_block.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@15",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "06_nested_block.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/benchmarks/06_nested_block.closeFile(\"A\":string, t2)",
+          "targets": [
+            "06_nested_block.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@9}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@15": [
+              "f@9"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/07_conditional/main.go:8",
+      "var": "f",
+      "func": "07_conditional.scenario",
+      "file": "benchmarks/07_conditional/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "07_conditional.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "07_conditional.scenario",
+          "line": 13,
+          "kind": "use",
+          "via": "call 07_conditional.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "07_conditional.scenario",
+          "line": 14,
+          "kind": "release",
+          "via": "call 07_conditional.closeFile",
+          "state": "Open"
+        },
+        {
+          "func": "07_conditional.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@16",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "07_conditional.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/benchmarks/07_conditional.closeFile(\"A\":string, t2)",
+          "targets": [
+            "07_conditional.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "conditional",
+          "resolves": {
+            "return@16": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/08_loop/main.go:10",
+      "var": "f",
+      "func": "08_loop.scenario",
+      "file": "benchmarks/08_loop/main.go",
+      "line": 10,
+      "acquire": "os.Open(t7)",
+      "in_loop": true,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "08_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "08_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Open"
+        },
+        {
+          "func": "08_loop.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@16",
+          "state": "Open"
+        },
+        {
+          "func": "08_loop.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@11",
+          "state": "Failed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "08_loop.scenario",
+          "line": 12,
+          "call": "example.com/rescflow/benchmarks/08_loop.closeFile(t6, t9)",
+          "targets": [
+            "08_loop.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@10}"
+          ],
+          "registration": "loop",
+          "resolves": {
+            "return@11": [
+              "f@10"
+            ],
+            "return@16": [
+              "f@10"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/09_return_open/main.go:8",
+      "var": "f",
+      "func": "09_return_open.scenario",
+      "file": "benchmarks/09_return_open/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "09_return_open.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "09_return_open.main",
+          "line": 19,
+          "kind": "acquire",
+          "via": "returned by 09_return_open.scenario (result 0)",
+          "state": "unacquired"
+        },
+        {
+          "func": "09_return_open.main",
+          "line": 19,
+          "kind": "use",
+          "via": "call 09_return_open.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "09_return_open.main",
+          "line": 19,
+          "kind": "release",
+          "via": "call 09_return_open.closeFile",
+          "state": "Open"
+        }
+      ],
+      "defers": [],
+      "escapes": [
+        "line 10: returned to the caller of 09_return_open.scenario (ownership transfer)"
+      ],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/10_return_closed/main.go:8",
+      "var": "f",
+      "func": "10_return_closed.scenario",
+      "file": "benchmarks/10_return_closed/main.go",
+      "line": 8,
+      "acquire": "os.Open(t1)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "10_return_closed.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "10_return_closed.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@11",
+          "state": "Open"
+        },
+        {
+          "func": "10_return_closed.main",
+          "line": 20,
+          "kind": "acquire",
+          "via": "returned by 10_return_closed.scenario (result 0)",
+          "state": "unacquired"
+        },
+        {
+          "func": "10_return_closed.main",
+          "line": 20,
+          "kind": "use",
+          "via": "call 10_return_closed.useFile",
+          "state": "Closed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "10_return_closed.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/10_return_closed.closeFile(\"A\":string, t3)",
+          "targets": [
+            "10_return_closed.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@11": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [
+        "line 11: returned to the caller of 10_return_closed.scenario (ownership transfer)"
+      ],
+      "anomalies": [
+        "use after close at line 20 (call 10_return_closed.useFile)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/11_global_escape/main.go:8",
+      "var": "f",
+      "func": "11_global_escape.scenario",
+      "file": "benchmarks/11_global_escape/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "11_global_escape.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "11_global_escape.main",
+          "line": 20,
+          "kind": "use",
+          "via": "call 11_global_escape.useFile",
+          "state": "Outer"
+        },
+        {
+          "func": "11_global_escape.main",
+          "line": 20,
+          "kind": "release",
+          "via": "call 11_global_escape.closeFile",
+          "state": "Outer"
+        }
+      ],
+      "defers": [],
+      "escapes": [
+        "line 10: stored in global example.com/rescflow/benchmarks/11_global_escape.saved"
+      ],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/12_alias/main.go:8",
+      "var": "f",
+      "func": "12_alias.scenario",
+      "file": "benchmarks/12_alias/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "12_alias.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "12_alias.scenario",
+          "line": 12,
+          "kind": "use",
+          "via": "call 12_alias.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "12_alias.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "12_alias.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/benchmarks/12_alias.closeFile(\"A\":string, t2)",
+          "targets": [
+            "12_alias.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@13": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/13_eager_argument/main.go:8",
+      "var": "f",
+      "func": "13_eager_argument.scenario",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        },
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@16",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/13_eager_argument.closeFile(\"A\":string, t2)",
+          "targets": [
+            "13_eager_argument.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ],
+            "return@16": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/13_eager_argument/main.go:11",
+      "var": "g",
+      "func": "13_eager_argument.scenario",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 11,
+      "acquire": "os.Open(t5)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 11,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 14,
+          "kind": "use",
+          "via": "call 13_eager_argument.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "13_eager_argument.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "call 13_eager_argument.closeFile",
+          "state": "Open"
+        }
+      ],
+      "defers": [],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/14_late_closure/main.go:8",
+      "var": "f",
+      "func": "14_late_closure.scenario",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 8,
+      "acquire": "os.Open(t1)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "14_late_closure.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "14_late_closure.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        },
+        {
+          "func": "14_late_closure.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "call 14_late_closure.closeFile",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "14_late_closure.scenario",
+          "line": 10,
+          "call": "t7()",
+          "targets": [
+            "14_late_closure.scenario$1"
+          ],
+          "captures": [
+            "f: cell t0(f), read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ],
+            "return@17": [
+              "g@11"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/14_late_closure/main.go:11",
+      "var": "g",
+      "func": "14_late_closure.scenario",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 11,
+      "acquire": "os.Open(t8)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "14_late_closure.scenario",
+          "line": 11,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "14_late_closure.scenario",
+          "line": 16,
+          "kind": "use",
+          "via": "call 14_late_closure.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "14_late_closure.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@17",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "14_late_closure.scenario",
+          "line": 10,
+          "call": "t7()",
+          "targets": [
+            "14_late_closure.scenario$1"
+          ],
+          "captures": [
+            "f: cell t0(f), read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ],
+            "return@17": [
+              "g@11"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/15_closure_parameter/main.go:8",
+      "var": "f",
+      "func": "15_closure_parameter.scenario",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "15_closure_parameter.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "15_closure_parameter.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        },
+        {
+          "func": "15_closure_parameter.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@15",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "15_closure_parameter.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/15_closure_parameter.scenario$1(t2)",
+          "targets": [
+            "15_closure_parameter.scenario$1"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ],
+            "return@15": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/15_closure_parameter/main.go:11",
+      "var": "g",
+      "func": "15_closure_parameter.scenario",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 11,
+      "acquire": "os.Open(t5)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "15_closure_parameter.scenario",
+          "line": 11,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "15_closure_parameter.scenario",
+          "line": 14,
+          "kind": "release",
+          "via": "call 15_closure_parameter.closeFile",
+          "state": "Open"
+        }
+      ],
+      "defers": [],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/16_named_result/main.go:8",
+      "var": "f",
+      "func": "16_named_result.scenario",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 8,
+      "acquire": "os.Open(t2)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "16_named_result.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "16_named_result.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "call 16_named_result.closeFile",
+          "state": "Open"
+        },
+        {
+          "func": "16_named_result.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Closed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "16_named_result.scenario",
+          "line": 10,
+          "call": "t9()",
+          "targets": [
+            "16_named_result.scenario$1"
+          ],
+          "captures": [
+            "result: cell t0(result), read at exit",
+            "f: cell t1(f), read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ]
+          },
+          "close_error_to": "result"
+        }
+      ],
+      "escapes": [],
+      "anomalies": [
+        "double close: already closed when released at line 10 (defer@10 at return@12)"
+      ],
+      "notes": [
+        "close error is stored into named result \"result\" of 16_named_result.scenario"
+      ]
+    },
+    {
+      "id": "benchmarks/17_panic_unwind/main.go:9",
+      "var": "f",
+      "func": "17_panic_unwind.scenario",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 9,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "17_panic_unwind.scenario",
+          "line": 9,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "17_panic_unwind.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at panic->recovered@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "17_panic_unwind.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/benchmarks/17_panic_unwind.closeFile(\"A\":string, t2)",
+          "targets": [
+            "17_panic_unwind.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@9}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "panic->recovered@13": [
+              "f@9"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/18_helper_boundary/main.go:8",
+      "var": "f",
+      "func": "18_helper_boundary.scenario",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "18_helper_boundary.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "18_helper_boundary.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "call 18_helper_boundary.helper",
+          "state": "Open"
+        },
+        {
+          "func": "18_helper_boundary.scenario",
+          "line": 11,
+          "kind": "use",
+          "via": "call 18_helper_boundary.useFile",
+          "state": "Closed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "18_helper_boundary.helper",
+          "line": 15,
+          "call": "example.com/rescflow/benchmarks/18_helper_boundary.closeFile(\"A\":string, f)",
+          "targets": [
+            "18_helper_boundary.closeFile"
+          ],
+          "captures": [
+            "f: cell *f, read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "exit of 18_helper_boundary.helper, called from 18_helper_boundary.scenario@10": [
+              "f@8"
+            ],
+            "return@17": [
+              "input#0"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [
+        "use after close at line 11 (call 18_helper_boundary.useFile)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/19_double_close/main.go:8",
+      "var": "f",
+      "func": "19_double_close.scenario",
+      "file": "benchmarks/19_double_close/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "19_double_close.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "19_double_close.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "call 19_double_close.closeFile",
+          "state": "Open"
+        },
+        {
+          "func": "19_double_close.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Closed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "19_double_close.scenario",
+          "line": 10,
+          "call": "example.com/rescflow/benchmarks/19_double_close.closeFile(\"A\":string, t2)",
+          "targets": [
+            "19_double_close.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [
+        "double close: already closed when released at line 10 (defer@10 at return@12)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "benchmarks/20_interface_dispatch/main.go:8",
+      "var": "f",
+      "func": "20_interface_dispatch.scenario",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "20_interface_dispatch.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "20_interface_dispatch.scenario",
+          "line": 12,
+          "kind": "use",
+          "via": "call 20_interface_dispatch.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "20_interface_dispatch.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "20_interface_dispatch.scenario",
+          "line": 11,
+          "call": "invoke t8.Close()",
+          "targets": [
+            "20_interface_dispatch.(tracked).Close"
+          ],
+          "captures": [
+            "c: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@13": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    }
+  ],
+  "functions": [
+    {
+      "name": "01_local.scenario",
+      "file": "benchmarks/01_local/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "01_local.main",
+      "file": "benchmarks/01_local/main.go",
+      "line": 16,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "01_local.recordOpen",
+      "file": "benchmarks/01_local/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "01_local.closeFile",
+      "file": "benchmarks/01_local/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "01_local.useFile",
+      "file": "benchmarks/01_local/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "02_early_before.scenario",
+      "file": "benchmarks/02_early_before/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 8,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@9"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "02_early_before.main",
+      "file": "benchmarks/02_early_before/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "02_early_before.recordOpen",
+      "file": "benchmarks/02_early_before/main.go",
+      "line": 24,
+      "exits": [
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "02_early_before.closeFile",
+      "file": "benchmarks/02_early_before/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "02_early_before.useFile",
+      "file": "benchmarks/02_early_before/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "03_early_after.scenario",
+      "file": "benchmarks/03_early_after/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "03_early_after.main",
+      "file": "benchmarks/03_early_after/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "03_early_after.recordOpen",
+      "file": "benchmarks/03_early_after/main.go",
+      "line": 24,
+      "exits": [
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "03_early_after.closeFile",
+      "file": "benchmarks/03_early_after/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "03_early_after.useFile",
+      "file": "benchmarks/03_early_after/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "04_failed_acquire.scenario",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "04_failed_acquire.main",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "line": 16,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "04_failed_acquire.recordOpen",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "04_failed_acquire.closeFile",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "04_failed_acquire.useFile",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "05_two_lifo.scenario",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 15,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "g@11"
+              ]
+            },
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "05_two_lifo.main",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 19,
+      "exits": [
+        {
+          "line": 20,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "05_two_lifo.recordOpen",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 26,
+      "exits": [
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "05_two_lifo.closeFile",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 33,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "05_two_lifo.useFile",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "line": 35,
+      "exits": [
+        {
+          "line": 38,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "06_nested_block.scenario",
+      "file": "benchmarks/06_nested_block/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 15,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@9"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "06_nested_block.main",
+      "file": "benchmarks/06_nested_block/main.go",
+      "line": 19,
+      "exits": [
+        {
+          "line": 20,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "06_nested_block.recordOpen",
+      "file": "benchmarks/06_nested_block/main.go",
+      "line": 26,
+      "exits": [
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "06_nested_block.closeFile",
+      "file": "benchmarks/06_nested_block/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 33,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "06_nested_block.useFile",
+      "file": "benchmarks/06_nested_block/main.go",
+      "line": 35,
+      "exits": [
+        {
+          "line": 38,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "07_conditional.scenario",
+      "file": "benchmarks/07_conditional/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "07_conditional.main",
+      "file": "benchmarks/07_conditional/main.go",
+      "line": 20,
+      "exits": [
+        {
+          "line": 21,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "07_conditional.recordOpen",
+      "file": "benchmarks/07_conditional/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "07_conditional.closeFile",
+      "file": "benchmarks/07_conditional/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "07_conditional.useFile",
+      "file": "benchmarks/07_conditional/main.go",
+      "line": 36,
+      "exits": [
+        {
+          "line": 39,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "08_loop.scenario",
+      "file": "benchmarks/08_loop/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "08_loop.main",
+      "file": "benchmarks/08_loop/main.go",
+      "line": 20,
+      "exits": [
+        {
+          "line": 21,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "08_loop.recordOpen",
+      "file": "benchmarks/08_loop/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "08_loop.closeFile",
+      "file": "benchmarks/08_loop/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "08_loop.useFile",
+      "file": "benchmarks/08_loop/main.go",
+      "line": 36,
+      "exits": [
+        {
+          "line": 39,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "09_return_open.scenario",
+      "file": "benchmarks/09_return_open/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "returns_fresh_resource": {
+          "0": {
+            "site": "benchmarks/09_return_open/main.go:8",
+            "guard_result": -1,
+            "guard_is_error": false,
+            "state_at_return": "MaybeOpen"
+          }
+        },
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "09_return_open.main",
+      "file": "benchmarks/09_return_open/main.go",
+      "line": 15,
+      "exits": [
+        {
+          "line": 16,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 20,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 20,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 20,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 20,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "09_return_open.recordOpen",
+      "file": "benchmarks/09_return_open/main.go",
+      "line": 22,
+      "exits": [
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "09_return_open.closeFile",
+      "file": "benchmarks/09_return_open/main.go",
+      "line": 26,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "09_return_open.useFile",
+      "file": "benchmarks/09_return_open/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "10_return_closed.scenario",
+      "file": "benchmarks/10_return_closed/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "returns_fresh_resource": {
+          "0": {
+            "site": "benchmarks/10_return_closed/main.go:8",
+            "guard_result": -1,
+            "guard_is_error": false,
+            "state_at_return": "Closed|Failed"
+          }
+        },
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "10_return_closed.main",
+      "file": "benchmarks/10_return_closed/main.go",
+      "line": 16,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "10_return_closed.recordOpen",
+      "file": "benchmarks/10_return_closed/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "10_return_closed.closeFile",
+      "file": "benchmarks/10_return_closed/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "10_return_closed.useFile",
+      "file": "benchmarks/10_return_closed/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "11_global_escape.scenario",
+      "file": "benchmarks/11_global_escape/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "11_global_escape.main",
+      "file": "benchmarks/11_global_escape/main.go",
+      "line": 16,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "11_global_escape.recordOpen",
+      "file": "benchmarks/11_global_escape/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "11_global_escape.closeFile",
+      "file": "benchmarks/11_global_escape/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "11_global_escape.useFile",
+      "file": "benchmarks/11_global_escape/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "12_alias.scenario",
+      "file": "benchmarks/12_alias/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "12_alias.main",
+      "file": "benchmarks/12_alias/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "12_alias.recordOpen",
+      "file": "benchmarks/12_alias/main.go",
+      "line": 24,
+      "exits": [
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "12_alias.closeFile",
+      "file": "benchmarks/12_alias/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "12_alias.useFile",
+      "file": "benchmarks/12_alias/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "13_eager_argument.scenario",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "13_eager_argument.main",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 20,
+      "exits": [
+        {
+          "line": 21,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "13_eager_argument.recordOpen",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "13_eager_argument.closeFile",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "13_eager_argument.useFile",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "line": 36,
+      "exits": [
+        {
+          "line": 39,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "14_late_closure.scenario",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 17,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "g@11"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "14_late_closure.scenario$1",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 10,
+      "exits": [
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "f"
+        ],
+        "effects": [
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "14_late_closure.main",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 21,
+      "exits": [
+        {
+          "line": 22,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "14_late_closure.recordOpen",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "14_late_closure.closeFile",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "14_late_closure.useFile",
+      "file": "benchmarks/14_late_closure/main.go",
+      "line": 37,
+      "exits": [
+        {
+          "line": 40,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "15_closure_parameter.scenario",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 15,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "15_closure_parameter.scenario$1",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 10,
+      "exits": [
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "x"
+        ],
+        "effects": [
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "15_closure_parameter.main",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 19,
+      "exits": [
+        {
+          "line": 20,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "15_closure_parameter.recordOpen",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 26,
+      "exits": [
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "15_closure_parameter.closeFile",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 33,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "15_closure_parameter.useFile",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "line": 35,
+      "exits": [
+        {
+          "line": 38,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "16_named_result.scenario",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "16_named_result.scenario$1",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 10,
+      "exits": [
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "result",
+          "f"
+        ],
+        "effects": [
+          {
+            "writes_close_error": true
+          },
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "16_named_result.main",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "16_named_result.recordOpen",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 24,
+      "exits": [
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "16_named_result.closeFile",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "16_named_result.useFile",
+      "file": "benchmarks/16_named_result/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "17_panic_unwind.scenario",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 14,
+          "kind": "return after recover",
+          "defers_run": []
+        },
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 8,
+              "acts_on": []
+            }
+          ]
+        },
+        {
+          "line": 13,
+          "kind": "panic->recovered (panic)",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@9"
+              ]
+            },
+            {
+              "defer_line": 8,
+              "acts_on": []
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "17_panic_unwind.scenario$1",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 8,
+      "exits": [
+        {
+          "line": 8,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 8,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1,
+        "calls_recover": true
+      }
+    },
+    {
+      "name": "17_panic_unwind.main",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 18,
+      "exits": [
+        {
+          "line": 19,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "17_panic_unwind.recordOpen",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 25,
+      "exits": [
+        {
+          "line": 27,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "17_panic_unwind.closeFile",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 29,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "17_panic_unwind.useFile",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "18_helper_boundary.scenario",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "18_helper_boundary.helper",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 14,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "input#0"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "f"
+        ],
+        "effects": [
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "18_helper_boundary.main",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 19,
+      "exits": [
+        {
+          "line": 20,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "18_helper_boundary.recordOpen",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 26,
+      "exits": [
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "18_helper_boundary.closeFile",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 33,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "18_helper_boundary.useFile",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "line": 35,
+      "exits": [
+        {
+          "line": 38,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "19_double_close.scenario",
+      "file": "benchmarks/19_double_close/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "19_double_close.main",
+      "file": "benchmarks/19_double_close/main.go",
+      "line": 16,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 21,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "19_double_close.recordOpen",
+      "file": "benchmarks/19_double_close/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "19_double_close.closeFile",
+      "file": "benchmarks/19_double_close/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "19_double_close.useFile",
+      "file": "benchmarks/19_double_close/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "20_interface_dispatch.scenario",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "20_interface_dispatch.(tracked).Close",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 17,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "t"
+        ],
+        "effects": [
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 0
+      }
+    },
+    {
+      "name": "20_interface_dispatch.main",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 19,
+      "exits": [
+        {
+          "line": 20,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 24,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "20_interface_dispatch.recordOpen",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 26,
+      "exits": [
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "20_interface_dispatch.closeFile",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 33,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "20_interface_dispatch.useFile",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "line": 35,
+      "exits": [
+        {
+          "line": 38,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    }
+  ],
+  "defers": [
+    {
+      "func": "01_local.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/01_local.closeFile(\"A\":string, t2)",
+      "targets": [
+        "01_local.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "02_early_before.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/benchmarks/02_early_before.closeFile(\"A\":string, t9)",
+      "targets": [
+        "02_early_before.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@9}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@13": [
+          "f@9"
+        ]
+      }
+    },
+    {
+      "func": "03_early_after.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/03_early_after.closeFile(\"A\":string, t2)",
+      "targets": [
+        "03_early_after.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@11": [
+          "f@8"
+        ],
+        "return@13": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "04_failed_acquire.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/04_failed_acquire.closeFile(\"A\":string, t3)",
+      "targets": [
+        "04_failed_acquire.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "05_two_lifo.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/05_two_lifo.closeFile(\"A\":string, t2)",
+      "targets": [
+        "05_two_lifo.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ],
+        "return@15": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "05_two_lifo.scenario",
+      "line": 13,
+      "call": "example.com/rescflow/benchmarks/05_two_lifo.closeFile(\"B\":string, t7)",
+      "targets": [
+        "05_two_lifo.closeFile"
+      ],
+      "captures": [
+        "g: value fixed at registration = {g@11}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@15": [
+          "g@11"
+        ]
+      }
+    },
+    {
+      "func": "06_nested_block.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/benchmarks/06_nested_block.closeFile(\"A\":string, t2)",
+      "targets": [
+        "06_nested_block.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@9}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@15": [
+          "f@9"
+        ]
+      }
+    },
+    {
+      "func": "07_conditional.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/benchmarks/07_conditional.closeFile(\"A\":string, t2)",
+      "targets": [
+        "07_conditional.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "conditional",
+      "resolves": {
+        "return@16": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "08_loop.scenario",
+      "line": 12,
+      "call": "example.com/rescflow/benchmarks/08_loop.closeFile(t6, t9)",
+      "targets": [
+        "08_loop.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@10}"
+      ],
+      "registration": "loop",
+      "resolves": {
+        "return@11": [
+          "f@10"
+        ],
+        "return@16": [
+          "f@10"
+        ]
+      }
+    },
+    {
+      "func": "10_return_closed.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/10_return_closed.closeFile(\"A\":string, t3)",
+      "targets": [
+        "10_return_closed.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@11": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "12_alias.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/benchmarks/12_alias.closeFile(\"A\":string, t2)",
+      "targets": [
+        "12_alias.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@13": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "13_eager_argument.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/13_eager_argument.closeFile(\"A\":string, t2)",
+      "targets": [
+        "13_eager_argument.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ],
+        "return@16": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "14_late_closure.scenario",
+      "line": 10,
+      "call": "t7()",
+      "targets": [
+        "14_late_closure.scenario$1"
+      ],
+      "captures": [
+        "f: cell t0(f), read at exit"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ],
+        "return@17": [
+          "g@11"
+        ]
+      }
+    },
+    {
+      "func": "15_closure_parameter.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/15_closure_parameter.scenario$1(t2)",
+      "targets": [
+        "15_closure_parameter.scenario$1"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ],
+        "return@15": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "16_named_result.scenario",
+      "line": 10,
+      "call": "t9()",
+      "targets": [
+        "16_named_result.scenario$1"
+      ],
+      "captures": [
+        "result: cell t0(result), read at exit",
+        "f: cell t1(f), read at exit"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ]
+      },
+      "close_error_to": "result"
+    },
+    {
+      "func": "17_panic_unwind.scenario",
+      "line": 8,
+      "call": "example.com/rescflow/benchmarks/17_panic_unwind.scenario$1()",
+      "targets": [
+        "17_panic_unwind.scenario$1"
+      ],
+      "captures": [],
+      "registration": "always",
+      "resolves": {
+        "panic->recovered@13": [],
+        "return@10": []
+      }
+    },
+    {
+      "func": "17_panic_unwind.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/benchmarks/17_panic_unwind.closeFile(\"A\":string, t2)",
+      "targets": [
+        "17_panic_unwind.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@9}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "panic->recovered@13": [
+          "f@9"
+        ]
+      }
+    },
+    {
+      "func": "18_helper_boundary.helper",
+      "line": 15,
+      "call": "example.com/rescflow/benchmarks/18_helper_boundary.closeFile(\"A\":string, f)",
+      "targets": [
+        "18_helper_boundary.closeFile"
+      ],
+      "captures": [
+        "f: cell *f, read at exit"
+      ],
+      "registration": "always",
+      "resolves": {
+        "exit of 18_helper_boundary.helper, called from 18_helper_boundary.scenario@10": [
+          "f@8"
+        ],
+        "return@17": [
+          "input#0"
+        ]
+      }
+    },
+    {
+      "func": "19_double_close.scenario",
+      "line": 10,
+      "call": "example.com/rescflow/benchmarks/19_double_close.closeFile(\"A\":string, t2)",
+      "targets": [
+        "19_double_close.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "20_interface_dispatch.scenario",
+      "line": 11,
+      "call": "invoke t8.Close()",
+      "targets": [
+        "20_interface_dispatch.(tracked).Close"
+      ],
+      "captures": [
+        "c: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@13": [
+          "f@8"
+        ]
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "resource": "benchmarks/01_local/main.go:8",
+      "var": "f",
+      "func": "01_local.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 01_local.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/02_early_before/main.go:9",
+      "var": "f",
+      "func": "02_early_before.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in 02_early_before.scenario: registration always; f: value fixed at registration = {f@9}"
+      ]
+    },
+    {
+      "resource": "benchmarks/03_early_after/main.go:8",
+      "var": "f",
+      "func": "03_early_after.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 03_early_after.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/04_failed_acquire/main.go:8",
+      "var": "f",
+      "func": "04_failed_acquire.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 04_failed_acquire.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/05_two_lifo/main.go:8",
+      "var": "f",
+      "func": "05_two_lifo.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 05_two_lifo.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/05_two_lifo/main.go:11",
+      "var": "g",
+      "func": "05_two_lifo.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@13 in 05_two_lifo.scenario: registration always; g: value fixed at registration = {g@11}"
+      ]
+    },
+    {
+      "resource": "benchmarks/06_nested_block/main.go:9",
+      "var": "f",
+      "func": "06_nested_block.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in 06_nested_block.scenario: registration always; f: value fixed at registration = {f@9}"
+      ]
+    },
+    {
+      "resource": "benchmarks/07_conditional/main.go:8",
+      "var": "f",
+      "func": "07_conditional.scenario",
+      "category": "A",
+      "plan": "OPTION_GUARD",
+      "rust": "let mut g: Option<DeferClose> = None; if cond { g = Some(DeferClose::new(id, file)) }",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in 07_conditional.scenario: registration conditional; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/08_loop/main.go:10",
+      "var": "f",
+      "func": "08_loop.scenario",
+      "category": "A",
+      "plan": "DEFER_STACK",
+      "rust": "let mut defers = DeferStack::new(); /* in the loop */ defers.push(DeferClose::new(id, file)); // popped LIFO at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@12 in 08_loop.scenario: registration loop; f: value fixed at registration = {f@10}"
+      ]
+    },
+    {
+      "resource": "benchmarks/09_return_open/main.go:8",
+      "var": "f",
+      "func": "09_return_open.scenario",
+      "category": "A",
+      "plan": "OWNERSHIP_RETURN",
+      "rust": "fn producer() -> Option<File> // ownership moves to the caller",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "escape: line 10: returned to the caller of 09_return_open.scenario (ownership transfer)"
+      ]
+    },
+    {
+      "resource": "benchmarks/10_return_closed/main.go:8",
+      "var": "f",
+      "func": "10_return_closed.scenario",
+      "category": "C",
+      "plan": "REVIEW",
+      "rust": "no translation emitted: review report",
+      "rule": "C: missing fact or ownership conflict",
+      "facts": [
+        "uses the file after it is closed (use after close at line 20 (call 10_return_closed.useFile)); Rust ownership rejects this. Which side should own the file?"
+      ],
+      "review": [
+        "uses the file after it is closed (use after close at line 20 (call 10_return_closed.useFile)); Rust ownership rejects this. Which side should own the file?"
+      ]
+    },
+    {
+      "resource": "benchmarks/11_global_escape/main.go:8",
+      "var": "f",
+      "func": "11_global_escape.scenario",
+      "category": "A",
+      "plan": "GLOBAL_OWNER",
+      "rust": "static SLOT: Mutex<Option<File>> // ownership moves into the global",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "escape: line 10: stored in global example.com/rescflow/benchmarks/11_global_escape.saved"
+      ]
+    },
+    {
+      "resource": "benchmarks/12_alias/main.go:8",
+      "var": "f",
+      "func": "12_alias.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in 12_alias.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/13_eager_argument/main.go:8",
+      "var": "f",
+      "func": "13_eager_argument.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 13_eager_argument.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/13_eager_argument/main.go:11",
+      "var": "g",
+      "func": "13_eager_argument.scenario",
+      "category": "A",
+      "plan": "EXPLICIT_CLOSE",
+      "rust": "close_file(f) // consumes the File at the explicit close",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "released by an explicit close, no defer"
+      ]
+    },
+    {
+      "resource": "benchmarks/14_late_closure/main.go:8",
+      "var": "f",
+      "func": "14_late_closure.scenario",
+      "category": "A",
+      "plan": "CELL_CLOSURE_GUARD",
+      "rust": "let f = RefCell::new(Some(file)); let _g = Defer::new(|| close_file(f.borrow_mut().take())); // reads the cell at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 14_late_closure.scenario: registration always; f: cell t0(f), read at exit",
+        "the deferred closure reads a variable at exit and acts on different resources on different paths"
+      ]
+    },
+    {
+      "resource": "benchmarks/14_late_closure/main.go:11",
+      "var": "g",
+      "func": "14_late_closure.scenario",
+      "category": "A",
+      "plan": "CELL_CLOSURE_GUARD",
+      "rust": "let f = RefCell::new(Some(file)); let _g = Defer::new(|| close_file(f.borrow_mut().take())); // reads the cell at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 14_late_closure.scenario: registration always; f: cell t0(f), read at exit",
+        "the deferred closure reads a variable at exit and acts on different resources on different paths"
+      ]
+    },
+    {
+      "resource": "benchmarks/15_closure_parameter/main.go:8",
+      "var": "f",
+      "func": "15_closure_parameter.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in 15_closure_parameter.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "benchmarks/15_closure_parameter/main.go:11",
+      "var": "g",
+      "func": "15_closure_parameter.scenario",
+      "category": "A",
+      "plan": "EXPLICIT_CLOSE",
+      "rust": "close_file(f) // consumes the File at the explicit close",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "released by an explicit close, no defer"
+      ]
+    },
+    {
+      "resource": "benchmarks/16_named_result/main.go:8",
+      "var": "f",
+      "func": "16_named_result.scenario",
+      "category": "C",
+      "plan": "REVIEW",
+      "rust": "no translation emitted: review report",
+      "rule": "C: missing fact or ownership conflict",
+      "facts": [
+        "closes the file twice (double close: already closed when released at line 10 (defer@10 at return@12)); which close is the real one?"
+      ],
+      "review": [
+        "closes the file twice (double close: already closed when released at line 10 (defer@10 at return@12)); which close is the real one?"
+      ]
+    },
+    {
+      "resource": "benchmarks/17_panic_unwind/main.go:9",
+      "var": "f",
+      "func": "17_panic_unwind.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD + CATCH_UNWIND",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order | std::panic::catch_unwind around the body; guards drop during unwinding",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in 17_panic_unwind.scenario: registration always; f: value fixed at registration = {f@9}",
+        "a deferred cleanup runs on a recovered panic path"
+      ]
+    },
+    {
+      "resource": "benchmarks/18_helper_boundary/main.go:8",
+      "var": "f",
+      "func": "18_helper_boundary.scenario",
+      "category": "C",
+      "plan": "REVIEW",
+      "rust": "no translation emitted: review report",
+      "rule": "C: missing fact or ownership conflict",
+      "facts": [
+        "uses the file after it is closed (use after close at line 11 (call 18_helper_boundary.useFile)); Rust ownership rejects this. Which side should own the file?"
+      ],
+      "review": [
+        "uses the file after it is closed (use after close at line 11 (call 18_helper_boundary.useFile)); Rust ownership rejects this. Which side should own the file?"
+      ]
+    },
+    {
+      "resource": "benchmarks/19_double_close/main.go:8",
+      "var": "f",
+      "func": "19_double_close.scenario",
+      "category": "C",
+      "plan": "REVIEW",
+      "rust": "no translation emitted: review report",
+      "rule": "C: missing fact or ownership conflict",
+      "facts": [
+        "closes the file twice (double close: already closed when released at line 10 (defer@10 at return@12)); which close is the real one?"
+      ],
+      "review": [
+        "closes the file twice (double close: already closed when released at line 10 (defer@10 at return@12)); which close is the real one?"
+      ]
+    },
+    {
+      "resource": "benchmarks/20_interface_dispatch/main.go:8",
+      "var": "f",
+      "func": "20_interface_dispatch.scenario",
+      "category": "A",
+      "plan": "DYN_GUARD",
+      "rust": "let c: Box<dyn Closer> = ...; let _g = Defer::new(move || { c.close(); });",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in 20_interface_dispatch.scenario: registration always; c: value fixed at registration = {f@8}"
+      ]
+    }
+  ],
+  "program_decisions": [
+    {
+      "package": "01_local",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "02_early_before",
+      "category": "A",
+      "resources": [
+        "f@9=A"
+      ]
+    },
+    {
+      "package": "03_early_after",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "04_failed_acquire",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "05_two_lifo",
+      "category": "A",
+      "resources": [
+        "f@8=A",
+        "g@11=A"
+      ]
+    },
+    {
+      "package": "06_nested_block",
+      "category": "A",
+      "resources": [
+        "f@9=A"
+      ]
+    },
+    {
+      "package": "07_conditional",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "08_loop",
+      "category": "A",
+      "resources": [
+        "f@10=A"
+      ]
+    },
+    {
+      "package": "09_return_open",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "10_return_closed",
+      "category": "C",
+      "resources": [
+        "f@8=C"
+      ]
+    },
+    {
+      "package": "11_global_escape",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "12_alias",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "13_eager_argument",
+      "category": "A",
+      "resources": [
+        "f@8=A",
+        "g@11=A"
+      ]
+    },
+    {
+      "package": "14_late_closure",
+      "category": "A",
+      "resources": [
+        "f@8=A",
+        "g@11=A"
+      ]
+    },
+    {
+      "package": "15_closure_parameter",
+      "category": "A",
+      "resources": [
+        "f@8=A",
+        "g@11=A"
+      ]
+    },
+    {
+      "package": "16_named_result",
+      "category": "C",
+      "resources": [
+        "f@8=C"
+      ]
+    },
+    {
+      "package": "17_panic_unwind",
+      "category": "A",
+      "resources": [
+        "f@9=A"
+      ]
+    },
+    {
+      "package": "18_helper_boundary",
+      "category": "C",
+      "resources": [
+        "f@8=C"
+      ]
+    },
+    {
+      "package": "19_double_close",
+      "category": "C",
+      "resources": [
+        "f@8=C"
+      ]
+    },
+    {
+      "package": "20_interface_dispatch",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,30 @@
+{
+  "status": "proposed by Claude on 2026-11-23 from the design-decision table (written before the step-3 rules); needs sign-off by Moomal and Rama",
+  "categories": {
+    "A": "one supported plan: all required facts known, one rule applies",
+    "B": "several valid plans; a documented choice rule picks one",
+    "C": "needs review: a required fact is missing, or the program's behaviour conflicts with Rust ownership"
+  },
+  "programs": {
+    "01": {"category": "A", "plan": "OWNED_GUARD", "why": "local file, defer always registered, no escape"},
+    "02": {"category": "A", "plan": "OWNED_GUARD", "why": "early return before the defer: guard never created on that path"},
+    "03": {"category": "A", "plan": "OWNED_GUARD", "why": "early return after the defer: guard drops on that path too"},
+    "04": {"category": "A", "plan": "OWNED_GUARD", "why": "acquisition fails on every tested input; the plan for the success path is still a guard"},
+    "05": {"category": "A", "plan": "OWNED_GUARD", "why": "two guards declared in acquisition order; Rust drops them in reverse (LIFO)"},
+    "06": {"category": "A", "plan": "OWNED_GUARD", "why": "guard hoisted to function scope: Go closes at function exit, not block exit"},
+    "07": {"category": "A", "plan": "OPTION_GUARD", "why": "defer registered on one branch only"},
+    "08": {"category": "A", "plan": "DEFER_STACK", "why": "defer in a loop: explicit stack popped in reverse (a Vec drops first-to-last)"},
+    "09": {"category": "A", "plan": "OWNERSHIP_RETURN", "why": "returned open; the caller owns and closes it"},
+    "10": {"category": "C", "plan": "REVIEW", "why": "returns a handle its own defer already closed; the caller uses it after close"},
+    "11": {"category": "A", "plan": "GLOBAL_OWNER", "why": "ownership moves into a global; main closes it"},
+    "12": {"category": "A", "plan": "OWNED_GUARD", "why": "the alias is a borrow of the same file"},
+    "13": {"category": "A", "plan": "OWNED_GUARD + EXPLICIT_CLOSE", "why": "defer argument fixed at registration (A); B closed explicitly"},
+    "14": {"category": "A", "plan": "CELL_CLOSURE_GUARD", "why": "deferred closure reads a reassigned variable at exit"},
+    "15": {"category": "A", "plan": "OWNED_GUARD + EXPLICIT_CLOSE", "why": "closure parameter fixed at registration (A); B closed explicitly"},
+    "16": {"category": "C", "plan": "REVIEW", "why": "closes the same file twice; the named result depends on the second close failing"},
+    "17": {"category": "A", "plan": "OWNED_GUARD", "why": "guard drops during unwinding; recover needs catch_unwind"},
+    "18": {"category": "C", "plan": "REVIEW", "why": "the helper's defer closes the caller's file, then the caller uses it"},
+    "19": {"category": "C", "plan": "REVIEW", "why": "explicit close followed by a deferred close of the same file"},
+    "20": {"category": "A", "plan": "DYN_GUARD", "why": "deferred interface call with one possible implementation"}
+  }
+}

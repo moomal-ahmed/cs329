@@ -1,0 +1,310 @@
+[
+  {
+    "set": "benchmarks",
+    "id": "01",
+    "name": "local",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "02",
+    "name": "early_before",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "03",
+    "name": "early_after",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "04",
+    "name": "failed_acquire",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "05",
+    "name": "two_lifo",
+    "sites": 4,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "06",
+    "name": "nested_block",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "07",
+    "name": "conditional",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "08",
+    "name": "loop",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "09",
+    "name": "return_open",
+    "sites": 1,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "10",
+    "name": "return_closed",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "11",
+    "name": "global_escape",
+    "sites": 1,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "12",
+    "name": "alias",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "13",
+    "name": "eager_argument",
+    "sites": 3,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "14",
+    "name": "late_closure",
+    "sites": 3,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": [
+      "defer@10: label ['B'] vs analysis ['A', 'B'] (superset (path-dependent))"
+    ]
+  },
+  {
+    "set": "benchmarks",
+    "id": "15",
+    "name": "closure_parameter",
+    "sites": 3,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "16",
+    "name": "named_result",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "17",
+    "name": "panic_unwind",
+    "sites": 3,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "18",
+    "name": "helper_boundary",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "19",
+    "name": "double_close",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "benchmarks",
+    "id": "20",
+    "name": "interface_dispatch",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H01",
+    "name": "loop_count",
+    "sites": 2,
+    "inputs": 4,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H02",
+    "name": "two_per_iteration",
+    "sites": 4,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H03",
+    "name": "conditional_in_loop",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H04",
+    "name": "closure_two_vars",
+    "sites": 3,
+    "inputs": 3,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H05",
+    "name": "field_alias",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H06",
+    "name": "method_defer",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H07",
+    "name": "early_return_in_loop",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H08",
+    "name": "factory_helper",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H09",
+    "name": "nested_calls",
+    "sites": 4,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H10",
+    "name": "close_error_join",
+    "sites": 2,
+    "inputs": 3,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H11",
+    "name": "panic_from_callee",
+    "sites": 3,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H12",
+    "name": "path_dependent_ownership",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H13",
+    "name": "goroutine_defer",
+    "sites": 2,
+    "inputs": 1,
+    "issues": [],
+    "analysis_notes": []
+  },
+  {
+    "set": "heldout",
+    "id": "H14",
+    "name": "dynamic_closer",
+    "sites": 2,
+    "inputs": 2,
+    "issues": [],
+    "analysis_notes": []
+  }
+]

@@ -1,0 +1,283 @@
+{
+  "go": "go version go1.26.5 linux/amd64",
+  "programs": [
+    {
+      "id": "U01",
+      "name": "two_files_error_join",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nuse A true\nuse B true\nclose B true\nclose A true\nresult-error false\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A false\nresult-error true\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": "openat:1:ENOENT",
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B false\nclose A true\nresult-error true\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": "openat:2:EMFILE",
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nuse A true\nuse B true\nclose B false\nclose A true\nresult-error true\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": "close:1:EIO",
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U02",
+      "name": "retry_until_open",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire 0 true\nuse 0 true\nafter-loop\nclose 0 true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire 0 false\nacquire 1 true\nuse 1 true\nafter-loop\nclose 1 true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": "openat:1:EMFILE",
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U03",
+      "name": "reopen_through_pointer",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "reopen",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B false\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "reopen",
+          "inject": "openat:2:EMFILE",
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U04",
+      "name": "struct_owns_two",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nuse A true\nuse B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B false\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": "openat:2:EMFILE",
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U05",
+      "name": "forgotten_close",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nskip\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "skip",
+          "inject": null,
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U06",
+      "name": "bufio_reader",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nread true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A false\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": "openat:1:ENOENT",
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U07",
+      "name": "stored_closure_deferred",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nbody\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U08",
+      "name": "kept_in_registry",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nkept\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "keep",
+          "inject": null,
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U09",
+      "name": "callee_panics_owns_file",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nafter-work\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nrecovered\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "panic",
+          "inject": null,
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "U10",
+      "name": "out_param_transfer",
+      "build_stderr": "",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "",
+          "inject": null,
+          "label_match": true
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "attempts": 1,
+          "mode": "give",
+          "inject": null,
+          "label_match": true
+        }
+      ],
+      "status": "pass"
+    }
+  ]
+}

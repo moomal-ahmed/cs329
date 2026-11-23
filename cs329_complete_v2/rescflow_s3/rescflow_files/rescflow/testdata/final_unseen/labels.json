@@ -1,0 +1,522 @@
+[
+ {
+  "id": "U01",
+  "name": "two_files_error_join",
+  "expected_rescflow_category": "A",
+  "expected_plan": "OWNED_GUARD for A; RESULT_SLOT_GUARD for B (its close error joins the named result)",
+  "file": "testdata/final_unseen/U01_two_files_error_join/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "src, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 10,
+    "source": "defer closeFile(\"A\", src)"
+   },
+   {
+    "kind": "acquire",
+    "label": "B",
+    "line": 11,
+    "source": "dst, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D2 B",
+    "line": 13,
+    "source": "defer func() { if cerr := closeFile(\"B\", dst); err == nil { err = cerr } }()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "use A true",
+     "use B true",
+     "close B true",
+     "close A true",
+     "result-error false"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:1:ENOENT",
+    "expected_stdout": [
+     "acquire A false",
+     "result-error true"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:2:EMFILE",
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B false",
+     "close A true",
+     "result-error true"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "close:1:EIO",
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "use A true",
+     "use B true",
+     "close B false",
+     "close A true",
+     "result-error true"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U02",
+  "name": "retry_until_open",
+  "expected_rescflow_category": "A",
+  "expected_plan": "DEFER_STACK (a defer in a loop; at most one registration because of the break)",
+  "file": "testdata/final_unseen/U02_retry_until_open/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 10,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 12,
+    "source": "defer closeFile(ids[i], f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0 true",
+     "use 0 true",
+     "after-loop",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:1:EMFILE",
+    "expected_stdout": [
+     "acquire 0 false",
+     "acquire 1 true",
+     "use 1 true",
+     "after-loop",
+     "close 1 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U03",
+  "name": "reopen_through_pointer",
+  "expected_rescflow_category": "A",
+  "expected_plan": "CELL_CLOSURE_GUARD: a helper replaces the file through a pointer; the deferred closure reads it at exit",
+  "file": "testdata/final_unseen/U03_reopen_through_pointer/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "B",
+    "line": 8,
+    "source": "g, err := os.Open(path)"
+   },
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 15,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A,B",
+    "line": 18,
+    "source": "defer func() { closeFile(name, f) }()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "reopen",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "close A true",
+     "use B true",
+     "close B true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "reopen",
+    "inject": "openat:2:EMFILE",
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B false",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U04",
+  "name": "struct_owns_two",
+  "expected_rescflow_category": "A",
+  "expected_plan": "OWNED_GUARD on a struct that owns both files; its cleanup closes B then A",
+  "file": "testdata/final_unseen/U04_struct_owns_two/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "a, err := os.Open(path)"
+   },
+   {
+    "kind": "acquire",
+    "label": "B",
+    "line": 10,
+    "source": "b, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A,B",
+    "line": 13,
+    "source": "defer p.Close()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "use A true",
+     "use B true",
+     "close B true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:2:EMFILE",
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B false",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U05",
+  "name": "forgotten_close",
+  "expected_rescflow_category": "C",
+  "expected_plan": "REVIEW: the \"skip\" path returns without closing A (leak). Intended?",
+  "file": "testdata/final_unseen/U05_forgotten_close/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "skip",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "skip",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U06",
+  "name": "bufio_reader",
+  "expected_rescflow_category": "C",
+  "expected_plan": "REVIEW until bufio.NewReader is modelled: the file is passed to library code with no summary",
+  "file": "testdata/final_unseen/U06_bufio_reader/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 10,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "read true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:1:ENOENT",
+    "expected_stdout": [
+     "acquire A false",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U07",
+  "name": "stored_closure_deferred",
+  "expected_rescflow_category": "A",
+  "expected_plan": "OWNED_GUARD (the cleanup closure is created first and deferred later; f is never reassigned)",
+  "file": "testdata/final_unseen/U07_stored_closure_deferred/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 12,
+    "source": "defer cleanup()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "body",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U08",
+  "name": "kept_in_registry",
+  "expected_rescflow_category": "C",
+  "expected_plan": "REVIEW: on the \"keep\" path the file is stored in a map and closed later by main",
+  "file": "testdata/final_unseen/U08_kept_in_registry/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 11,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "keep",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "kept",
+     "returned",
+     "use A true",
+     "close A true"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U09",
+  "name": "callee_panics_owns_file",
+  "expected_rescflow_category": "A",
+  "expected_plan": "CALLEE_OWNS: work() takes the file and its guard drops during unwinding; recover needs catch_unwind",
+  "file": "testdata/final_unseen/U09_callee_panics_owns_file/main.go",
+  "sites": [
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 8,
+    "source": "defer closeFile(\"A\", f)"
+   },
+   {
+    "kind": "defer",
+    "label": "D0 none",
+    "line": 13,
+    "source": "defer func() { if recover() != nil { fmt.Println(\"recovered\") } }()"
+   },
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 14,
+    "source": "f, err := os.Open(path)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "after-work",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "panic",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "recovered",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ },
+ {
+  "id": "U10",
+  "name": "out_param_transfer",
+  "expected_rescflow_category": "B",
+  "expected_plan": "Two plans: ownership moves to the caller through *out on the \"give\" path, guard otherwise. Choice rule: the defer is registered only after the transferring branch, so move on \"give\", guard on the rest",
+  "file": "testdata/final_unseen/U10_out_param_transfer/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 11,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "give",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "returned",
+     "use A true",
+     "close A true"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23, before step-3 rules); checked against Go only; SEALED"
+ }
+]

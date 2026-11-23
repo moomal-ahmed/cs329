@@ -1,0 +1,4577 @@
+{
+  "schema": "rescflow-analysis/v1",
+  "go": "go1.26.5",
+  "patterns": [
+    "./heldout/..."
+  ],
+  "packages": [
+    {
+      "path": "example.com/rescflow/heldout/H01_loop_count",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H02_two_per_iteration",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H03_conditional_in_loop",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H04_closure_two_vars",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H05_field_alias",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H06_method_defer",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H07_early_return_in_loop",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H08_factory_helper",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H09_nested_calls",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H10_close_error_join",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H11_panic_from_callee",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H12_path_dependent_ownership",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H13_goroutine_defer",
+      "analyzed": true
+    },
+    {
+      "path": "example.com/rescflow/heldout/H14_dynamic_closer",
+      "analyzed": true
+    }
+  ],
+  "records": [
+    {
+      "id": "heldout/H01_loop_count/main.go:13",
+      "var": "f",
+      "func": "H01_loop_count.scenario",
+      "file": "heldout/H01_loop_count/main.go",
+      "line": 13,
+      "acquire": "os.Open(t13)",
+      "in_loop": true,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H01_loop_count.scenario",
+          "line": 13,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H01_loop_count.scenario",
+          "line": 13,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Open"
+        },
+        {
+          "func": "H01_loop_count.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "defer@15 at return@19",
+          "state": "Open"
+        },
+        {
+          "func": "H01_loop_count.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "defer@15 at return@14",
+          "state": "Failed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H01_loop_count.scenario",
+          "line": 15,
+          "call": "example.com/rescflow/heldout/H01_loop_count.closeFile(t26, t15)",
+          "targets": [
+            "H01_loop_count.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@13}"
+          ],
+          "registration": "loop",
+          "resolves": {
+            "return@14": [
+              "f@13"
+            ],
+            "return@19": [
+              "f@13"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H02_two_per_iteration/main.go:10",
+      "var": "f",
+      "func": "H02_two_per_iteration.scenario",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 10,
+      "acquire": "os.Open(t6)",
+      "in_loop": true,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Open"
+        },
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@18",
+          "state": "Open"
+        },
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@11",
+          "state": "Failed"
+        },
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@14",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 12,
+          "call": "example.com/rescflow/heldout/H02_two_per_iteration.closeFile(t21, t8)",
+          "targets": [
+            "H02_two_per_iteration.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@10}"
+          ],
+          "registration": "loop",
+          "resolves": {
+            "return@11": [
+              "f@10"
+            ],
+            "return@14": [
+              "f@10"
+            ],
+            "return@18": [
+              "f@10"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H02_two_per_iteration/main.go:13",
+      "var": "g",
+      "func": "H02_two_per_iteration.scenario",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 13,
+      "acquire": "os.Open(t22)",
+      "in_loop": true,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 13,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 13,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Open"
+        },
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "defer@15 at return@14",
+          "state": "Failed"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H02_two_per_iteration.scenario",
+          "line": 15,
+          "call": "example.com/rescflow/heldout/H02_two_per_iteration.closeFile(t32, t24)",
+          "targets": [
+            "H02_two_per_iteration.closeFile"
+          ],
+          "captures": [
+            "g: value fixed at registration = {g@13}"
+          ],
+          "registration": "loop",
+          "resolves": {
+            "return@11": [
+              "g@13"
+            ],
+            "return@14": [
+              "g@13"
+            ],
+            "return@18": [
+              "g@13"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H03_conditional_in_loop/main.go:10",
+      "var": "f",
+      "func": "H03_conditional_in_loop.scenario",
+      "file": "heldout/H03_conditional_in_loop/main.go",
+      "line": 10,
+      "acquire": "os.Open(t7)",
+      "in_loop": true,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Open"
+        },
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Closed"
+        },
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 13,
+          "kind": "release",
+          "via": "defer@13 at return@19",
+          "state": "Open"
+        },
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 13,
+          "kind": "release",
+          "via": "defer@13 at return@19",
+          "state": "Closed"
+        },
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 13,
+          "kind": "release",
+          "via": "defer@13 at return@11",
+          "state": "Failed"
+        },
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "call H03_conditional_in_loop.closeFile",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H03_conditional_in_loop.scenario",
+          "line": 13,
+          "call": "example.com/rescflow/heldout/H03_conditional_in_loop.closeFile(t22, t9)",
+          "targets": [
+            "H03_conditional_in_loop.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@10}"
+          ],
+          "registration": "loop",
+          "resolves": {
+            "return@11": [
+              "f@10"
+            ],
+            "return@19": [
+              "f@10"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H04_closure_two_vars/main.go:8",
+      "var": "f",
+      "func": "H04_closure_two_vars.scenario",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 8,
+      "acquire": "os.Open(t1)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "call H04_closure_two_vars.closeFile",
+          "state": "Open"
+        },
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 15,
+          "kind": "use",
+          "via": "call H04_closure_two_vars.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 13,
+          "kind": "release",
+          "via": "defer@13 at return@16",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 13,
+          "call": "t18()",
+          "targets": [
+            "H04_closure_two_vars.scenario$1"
+          ],
+          "captures": [
+            "fn: cell t16(fn), read at exit",
+            "f: cell t0(f), read at exit",
+            "gn: cell t17(gn), read at exit",
+            "g: cell t7(g), read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@16": [
+              "g@10",
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H04_closure_two_vars/main.go:10",
+      "var": "g",
+      "func": "H04_closure_two_vars.scenario",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 10,
+      "acquire": "os.Open(t8)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 15,
+          "kind": "use",
+          "via": "call H04_closure_two_vars.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 13,
+          "kind": "release",
+          "via": "defer@13 at return@16",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H04_closure_two_vars.scenario",
+          "line": 13,
+          "call": "t18()",
+          "targets": [
+            "H04_closure_two_vars.scenario$1"
+          ],
+          "captures": [
+            "fn: cell t16(fn), read at exit",
+            "f: cell t0(f), read at exit",
+            "gn: cell t17(gn), read at exit",
+            "g: cell t7(g), read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@16": [
+              "g@10",
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H05_field_alias/main.go:8",
+      "var": "f",
+      "func": "H05_field_alias.scenario",
+      "file": "heldout/H05_field_alias/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H05_field_alias.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H05_field_alias.scenario",
+          "line": 12,
+          "kind": "use",
+          "via": "call H05_field_alias.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H05_field_alias.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H05_field_alias.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/heldout/H05_field_alias.closeFile(\"A\":string, t8)",
+          "targets": [
+            "H05_field_alias.closeFile"
+          ],
+          "captures": [
+            "t8: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@13": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H06_method_defer/main.go:12",
+      "var": "f",
+      "func": "H06_method_defer.scenario",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 12,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H06_method_defer.scenario",
+          "line": 12,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H06_method_defer.scenario",
+          "line": 15,
+          "kind": "use",
+          "via": "call H06_method_defer.(*logFile).run",
+          "state": "Open"
+        },
+        {
+          "func": "H06_method_defer.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "call H06_method_defer.(*logFile).run",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H06_method_defer.(*logFile).run",
+          "line": 8,
+          "call": "example.com/rescflow/heldout/H06_method_defer.closeFile(\"A\":string, t1)",
+          "targets": [
+            "H06_method_defer.closeFile"
+          ],
+          "captures": [
+            "t1: value fixed at registration = {input#0}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "exit of H06_method_defer.(*logFile).run, called from H06_method_defer.scenario@15": [
+              "f@12"
+            ],
+            "return@10": [
+              "input#0"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H07_early_return_in_loop/main.go:10",
+      "var": "f",
+      "func": "H07_early_return_in_loop.scenario",
+      "file": "heldout/H07_early_return_in_loop/main.go",
+      "line": 10,
+      "acquire": "os.Open(t7)",
+      "in_loop": true,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H07_early_return_in_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H07_early_return_in_loop.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "Open"
+        },
+        {
+          "func": "H07_early_return_in_loop.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@16",
+          "state": "Open"
+        },
+        {
+          "func": "H07_early_return_in_loop.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@11",
+          "state": "Failed"
+        },
+        {
+          "func": "H07_early_return_in_loop.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@13",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H07_early_return_in_loop.scenario",
+          "line": 12,
+          "call": "example.com/rescflow/heldout/H07_early_return_in_loop.closeFile(t20, t9)",
+          "targets": [
+            "H07_early_return_in_loop.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@10}"
+          ],
+          "registration": "loop",
+          "resolves": {
+            "return@11": [
+              "f@10"
+            ],
+            "return@13": [
+              "f@10"
+            ],
+            "return@16": [
+              "f@10"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H08_factory_helper/main.go:8",
+      "var": "f",
+      "func": "H08_factory_helper.openChecked",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H08_factory_helper.openChecked",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H08_factory_helper.scenario",
+          "line": 13,
+          "kind": "acquire",
+          "via": "returned by H08_factory_helper.openChecked (result 0)",
+          "state": "unacquired"
+        },
+        {
+          "func": "H08_factory_helper.scenario",
+          "line": 16,
+          "kind": "use",
+          "via": "call H08_factory_helper.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H08_factory_helper.scenario",
+          "line": 15,
+          "kind": "release",
+          "via": "defer@15 at return@17",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H08_factory_helper.scenario",
+          "line": 15,
+          "call": "example.com/rescflow/heldout/H08_factory_helper.closeFile(\"A\":string, t1)",
+          "targets": [
+            "H08_factory_helper.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@17": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [
+        "line 10: returned to the caller of H08_factory_helper.openChecked (ownership transfer)"
+      ],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H09_nested_calls/main.go:8",
+      "var": "g",
+      "func": "H09_nested_calls.inner",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H09_nested_calls.inner",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H09_nested_calls.inner",
+          "line": 11,
+          "kind": "use",
+          "via": "call H09_nested_calls.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H09_nested_calls.inner",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H09_nested_calls.inner",
+          "line": 10,
+          "call": "example.com/rescflow/heldout/H09_nested_calls.closeFile(\"B\":string, t2)",
+          "targets": [
+            "H09_nested_calls.closeFile"
+          ],
+          "captures": [
+            "g: value fixed at registration = {g@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "g@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H09_nested_calls/main.go:14",
+      "var": "f",
+      "func": "H09_nested_calls.scenario",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 14,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H09_nested_calls.scenario",
+          "line": 14,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H09_nested_calls.scenario",
+          "line": 18,
+          "kind": "use",
+          "via": "call H09_nested_calls.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H09_nested_calls.scenario",
+          "line": 16,
+          "kind": "release",
+          "via": "defer@16 at return@19",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H09_nested_calls.scenario",
+          "line": 16,
+          "call": "example.com/rescflow/heldout/H09_nested_calls.closeFile(\"A\":string, t2)",
+          "targets": [
+            "H09_nested_calls.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@14}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@19": [
+              "f@14"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H10_close_error_join/main.go:8",
+      "var": "f",
+      "func": "H10_close_error_join.scenario",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 8,
+      "acquire": "os.Open(t2)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H10_close_error_join.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H10_close_error_join.scenario",
+          "line": 11,
+          "kind": "use",
+          "via": "call H10_close_error_join.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H10_close_error_join.scenario",
+          "line": 10,
+          "kind": "release",
+          "via": "defer@10 at return@12",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H10_close_error_join.scenario",
+          "line": 10,
+          "call": "t11()",
+          "targets": [
+            "H10_close_error_join.scenario$1"
+          ],
+          "captures": [
+            "f: cell t1(f), read at exit",
+            "err: cell t0(err), read at exit"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@12": [
+              "f@8"
+            ]
+          },
+          "close_error_to": "err"
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": [
+        "close error is stored into named result \"err\" of H10_close_error_join.scenario"
+      ]
+    },
+    {
+      "id": "heldout/H11_panic_from_callee/main.go:10",
+      "var": "f",
+      "func": "H11_panic_from_callee.scenario",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 10,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H11_panic_from_callee.scenario",
+          "line": 10,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H11_panic_from_callee.scenario",
+          "line": 13,
+          "kind": "use",
+          "via": "call H11_panic_from_callee.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H11_panic_from_callee.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at panic->recovered@14",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H11_panic_from_callee.scenario",
+          "line": 12,
+          "call": "example.com/rescflow/heldout/H11_panic_from_callee.closeFile(\"A\":string, t2)",
+          "targets": [
+            "H11_panic_from_callee.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@10}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "panic->recovered@14": [
+              "f@10"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H12_path_dependent_ownership/main.go:8",
+      "var": "f",
+      "func": "H12_path_dependent_ownership.scenario",
+      "file": "heldout/H12_path_dependent_ownership/main.go",
+      "line": 8,
+      "acquire": "os.Open(t1)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H12_path_dependent_ownership.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H12_path_dependent_ownership.scenario",
+          "line": 12,
+          "kind": "use",
+          "via": "call H12_path_dependent_ownership.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H12_path_dependent_ownership.scenario",
+          "line": 11,
+          "kind": "release",
+          "via": "defer@11 at return@13",
+          "state": "Open"
+        },
+        {
+          "func": "H12_path_dependent_ownership.main",
+          "line": 22,
+          "kind": "acquire",
+          "via": "returned by H12_path_dependent_ownership.scenario (result 0)",
+          "state": "unacquired"
+        },
+        {
+          "func": "H12_path_dependent_ownership.main",
+          "line": 22,
+          "kind": "use",
+          "via": "call H12_path_dependent_ownership.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H12_path_dependent_ownership.main",
+          "line": 22,
+          "kind": "release",
+          "via": "call H12_path_dependent_ownership.closeFile",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H12_path_dependent_ownership.scenario",
+          "line": 11,
+          "call": "example.com/rescflow/heldout/H12_path_dependent_ownership.closeFile(\"A\":string, t3)",
+          "targets": [
+            "H12_path_dependent_ownership.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@13": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [
+        "line 10: returned to the caller of H12_path_dependent_ownership.scenario (ownership transfer)"
+      ],
+      "anomalies": [],
+      "notes": []
+    },
+    {
+      "id": "heldout/H13_goroutine_defer/main.go:12",
+      "var": "f",
+      "func": "H13_goroutine_defer.scenario$1",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 12,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": true,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H13_goroutine_defer.scenario$1",
+          "line": 12,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H13_goroutine_defer.scenario$1",
+          "line": 15,
+          "kind": "use",
+          "via": "call H13_goroutine_defer.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H13_goroutine_defer.scenario$1",
+          "line": 14,
+          "kind": "release",
+          "via": "defer@14 at return@16",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H13_goroutine_defer.scenario$1",
+          "line": 14,
+          "call": "example.com/rescflow/heldout/H13_goroutine_defer.closeFile(\"A\":string, t2)",
+          "targets": [
+            "H13_goroutine_defer.closeFile"
+          ],
+          "captures": [
+            "f: value fixed at registration = {f@12}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@16": [
+              "f@12"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [],
+      "notes": [
+        "UNRESOLVED goroutine at line 12: resource acquired, used or released inside a goroutine (`go` statement)"
+      ]
+    },
+    {
+      "id": "heldout/H14_dynamic_closer/main.go:8",
+      "var": "f",
+      "func": "H14_dynamic_closer.scenario",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 8,
+      "acquire": "os.Open(t0)",
+      "in_loop": false,
+      "in_goroutine": false,
+      "success_guard": "",
+      "events": [
+        {
+          "func": "H14_dynamic_closer.scenario",
+          "line": 8,
+          "kind": "acquire",
+          "via": "os.Open",
+          "state": "unacquired"
+        },
+        {
+          "func": "H14_dynamic_closer.scenario",
+          "line": 13,
+          "kind": "use",
+          "via": "call H14_dynamic_closer.useFile",
+          "state": "Open"
+        },
+        {
+          "func": "H14_dynamic_closer.scenario",
+          "line": 12,
+          "kind": "release",
+          "via": "defer@12 at return@14",
+          "state": "Open"
+        }
+      ],
+      "defers": [
+        {
+          "func": "H14_dynamic_closer.scenario",
+          "line": 12,
+          "call": "invoke t12.Close()",
+          "targets": [
+            "H14_dynamic_closer.(fileCloser).Close",
+            "H14_dynamic_closer.(noopCloser).Close"
+          ],
+          "captures": [
+            "c: value fixed at registration = {f@8}"
+          ],
+          "registration": "always",
+          "resolves": {
+            "return@14": [
+              "f@8"
+            ]
+          }
+        }
+      ],
+      "escapes": [],
+      "anomalies": [
+        "released by some but not all possible implementations at line 12 (H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close)",
+        "may still be open when H14_dynamic_closer.scenario returns at line 14 (state Open|Closed)"
+      ],
+      "notes": [
+        "UNRESOLVED dispatch-multi at line 12: interface method call with several possible implementations"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "H01_loop_count.scenario",
+      "file": "heldout/H01_loop_count/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@13"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H01_loop_count.main",
+      "file": "heldout/H01_loop_count/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 24,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H01_loop_count.recordOpen",
+      "file": "heldout/H01_loop_count/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H01_loop_count.closeFile",
+      "file": "heldout/H01_loop_count/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H01_loop_count.useFile",
+      "file": "heldout/H01_loop_count/main.go",
+      "line": 39,
+      "exits": [
+        {
+          "line": 42,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H02_two_per_iteration.scenario",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 18,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "g@13"
+              ]
+            },
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 18,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "g@13"
+              ]
+            },
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "g@13"
+              ]
+            },
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "g@13"
+              ]
+            },
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "g@13"
+              ]
+            },
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H02_two_per_iteration.main",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 22,
+      "exits": [
+        {
+          "line": 23,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 27,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 27,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H02_two_per_iteration.recordOpen",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 29,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H02_two_per_iteration.closeFile",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H02_two_per_iteration.useFile",
+      "file": "heldout/H02_two_per_iteration/main.go",
+      "line": 38,
+      "exits": [
+        {
+          "line": 41,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H03_conditional_in_loop.scenario",
+      "file": "heldout/H03_conditional_in_loop/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H03_conditional_in_loop.main",
+      "file": "heldout/H03_conditional_in_loop/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 24,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H03_conditional_in_loop.recordOpen",
+      "file": "heldout/H03_conditional_in_loop/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H03_conditional_in_loop.closeFile",
+      "file": "heldout/H03_conditional_in_loop/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H03_conditional_in_loop.useFile",
+      "file": "heldout/H03_conditional_in_loop/main.go",
+      "line": 39,
+      "exits": [
+        {
+          "line": 42,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H04_closure_two_vars.scenario",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "g@10",
+                "f@8"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 13,
+              "acts_on": [
+                "g@10",
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H04_closure_two_vars.scenario$1",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 13,
+      "exits": [
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "fn",
+          "f",
+          "gn",
+          "g"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          },
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H04_closure_two_vars.main",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 20,
+      "exits": [
+        {
+          "line": 21,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H04_closure_two_vars.recordOpen",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H04_closure_two_vars.closeFile",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H04_closure_two_vars.useFile",
+      "file": "heldout/H04_closure_two_vars/main.go",
+      "line": 36,
+      "exits": [
+        {
+          "line": 39,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H05_field_alias.scenario",
+      "file": "heldout/H05_field_alias/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H05_field_alias.main",
+      "file": "heldout/H05_field_alias/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H05_field_alias.recordOpen",
+      "file": "heldout/H05_field_alias/main.go",
+      "line": 24,
+      "exits": [
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H05_field_alias.closeFile",
+      "file": "heldout/H05_field_alias/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H05_field_alias.useFile",
+      "file": "heldout/H05_field_alias/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H06_method_defer.(*logFile).run",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 8,
+              "acts_on": [
+                "input#0"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "l"
+        ],
+        "effects": [
+          {
+            "release": true,
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H06_method_defer.scenario",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 11,
+      "exits": [
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 17,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H06_method_defer.main",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 21,
+      "exits": [
+        {
+          "line": 22,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H06_method_defer.recordOpen",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H06_method_defer.closeFile",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H06_method_defer.useFile",
+      "file": "heldout/H06_method_defer/main.go",
+      "line": 37,
+      "exits": [
+        {
+          "line": 40,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H07_early_return_in_loop.scenario",
+      "file": "heldout/H07_early_return_in_loop/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H07_early_return_in_loop.main",
+      "file": "heldout/H07_early_return_in_loop/main.go",
+      "line": 20,
+      "exits": [
+        {
+          "line": 21,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H07_early_return_in_loop.recordOpen",
+      "file": "heldout/H07_early_return_in_loop/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H07_early_return_in_loop.closeFile",
+      "file": "heldout/H07_early_return_in_loop/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H07_early_return_in_loop.useFile",
+      "file": "heldout/H07_early_return_in_loop/main.go",
+      "line": 36,
+      "exits": [
+        {
+          "line": 39,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H08_factory_helper.openChecked",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id"
+        ],
+        "effects": [
+          {}
+        ],
+        "returns_fresh_resource": {
+          "0": {
+            "site": "heldout/H08_factory_helper/main.go:8",
+            "guard_result": 1,
+            "guard_is_error": false,
+            "state_at_return": "MaybeOpen"
+          }
+        },
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H08_factory_helper.scenario",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 12,
+      "exits": [
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 17,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 15,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H08_factory_helper.main",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 21,
+      "exits": [
+        {
+          "line": 22,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H08_factory_helper.recordOpen",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 30,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H08_factory_helper.closeFile",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 32,
+      "exits": [
+        {
+          "line": 35,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H08_factory_helper.useFile",
+      "file": "heldout/H08_factory_helper/main.go",
+      "line": 37,
+      "exits": [
+        {
+          "line": 40,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H09_nested_calls.inner",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "g@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H09_nested_calls.scenario",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 13,
+      "exits": [
+        {
+          "line": 15,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 16,
+              "acts_on": [
+                "f@14"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H09_nested_calls.main",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 24,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H09_nested_calls.recordOpen",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H09_nested_calls.closeFile",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H09_nested_calls.useFile",
+      "file": "heldout/H09_nested_calls/main.go",
+      "line": 39,
+      "exits": [
+        {
+          "line": 42,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H10_close_error_join.scenario",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 12,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 10,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H10_close_error_join.scenario$1",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 10,
+      "exits": [
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "f",
+          "err"
+        ],
+        "effects": [
+          {
+            "release": true
+          },
+          {
+            "writes_close_error": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H10_close_error_join.main",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 17,
+      "exits": [
+        {
+          "line": 18,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 22,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H10_close_error_join.recordOpen",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 24,
+      "exits": [
+        {
+          "line": 26,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H10_close_error_join.closeFile",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 28,
+      "exits": [
+        {
+          "line": 31,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H10_close_error_join.useFile",
+      "file": "heldout/H10_close_error_join/main.go",
+      "line": 33,
+      "exits": [
+        {
+          "line": 36,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.mustFail",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 7,
+          "kind": "panic (panic)",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1,
+        "always_panics": true
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.scenario",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 8,
+      "exits": [
+        {
+          "line": 16,
+          "kind": "return after recover",
+          "defers_run": []
+        },
+        {
+          "line": 11,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 9,
+              "acts_on": []
+            }
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "panic->recovered (panic inside H11_panic_from_callee.mustFail)",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@10"
+              ]
+            },
+            {
+              "defer_line": 9,
+              "acts_on": []
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.scenario$1",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 9,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1,
+        "calls_recover": true
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.main",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 20,
+      "exits": [
+        {
+          "line": 21,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 25,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.recordOpen",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 27,
+      "exits": [
+        {
+          "line": 29,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.closeFile",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 31,
+      "exits": [
+        {
+          "line": 34,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H11_panic_from_callee.useFile",
+      "file": "heldout/H11_panic_from_callee/main.go",
+      "line": 36,
+      "exits": [
+        {
+          "line": 39,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H12_path_dependent_ownership.scenario",
+      "file": "heldout/H12_path_dependent_ownership/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 10,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "returns_fresh_resource": {
+          "0": {
+            "site": "heldout/H12_path_dependent_ownership/main.go:8",
+            "guard_result": -1,
+            "guard_is_error": false,
+            "state_at_return": "MaybeOpen"
+          }
+        },
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H12_path_dependent_ownership.main",
+      "file": "heldout/H12_path_dependent_ownership/main.go",
+      "line": 18,
+      "exits": [
+        {
+          "line": 19,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H12_path_dependent_ownership.recordOpen",
+      "file": "heldout/H12_path_dependent_ownership/main.go",
+      "line": 25,
+      "exits": [
+        {
+          "line": 27,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H12_path_dependent_ownership.closeFile",
+      "file": "heldout/H12_path_dependent_ownership/main.go",
+      "line": 29,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H12_path_dependent_ownership.useFile",
+      "file": "heldout/H12_path_dependent_ownership/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H13_goroutine_defer.scenario",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 19,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H13_goroutine_defer.scenario$1",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 10,
+      "exits": [
+        {
+          "line": 13,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 11,
+              "acts_on": []
+            }
+          ]
+        },
+        {
+          "line": 16,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 14,
+              "acts_on": [
+                "f@12"
+              ]
+            },
+            {
+              "defer_line": 11,
+              "acts_on": []
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "wg"
+        ],
+        "effects": [
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H13_goroutine_defer.main",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 23,
+      "exits": [
+        {
+          "line": 24,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 28,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H13_goroutine_defer.recordOpen",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 30,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H13_goroutine_defer.closeFile",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H13_goroutine_defer.useFile",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 39,
+      "exits": [
+        {
+          "line": 42,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.scenario",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 7,
+      "exits": [
+        {
+          "line": 9,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ],
+          "still_open": [
+            "f@8"
+          ]
+        },
+        {
+          "line": 14,
+          "kind": "return",
+          "defers_run": [
+            {
+              "defer_line": 12,
+              "acts_on": [
+                "f@8"
+              ]
+            }
+          ],
+          "still_open": [
+            "f@8"
+          ]
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.main",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 18,
+      "exits": [
+        {
+          "line": 19,
+          "kind": "panic (panic)",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        },
+        {
+          "line": 23,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": null,
+        "effects": [],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.recordOpen",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 25,
+      "exits": [
+        {
+          "line": 27,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f",
+          "err"
+        ],
+        "effects": [
+          {},
+          {},
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": 2,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.closeFile",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 29,
+      "exits": [
+        {
+          "line": 32,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 1
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.useFile",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 34,
+      "exits": [
+        {
+          "line": 37,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "id",
+          "f"
+        ],
+        "effects": [
+          {},
+          {
+            "use": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.(fileCloser).Close",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 41,
+      "exits": [
+        {
+          "line": 41,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "c"
+        ],
+        "effects": [
+          {
+            "release": true
+          }
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": 0
+      }
+    },
+    {
+      "name": "H14_dynamic_closer.(noopCloser).Close",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 43,
+      "exits": [
+        {
+          "line": 43,
+          "kind": "return",
+          "defers_run": []
+        }
+      ],
+      "summary": {
+        "inputs": [
+          "arg0"
+        ],
+        "effects": [
+          {}
+        ],
+        "bool_result_is_nil_check_of_input": -1,
+        "result_is_close_error_of_input": -1
+      }
+    }
+  ],
+  "defers": [
+    {
+      "func": "H01_loop_count.scenario",
+      "line": 15,
+      "call": "example.com/rescflow/heldout/H01_loop_count.closeFile(t26, t15)",
+      "targets": [
+        "H01_loop_count.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@13}"
+      ],
+      "registration": "loop",
+      "resolves": {
+        "return@14": [
+          "f@13"
+        ],
+        "return@19": [
+          "f@13"
+        ]
+      }
+    },
+    {
+      "func": "H02_two_per_iteration.scenario",
+      "line": 12,
+      "call": "example.com/rescflow/heldout/H02_two_per_iteration.closeFile(t21, t8)",
+      "targets": [
+        "H02_two_per_iteration.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@10}"
+      ],
+      "registration": "loop",
+      "resolves": {
+        "return@11": [
+          "f@10"
+        ],
+        "return@14": [
+          "f@10"
+        ],
+        "return@18": [
+          "f@10"
+        ]
+      }
+    },
+    {
+      "func": "H02_two_per_iteration.scenario",
+      "line": 15,
+      "call": "example.com/rescflow/heldout/H02_two_per_iteration.closeFile(t32, t24)",
+      "targets": [
+        "H02_two_per_iteration.closeFile"
+      ],
+      "captures": [
+        "g: value fixed at registration = {g@13}"
+      ],
+      "registration": "loop",
+      "resolves": {
+        "return@11": [
+          "g@13"
+        ],
+        "return@14": [
+          "g@13"
+        ],
+        "return@18": [
+          "g@13"
+        ]
+      }
+    },
+    {
+      "func": "H03_conditional_in_loop.scenario",
+      "line": 13,
+      "call": "example.com/rescflow/heldout/H03_conditional_in_loop.closeFile(t22, t9)",
+      "targets": [
+        "H03_conditional_in_loop.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@10}"
+      ],
+      "registration": "loop",
+      "resolves": {
+        "return@11": [
+          "f@10"
+        ],
+        "return@19": [
+          "f@10"
+        ]
+      }
+    },
+    {
+      "func": "H04_closure_two_vars.scenario",
+      "line": 13,
+      "call": "t18()",
+      "targets": [
+        "H04_closure_two_vars.scenario$1"
+      ],
+      "captures": [
+        "fn: cell t16(fn), read at exit",
+        "f: cell t0(f), read at exit",
+        "gn: cell t17(gn), read at exit",
+        "g: cell t7(g), read at exit"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@16": [
+          "g@10",
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "H05_field_alias.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/heldout/H05_field_alias.closeFile(\"A\":string, t8)",
+      "targets": [
+        "H05_field_alias.closeFile"
+      ],
+      "captures": [
+        "t8: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@13": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "H06_method_defer.(*logFile).run",
+      "line": 8,
+      "call": "example.com/rescflow/heldout/H06_method_defer.closeFile(\"A\":string, t1)",
+      "targets": [
+        "H06_method_defer.closeFile"
+      ],
+      "captures": [
+        "t1: value fixed at registration = {input#0}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "exit of H06_method_defer.(*logFile).run, called from H06_method_defer.scenario@15": [
+          "f@12"
+        ],
+        "return@10": [
+          "input#0"
+        ]
+      }
+    },
+    {
+      "func": "H07_early_return_in_loop.scenario",
+      "line": 12,
+      "call": "example.com/rescflow/heldout/H07_early_return_in_loop.closeFile(t20, t9)",
+      "targets": [
+        "H07_early_return_in_loop.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@10}"
+      ],
+      "registration": "loop",
+      "resolves": {
+        "return@11": [
+          "f@10"
+        ],
+        "return@13": [
+          "f@10"
+        ],
+        "return@16": [
+          "f@10"
+        ]
+      }
+    },
+    {
+      "func": "H08_factory_helper.scenario",
+      "line": 15,
+      "call": "example.com/rescflow/heldout/H08_factory_helper.closeFile(\"A\":string, t1)",
+      "targets": [
+        "H08_factory_helper.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@17": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "H09_nested_calls.inner",
+      "line": 10,
+      "call": "example.com/rescflow/heldout/H09_nested_calls.closeFile(\"B\":string, t2)",
+      "targets": [
+        "H09_nested_calls.closeFile"
+      ],
+      "captures": [
+        "g: value fixed at registration = {g@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "g@8"
+        ]
+      }
+    },
+    {
+      "func": "H09_nested_calls.scenario",
+      "line": 16,
+      "call": "example.com/rescflow/heldout/H09_nested_calls.closeFile(\"A\":string, t2)",
+      "targets": [
+        "H09_nested_calls.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@14}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@19": [
+          "f@14"
+        ]
+      }
+    },
+    {
+      "func": "H10_close_error_join.scenario",
+      "line": 10,
+      "call": "t11()",
+      "targets": [
+        "H10_close_error_join.scenario$1"
+      ],
+      "captures": [
+        "f: cell t1(f), read at exit",
+        "err: cell t0(err), read at exit"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@12": [
+          "f@8"
+        ]
+      },
+      "close_error_to": "err"
+    },
+    {
+      "func": "H11_panic_from_callee.scenario",
+      "line": 9,
+      "call": "example.com/rescflow/heldout/H11_panic_from_callee.scenario$1()",
+      "targets": [
+        "H11_panic_from_callee.scenario$1"
+      ],
+      "captures": [],
+      "registration": "always",
+      "resolves": {
+        "panic->recovered@14": [],
+        "return@11": []
+      }
+    },
+    {
+      "func": "H11_panic_from_callee.scenario",
+      "line": 12,
+      "call": "example.com/rescflow/heldout/H11_panic_from_callee.closeFile(\"A\":string, t2)",
+      "targets": [
+        "H11_panic_from_callee.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@10}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "panic->recovered@14": [
+          "f@10"
+        ]
+      }
+    },
+    {
+      "func": "H12_path_dependent_ownership.scenario",
+      "line": 11,
+      "call": "example.com/rescflow/heldout/H12_path_dependent_ownership.closeFile(\"A\":string, t3)",
+      "targets": [
+        "H12_path_dependent_ownership.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@13": [
+          "f@8"
+        ]
+      }
+    },
+    {
+      "func": "H13_goroutine_defer.scenario$1",
+      "line": 11,
+      "call": "(*sync.WaitGroup).Done(wg)",
+      "targets": [
+        "sync.(*WaitGroup).Done"
+      ],
+      "captures": [
+        "wg: cell *wg, read at exit"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@13": [],
+        "return@16": []
+      }
+    },
+    {
+      "func": "H13_goroutine_defer.scenario$1",
+      "line": 14,
+      "call": "example.com/rescflow/heldout/H13_goroutine_defer.closeFile(\"A\":string, t2)",
+      "targets": [
+        "H13_goroutine_defer.closeFile"
+      ],
+      "captures": [
+        "f: value fixed at registration = {f@12}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@16": [
+          "f@12"
+        ]
+      }
+    },
+    {
+      "func": "H14_dynamic_closer.scenario",
+      "line": 12,
+      "call": "invoke t12.Close()",
+      "targets": [
+        "H14_dynamic_closer.(fileCloser).Close",
+        "H14_dynamic_closer.(noopCloser).Close"
+      ],
+      "captures": [
+        "c: value fixed at registration = {f@8}"
+      ],
+      "registration": "always",
+      "resolves": {
+        "return@14": [
+          "f@8"
+        ]
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "resource": "heldout/H01_loop_count/main.go:13",
+      "var": "f",
+      "func": "H01_loop_count.scenario",
+      "category": "A",
+      "plan": "DEFER_STACK",
+      "rust": "let mut defers = DeferStack::new(); /* in the loop */ defers.push(DeferClose::new(id, file)); // popped LIFO at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@15 in H01_loop_count.scenario: registration loop; f: value fixed at registration = {f@13}"
+      ]
+    },
+    {
+      "resource": "heldout/H02_two_per_iteration/main.go:10",
+      "var": "f",
+      "func": "H02_two_per_iteration.scenario",
+      "category": "A",
+      "plan": "DEFER_STACK",
+      "rust": "let mut defers = DeferStack::new(); /* in the loop */ defers.push(DeferClose::new(id, file)); // popped LIFO at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@12 in H02_two_per_iteration.scenario: registration loop; f: value fixed at registration = {f@10}"
+      ]
+    },
+    {
+      "resource": "heldout/H02_two_per_iteration/main.go:13",
+      "var": "g",
+      "func": "H02_two_per_iteration.scenario",
+      "category": "A",
+      "plan": "DEFER_STACK",
+      "rust": "let mut defers = DeferStack::new(); /* in the loop */ defers.push(DeferClose::new(id, file)); // popped LIFO at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@15 in H02_two_per_iteration.scenario: registration loop; g: value fixed at registration = {g@13}"
+      ]
+    },
+    {
+      "resource": "heldout/H03_conditional_in_loop/main.go:10",
+      "var": "f",
+      "func": "H03_conditional_in_loop.scenario",
+      "category": "A",
+      "plan": "DEFER_STACK",
+      "rust": "let mut defers = DeferStack::new(); /* in the loop */ defers.push(DeferClose::new(id, file)); // popped LIFO at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@13 in H03_conditional_in_loop.scenario: registration loop; f: value fixed at registration = {f@10}"
+      ]
+    },
+    {
+      "resource": "heldout/H04_closure_two_vars/main.go:8",
+      "var": "f",
+      "func": "H04_closure_two_vars.scenario",
+      "category": "A",
+      "plan": "CELL_CLOSURE_GUARD",
+      "rust": "let f = RefCell::new(Some(file)); let _g = Defer::new(|| close_file(f.borrow_mut().take())); // reads the cell at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@13 in H04_closure_two_vars.scenario: registration always; fn: cell t16(fn), read at exit; f: cell t0(f), read at exit; gn: cell t17(gn), read at exit; g: cell t7(g), read at exit",
+        "the deferred closure reads a variable at exit and acts on different resources on different paths"
+      ]
+    },
+    {
+      "resource": "heldout/H04_closure_two_vars/main.go:10",
+      "var": "g",
+      "func": "H04_closure_two_vars.scenario",
+      "category": "A",
+      "plan": "CELL_CLOSURE_GUARD",
+      "rust": "let f = RefCell::new(Some(file)); let _g = Defer::new(|| close_file(f.borrow_mut().take())); // reads the cell at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@13 in H04_closure_two_vars.scenario: registration always; fn: cell t16(fn), read at exit; f: cell t0(f), read at exit; gn: cell t17(gn), read at exit; g: cell t7(g), read at exit",
+        "the deferred closure reads a variable at exit and acts on different resources on different paths"
+      ]
+    },
+    {
+      "resource": "heldout/H05_field_alias/main.go:8",
+      "var": "f",
+      "func": "H05_field_alias.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@11 in H05_field_alias.scenario: registration always; t8: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "heldout/H06_method_defer/main.go:12",
+      "var": "f",
+      "func": "H06_method_defer.scenario",
+      "category": "A",
+      "plan": "CALLEE_OWNS",
+      "rust": "fn callee(f: File) { let _g = DeferClose::new(id, f); ... } // ownership moves into the callee",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@8 in H06_method_defer.(*logFile).run: registration always; t1: value fixed at registration = {input#0}",
+        "cleanup happens inside callee H06_method_defer.(*logFile).run"
+      ]
+    },
+    {
+      "resource": "heldout/H07_early_return_in_loop/main.go:10",
+      "var": "f",
+      "func": "H07_early_return_in_loop.scenario",
+      "category": "A",
+      "plan": "DEFER_STACK",
+      "rust": "let mut defers = DeferStack::new(); /* in the loop */ defers.push(DeferClose::new(id, file)); // popped LIFO at exit",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@12 in H07_early_return_in_loop.scenario: registration loop; f: value fixed at registration = {f@10}"
+      ]
+    },
+    {
+      "resource": "heldout/H08_factory_helper/main.go:8",
+      "var": "f",
+      "func": "H08_factory_helper.openChecked",
+      "category": "A",
+      "plan": "OWNERSHIP_RETURN + OWNED_GUARD",
+      "rust": "fn producer() -> Option<File> // ownership moves to the caller | let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "escape: line 10: returned to the caller of H08_factory_helper.openChecked (ownership transfer)",
+        "defer@15 in H08_factory_helper.scenario: registration always; f: value fixed at registration = {f@8}"
+      ]
+    },
+    {
+      "resource": "heldout/H09_nested_calls/main.go:8",
+      "var": "g",
+      "func": "H09_nested_calls.inner",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in H09_nested_calls.inner: registration always; g: value fixed at registration = {g@8}"
+      ]
+    },
+    {
+      "resource": "heldout/H09_nested_calls/main.go:14",
+      "var": "f",
+      "func": "H09_nested_calls.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@16 in H09_nested_calls.scenario: registration always; f: value fixed at registration = {f@14}"
+      ]
+    },
+    {
+      "resource": "heldout/H10_close_error_join/main.go:8",
+      "var": "f",
+      "func": "H10_close_error_join.scenario",
+      "category": "A",
+      "plan": "RESULT_SLOT_GUARD",
+      "rust": "let result = RefCell::new(Ok(())); let _g = Defer::new(|| if let Err(e) = close_file(f) { /* write result */ }); // explicit close, error observed",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@10 in H10_close_error_join.scenario: registration always; f: cell t1(f), read at exit; err: cell t0(err), read at exit",
+        "close error flows into named result \"err\""
+      ]
+    },
+    {
+      "resource": "heldout/H11_panic_from_callee/main.go:10",
+      "var": "f",
+      "func": "H11_panic_from_callee.scenario",
+      "category": "A",
+      "plan": "OWNED_GUARD + CATCH_UNWIND",
+      "rust": "let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order | std::panic::catch_unwind around the body; guards drop during unwinding",
+      "rule": "A: single plan from the facts",
+      "facts": [
+        "defer@12 in H11_panic_from_callee.scenario: registration always; f: value fixed at registration = {f@10}",
+        "a deferred cleanup runs on a recovered panic path"
+      ]
+    },
+    {
+      "resource": "heldout/H12_path_dependent_ownership/main.go:8",
+      "var": "f",
+      "func": "H12_path_dependent_ownership.scenario",
+      "category": "B",
+      "plan": "OWNERSHIP_RETURN | OWNED_GUARD",
+      "rust": "fn producer() -> Option<File> // ownership moves to the caller + let f = DeferClose::new(id, file); // owned; dropped at function exit, in reverse declaration order",
+      "rule": "B: transfer on one path, local defer on another",
+      "facts": [
+        "escape: line 10: returned to the caller of H12_path_dependent_ownership.scenario (ownership transfer)",
+        "defer@11 in H12_path_dependent_ownership.scenario (always) acts on it"
+      ],
+      "choice_rule": "the defer is registered only on paths that keep the file, so: move the file out (OWNERSHIP_RETURN) on the transferring path, and create the guard on the others; the producer's result becomes Option<File>"
+    },
+    {
+      "resource": "heldout/H13_goroutine_defer/main.go:12",
+      "var": "f",
+      "func": "H13_goroutine_defer.scenario$1",
+      "category": "C",
+      "plan": "REVIEW",
+      "rust": "no translation emitted: review report",
+      "rule": "C: missing fact or ownership conflict",
+      "facts": [
+        "acquired inside a goroutine: cleanup order relative to the caller is unknown",
+        "fact unavailable (goroutine, line 12): resource acquired, used or released inside a goroutine (`go` statement)"
+      ],
+      "review": [
+        "acquired inside a goroutine: cleanup order relative to the caller is unknown",
+        "fact unavailable (goroutine, line 12): resource acquired, used or released inside a goroutine (`go` statement)"
+      ]
+    },
+    {
+      "resource": "heldout/H14_dynamic_closer/main.go:8",
+      "var": "f",
+      "func": "H14_dynamic_closer.scenario",
+      "category": "C",
+      "plan": "REVIEW",
+      "rust": "no translation emitted: review report",
+      "rule": "C: missing fact or ownership conflict",
+      "facts": [
+        "fact unavailable (dispatch-multi, line 12): interface method call with several possible implementations",
+        "released by some but not all possible implementations at line 12 (H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close)",
+        "a path leaves the file open (may still be open when H14_dynamic_closer.scenario returns at line 14 (state Open|Closed)); is that intended?"
+      ],
+      "review": [
+        "fact unavailable (dispatch-multi, line 12): interface method call with several possible implementations",
+        "released by some but not all possible implementations at line 12 (H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close)",
+        "a path leaves the file open (may still be open when H14_dynamic_closer.scenario returns at line 14 (state Open|Closed)); is that intended?"
+      ]
+    }
+  ],
+  "program_decisions": [
+    {
+      "package": "H01_loop_count",
+      "category": "A",
+      "resources": [
+        "f@13=A"
+      ]
+    },
+    {
+      "package": "H02_two_per_iteration",
+      "category": "A",
+      "resources": [
+        "f@10=A",
+        "g@13=A"
+      ]
+    },
+    {
+      "package": "H03_conditional_in_loop",
+      "category": "A",
+      "resources": [
+        "f@10=A"
+      ]
+    },
+    {
+      "package": "H04_closure_two_vars",
+      "category": "A",
+      "resources": [
+        "f@8=A",
+        "g@10=A"
+      ]
+    },
+    {
+      "package": "H05_field_alias",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "H06_method_defer",
+      "category": "A",
+      "resources": [
+        "f@12=A"
+      ]
+    },
+    {
+      "package": "H07_early_return_in_loop",
+      "category": "A",
+      "resources": [
+        "f@10=A"
+      ]
+    },
+    {
+      "package": "H08_factory_helper",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "H09_nested_calls",
+      "category": "A",
+      "resources": [
+        "g@8=A",
+        "f@14=A"
+      ]
+    },
+    {
+      "package": "H10_close_error_join",
+      "category": "A",
+      "resources": [
+        "f@8=A"
+      ]
+    },
+    {
+      "package": "H11_panic_from_callee",
+      "category": "A",
+      "resources": [
+        "f@10=A"
+      ]
+    },
+    {
+      "package": "H12_path_dependent_ownership",
+      "category": "B",
+      "resources": [
+        "f@8=B"
+      ]
+    },
+    {
+      "package": "H13_goroutine_defer",
+      "category": "C",
+      "resources": [
+        "f@12=C"
+      ]
+    },
+    {
+      "package": "H14_dynamic_closer",
+      "category": "C",
+      "resources": [
+        "f@8=C"
+      ]
+    }
+  ],
+  "unresolved": [
+    {
+      "kind": "goroutine",
+      "func": "H13_goroutine_defer.scenario$1",
+      "file": "heldout/H13_goroutine_defer/main.go",
+      "line": 12,
+      "resources": [
+        "f@12"
+      ],
+      "construct": "resource acquired, used or released inside a goroutine (`go` statement)",
+      "missing_fact": "the happens-before order between the goroutine's cleanup and the rest of the program",
+      "why": "the analysis models a single sequential call stack. A defer inside a goroutine runs when that goroutine's function returns; that moment is ordered with the parent only through synchronization (WaitGroup, channels, mutexes) whose semantics RescFlow does not interpret",
+      "consequence": "the cleanup point relative to the caller is unknown; a Rust translation would also need Send/'static ownership (e.g. move into the thread, Arc<Mutex<..>>) that the analysis cannot justify",
+      "human_input": "state the synchronization contract (e.g. `wg.Wait()` joins the goroutine before the caller continues) and whether the resource may move to another thread",
+      "detail": "acquired inside a function started with `go`"
+    },
+    {
+      "kind": "dispatch-multi",
+      "func": "H14_dynamic_closer.scenario",
+      "file": "heldout/H14_dynamic_closer/main.go",
+      "line": 12,
+      "resources": [
+        "f@8"
+      ],
+      "construct": "interface method call with several possible implementations",
+      "missing_fact": "which concrete type receives the call at run time",
+      "why": "the interface value is built from different concrete types on different paths, and the implementations do not have the same effect on the resource (one releases it, another does not)",
+      "consequence": "release is path-dependent: on at least one path the resource is never closed by this call. No single ownership plan covers both",
+      "human_input": "decide which implementation is intended to own cleanup, or make the close explicit on every path",
+      "detail": "possible targets: H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close"
+    }
+  ]
+}
