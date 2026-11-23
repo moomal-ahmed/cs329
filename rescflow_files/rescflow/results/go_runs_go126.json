@@ -1,0 +1,191 @@
+{
+  "go": "go version go1.26.5 linux/amd64",
+  "note": "Each benchmark copied into a go 1.26 module; compared with results/go_runs.json (Go 1.27.0)",
+  "matching": "23/23",
+  "runs": [
+    {
+      "id": "01",
+      "mode": "",
+      "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "02",
+      "mode": "",
+      "stdout": "acquire A true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "02",
+      "mode": "early",
+      "stdout": "early\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "03",
+      "mode": "",
+      "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "03",
+      "mode": "early",
+      "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "04",
+      "mode": "",
+      "stdout": "acquire A false\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "05",
+      "mode": "",
+      "stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "06",
+      "mode": "",
+      "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "07",
+      "mode": "",
+      "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "07",
+      "mode": "defer",
+      "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "08",
+      "mode": "",
+      "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "09",
+      "mode": "",
+      "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "10",
+      "mode": "",
+      "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "11",
+      "mode": "",
+      "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "12",
+      "mode": "",
+      "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "13",
+      "mode": "",
+      "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "14",
+      "mode": "",
+      "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "15",
+      "mode": "",
+      "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "16",
+      "mode": "",
+      "stdout": "acquire A true\nclose A true\nclose A false\nresult-error true\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "17",
+      "mode": "",
+      "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "18",
+      "mode": "",
+      "stdout": "acquire A true\nhelper\nclose A true\nuse A false\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "19",
+      "mode": "",
+      "stdout": "acquire A true\nclose A true\nclose A false\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    },
+    {
+      "id": "20",
+      "mode": "",
+      "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+      "stderr": "",
+      "returncode": 0,
+      "matches_go127": true
+    }
+  ]
+}

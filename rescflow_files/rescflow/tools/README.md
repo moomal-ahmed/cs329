@@ -1,0 +1,1 @@
+The report renderer requires reportlab and reads the benchmark labels, research register and saved results. Run `python3 tools/render_reports.py` from any directory. It reproduces the two PDFs. PDF verification used PyMuPDF because the bundled Poppler shared library was unavailable.

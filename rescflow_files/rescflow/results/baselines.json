@@ -1,0 +1,1638 @@
+{
+  "date": "2026-11-09",
+  "environment": {
+    "go": "go version go1.26.5 linux/amd64",
+    "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)",
+    "cargo": "cargo 1.97.0 (c980f4866 2026-06-30)",
+    "go2rust": {
+      "head": "3e81880e31cb589e44c5ebb57dc135a87a216515",
+      "dirty": false
+    },
+    "rustygo": {
+      "head": "cf2f583dce0557862fdf3bd7fb46789ee06260f1",
+      "dirty": false
+    },
+    "rustygo_version": "rustygo v0.0.4-0.20261007194915-cf2f583dce05",
+    "go_reference": "results/go_runs.json (Go 1.27.0); see go_runs_go126.json for the Go 1.26.5 recheck"
+  },
+  "summary": {
+    "go2rust": {
+      "cases": 20,
+      "translated": 20,
+      "built": 0,
+      "input_pairs_executed": 0,
+      "input_pairs_matching_go": 0,
+      "cases_all_inputs_match": 0,
+      "statuses": {
+        "build_failed": 20
+      }
+    },
+    "rustygo": {
+      "cases": 20,
+      "translated": 20,
+      "built": 20,
+      "input_pairs_executed": 23,
+      "input_pairs_matching_go": 23,
+      "cases_all_inputs_match": 20,
+      "statuses": {
+        "executed": 20
+      }
+    }
+  },
+  "rows": [
+    {
+      "tool": "go2rust",
+      "id": "01",
+      "name": "local",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:296:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n296 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "01",
+      "name": "local",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-jp5atsx4/program",
+            "/tmp/rescflow-rustygo-jp5atsx4/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-jp5atsx4/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-jp5atsx4/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "02",
+      "name": "early_before",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:305:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n305 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "02",
+      "name": "early_before",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-rtdd5adz/program",
+            "/tmp/rescflow-rustygo-rtdd5adz/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        },
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-rtdd5adz/program",
+            "/tmp/rescflow-rustygo-rtdd5adz/run/input.txt",
+            "early"
+          ],
+          "returncode": 0,
+          "stdout": "early\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-rtdd5adz/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-rtdd5adz/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "03",
+      "name": "early_after",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:306:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n306 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "03",
+      "name": "early_after",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-m5pzhiyt/program",
+            "/tmp/rescflow-rustygo-m5pzhiyt/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        },
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-m5pzhiyt/program",
+            "/tmp/rescflow-rustygo-m5pzhiyt/run/input.txt",
+            "early"
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-m5pzhiyt/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-m5pzhiyt/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "04",
+      "name": "failed_acquire",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:295:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n295 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "04",
+      "name": "failed_acquire",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-ugm8sets/program",
+            "/tmp/rescflow-rustygo-ugm8sets/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-ugm8sets/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-ugm8sets/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "05",
+      "name": "two_lifo",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:309:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n309 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "05",
+      "name": "two_lifo",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-tcm082xb/program",
+            "/tmp/rescflow-rustygo-tcm082xb/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-tcm082xb/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-tcm082xb/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "06",
+      "name": "nested_block",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:301:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n301 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "06",
+      "name": "nested_block",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-w1um6ljx/program",
+            "/tmp/rescflow-rustygo-w1um6ljx/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-w1um6ljx/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-w1um6ljx/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "07",
+      "name": "conditional",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:303:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n303 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "07",
+      "name": "conditional",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-2nvkoz4c/program",
+            "/tmp/rescflow-rustygo-2nvkoz4c/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        },
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-2nvkoz4c/program",
+            "/tmp/rescflow-rustygo-2nvkoz4c/run/input.txt",
+            "defer"
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "defer",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-2nvkoz4c/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-2nvkoz4c/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "08",
+      "name": "loop",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:213:13\n    |\n171 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n213 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:312:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n312 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "08",
+      "name": "loop",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-ahay6i7_/program",
+            "/tmp/rescflow-rustygo-ahay6i7_/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-ahay6i7_/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-ahay6i7_/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "09",
+      "name": "return_open",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:284:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n284 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "09",
+      "name": "return_open",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-m_231buy/program",
+            "/tmp/rescflow-rustygo-m_231buy/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-m_231buy/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-m_231buy/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "10",
+      "name": "return_closed",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:300:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n300 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "10",
+      "name": "return_closed",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-nbe6zdde/program",
+            "/tmp/rescflow-rustygo-nbe6zdde/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-nbe6zdde/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-nbe6zdde/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "11",
+      "name": "global_escape",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:288:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n288 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "11",
+      "name": "global_escape",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-7zpy0d8q/program",
+            "/tmp/rescflow-rustygo-7zpy0d8q/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-7zpy0d8q/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-7zpy0d8q/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "12",
+      "name": "alias",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:297:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n297 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "12",
+      "name": "alias",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-r22xxhyb/program",
+            "/tmp/rescflow-rustygo-r22xxhyb/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-r22xxhyb/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-r22xxhyb/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "13",
+      "name": "eager_argument",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:308:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n308 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "13",
+      "name": "eager_argument",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-14tyoq_x/program",
+            "/tmp/rescflow-rustygo-14tyoq_x/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-14tyoq_x/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-14tyoq_x/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "14",
+      "name": "late_closure",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:311:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n311 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "14",
+      "name": "late_closure",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-6kj57fv0/program",
+            "/tmp/rescflow-rustygo-6kj57fv0/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-6kj57fv0/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-6kj57fv0/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "15",
+      "name": "closure_parameter",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:309:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n309 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "15",
+      "name": "closure_parameter",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-sz5kokkc/program",
+            "/tmp/rescflow-rustygo-sz5kokkc/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-sz5kokkc/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-sz5kokkc/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "16",
+      "name": "named_result",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:304:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n304 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "16",
+      "name": "named_result",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-tsjpqh0u/program",
+            "/tmp/rescflow-rustygo-tsjpqh0u/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A false\nresult-error true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-tsjpqh0u/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-tsjpqh0u/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "17",
+      "name": "panic_unwind",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:206:13\n    |\n164 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n206 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:300:60\n    |\n 54 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n300 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "17",
+      "name": "panic_unwind",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-uz67dgzv/program",
+            "/tmp/rescflow-rustygo-uz67dgzv/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-uz67dgzv/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-uz67dgzv/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "18",
+      "name": "helper_boundary",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:295:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n295 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "18",
+      "name": "helper_boundary",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-joxotqm0/program",
+            "/tmp/rescflow-rustygo-joxotqm0/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nhelper\nclose A true\nuse A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-joxotqm0/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-joxotqm0/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "19",
+      "name": "double_close",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:205:13\n    |\n163 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n205 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:296:60\n    |\n 53 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n296 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "19",
+      "name": "double_close",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-01ix7gho/program",
+            "/tmp/rescflow-rustygo-01ix7gho/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-01ix7gho/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-01ix7gho/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust",
+      "id": "20",
+      "name": "interface_dispatch",
+      "runs": [],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/go2rust",
+          "main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "build": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--quiet"
+        ],
+        "returncode": 101,
+        "stdout": "",
+        "stderr": "error[E0530]: let bindings cannot shadow statics\n   --> main.rs:207:13\n    |\n165 |     use super::*;\n    |         -------- the static `path` is imported here\n...\n207 |         let path = _arg0.into_go_string();\n    |             ^^^^ cannot be named the same as a static\n\nerror[E0599]: no method named `stat` found for struct `os_File` in the current scope\n   --> main.rs:390:60\n    |\n 55 | pub struct os_File {\n    | ------------------ method `stat` not found for this struct\n...\n390 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();\n    |                                                            ^^^^ method not found in `os_File`\n\nSome errors have detailed explanations: E0530, E0599.\nFor more information about an error, try `rustc --explain E0530`.\nerror: could not compile `transpiled` (bin \"transpiled\") due to 2 previous errors\n"
+      },
+      "status": "build_failed"
+    },
+    {
+      "tool": "rustygo",
+      "id": "20",
+      "name": "interface_dispatch",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-rustygo-9hlq6bdf/program",
+            "/tmp/rescflow-rustygo-9hlq6bdf/run/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          }
+        }
+      ],
+      "translation": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "emit",
+          "-o",
+          "/tmp/rescflow-rustygo-9hlq6bdf/emit",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "combined_build": {
+        "command": [
+          "/home/user/tools/bin/rustygo",
+          "build",
+          "-o",
+          "/tmp/rescflow-rustygo-9hlq6bdf/program",
+          "."
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "status": "executed"
+    }
+  ]
+}

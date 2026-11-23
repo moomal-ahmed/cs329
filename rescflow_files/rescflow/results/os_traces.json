@@ -1,0 +1,1449 @@
+{
+  "note": "OS-level resource trace: when is the real file descriptor opened and closed?\n\nBuilds each benchmark natively with Go, with Rustygo, and (patched, see\nrun_go2rust_patched.py) with Go2Rust; runs each under strace and interleaves\nopenat/close syscalls on the input file with the program's own stdout lines.\nOutput: results/os_traces.json. Requires strace, a Go 1.26 GOROOT, rustygo, cargo.\n",
+  "rows": [
+    {
+      "id": "01",
+      "name": "local",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "use A true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "02",
+      "name": "early_before",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "02",
+      "name": "early_before",
+      "mode": "early",
+      "tools": {
+        "go": {
+          "trace": [
+            "early",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "early",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "early",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": true
+        }
+      }
+    },
+    {
+      "id": "03",
+      "name": "early_after",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "use A true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "03",
+      "name": "early_after",
+      "mode": "early",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "early",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "early"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "early",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "early"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "early",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "04",
+      "name": "failed_acquire",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "acquire A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "acquire A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "acquire A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": true
+        }
+      }
+    },
+    {
+      "id": "05",
+      "name": "two_lifo",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "body",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "2": [
+              "acquire B true",
+              "body"
+            ],
+            "1": [
+              "acquire A true",
+              "acquire B true",
+              "body",
+              "close B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "body",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "2": [
+              "acquire B true",
+              "body"
+            ],
+            "1": [
+              "acquire A true",
+              "acquire B true",
+              "body",
+              "close B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "[os open #2]",
+            "[os close #2]",
+            "acquire B true",
+            "body",
+            "close B true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [],
+            "2": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "06",
+      "name": "nested_block",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "inside",
+            "after-block",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "inside",
+              "after-block"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "inside",
+            "after-block",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "inside",
+              "after-block"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "inside",
+            "after-block",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "07",
+      "name": "conditional",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "body-end",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "body-end",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "use A true",
+            "close A true",
+            "body-end",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "07",
+      "name": "conditional",
+      "mode": "defer",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "body-end",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true",
+              "body-end"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "body-end",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true",
+              "body-end"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "use A true",
+            "body-end",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "08",
+      "name": "loop",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire 0 true",
+            "iteration 0",
+            "[os open #2]",
+            "acquire 1 true",
+            "iteration 1",
+            "[os open #3]",
+            "acquire 2 true",
+            "iteration 2",
+            "after-loop",
+            "[os close #3]",
+            "close 2 true",
+            "[os close #2]",
+            "close 1 true",
+            "[os close #1]",
+            "close 0 true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "3": [
+              "acquire 2 true",
+              "iteration 2",
+              "after-loop"
+            ],
+            "2": [
+              "acquire 1 true",
+              "iteration 1",
+              "acquire 2 true",
+              "iteration 2",
+              "after-loop",
+              "close 2 true"
+            ],
+            "1": [
+              "acquire 0 true",
+              "iteration 0",
+              "acquire 1 true",
+              "iteration 1",
+              "acquire 2 true",
+              "iteration 2",
+              "after-loop",
+              "close 2 true",
+              "close 1 true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire 0 true",
+            "iteration 0",
+            "[os open #2]",
+            "acquire 1 true",
+            "iteration 1",
+            "[os open #3]",
+            "acquire 2 true",
+            "iteration 2",
+            "after-loop",
+            "[os close #3]",
+            "close 2 true",
+            "[os close #2]",
+            "close 1 true",
+            "[os close #1]",
+            "close 0 true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "3": [
+              "acquire 2 true",
+              "iteration 2",
+              "after-loop"
+            ],
+            "2": [
+              "acquire 1 true",
+              "iteration 1",
+              "acquire 2 true",
+              "iteration 2",
+              "after-loop",
+              "close 2 true"
+            ],
+            "1": [
+              "acquire 0 true",
+              "iteration 0",
+              "acquire 1 true",
+              "iteration 1",
+              "acquire 2 true",
+              "iteration 2",
+              "after-loop",
+              "close 2 true",
+              "close 1 true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [],
+          "handles_open_at_exit": [],
+          "lifetimes": {},
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "09",
+      "name": "return_open",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "returned",
+            "use A true",
+            "[os close #1]",
+            "close A true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "returned",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "returned",
+            "use A true",
+            "[os close #1]",
+            "close A true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "returned",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "returned",
+            "use A true",
+            "close A true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "10",
+      "name": "return_closed",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "returned",
+            "use A false"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "returned",
+            "use A false"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "close A true",
+            "returned",
+            "use A false"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "11",
+      "name": "global_escape",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "stored",
+            "returned",
+            "use A true",
+            "[os close #1]",
+            "close A true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "stored",
+              "returned",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "stored",
+            "returned",
+            "use A true",
+            "[os close #1]",
+            "close A true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "stored",
+              "returned",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "stored",
+            "returned",
+            "use A true",
+            "close A true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "12",
+      "name": "alias",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "use A true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "13",
+      "name": "eager_argument",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "use B true",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "2": [
+              "acquire B true",
+              "use B true"
+            ],
+            "1": [
+              "acquire A true",
+              "acquire B true",
+              "use B true",
+              "close B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "use B true",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "2": [
+              "acquire B true",
+              "use B true"
+            ],
+            "1": [
+              "acquire A true",
+              "acquire B true",
+              "use B true",
+              "close B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "[os open #2]",
+            "[os close #2]",
+            "acquire B true",
+            "use B true",
+            "close B true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [],
+            "2": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "14",
+      "name": "late_closure",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "[os close #1]",
+            "close A true",
+            "use B true",
+            "[os close #2]",
+            "close B true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "acquire B true"
+            ],
+            "2": [
+              "acquire B true",
+              "close A true",
+              "use B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "[os close #1]",
+            "close A true",
+            "use B true",
+            "[os close #2]",
+            "close B true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "acquire B true"
+            ],
+            "2": [
+              "acquire B true",
+              "close A true",
+              "use B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "[os open #2]",
+            "[os close #2]",
+            "acquire B true",
+            "close A true",
+            "use B true",
+            "close B true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [],
+            "2": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "15",
+      "name": "closure_parameter",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "2": [
+              "acquire B true"
+            ],
+            "1": [
+              "acquire A true",
+              "acquire B true",
+              "close B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "2": [
+              "acquire B true"
+            ],
+            "1": [
+              "acquire A true",
+              "acquire B true",
+              "close B true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "[os open #2]",
+            "[os close #2]",
+            "acquire B true",
+            "close B true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [],
+            "2": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "16",
+      "name": "named_result",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "close A false",
+            "result-error true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "close A false",
+            "result-error true"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "close A true",
+            "close A true",
+            "result-error false"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "17",
+      "name": "panic_unwind",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "panic",
+            "[os close #1]",
+            "close A true",
+            "recovered",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "panic"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "panic",
+            "[os close #1]",
+            "close A true",
+            "recovered",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "panic"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "panic"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "18",
+      "name": "helper_boundary",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "helper",
+            "[os close #1]",
+            "close A true",
+            "use A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "helper"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "helper",
+            "[os close #1]",
+            "close A true",
+            "use A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "helper"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "helper",
+            "close A true",
+            "use A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "19",
+      "name": "double_close",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "close A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "close A false",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "close A true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    },
+    {
+      "id": "20",
+      "name": "interface_dispatch",
+      "mode": "",
+      "tools": {
+        "go": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "rustygo": {
+          "trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": [
+              "acquire A true",
+              "use A true"
+            ]
+          },
+          "os_trace_matches_go": true
+        },
+        "go2rust_patched": {
+          "trace": [
+            "[os open #1]",
+            "[os close #1]",
+            "acquire A true",
+            "use A true",
+            "close A true",
+            "returned"
+          ],
+          "handles_open_at_exit": [],
+          "lifetimes": {
+            "1": []
+          },
+          "os_trace_matches_go": false
+        }
+      }
+    }
+  ]
+}

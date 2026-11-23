@@ -1,0 +1,717 @@
+[
+ {
+  "id": "H01",
+  "name": "loop_count",
+  "category": "loop",
+  "expected_rescflow_category": "A",
+  "expected_plan": "EXPLICIT_STATE: DeferStack, LIFO; loop may run 0, 1 or N times",
+  "file": "heldout/H01_loop_count/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 13,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 15,
+    "source": "defer closeFile(ids[i], f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "0",
+    "inject": null,
+    "expected_stdout": [
+     "after-loop",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "1",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0 true",
+     "iteration 0",
+     "after-loop",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "3",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0 true",
+     "iteration 0",
+     "acquire 1 true",
+     "iteration 1",
+     "acquire 2 true",
+     "iteration 2",
+     "after-loop",
+     "close 2 true",
+     "close 1 true",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "3",
+    "inject": "openat:2:EMFILE",
+    "expected_stdout": [
+     "acquire 0 true",
+     "iteration 0",
+     "acquire 1 false",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H02",
+  "name": "two_per_iteration",
+  "category": "loop",
+  "expected_rescflow_category": "A",
+  "expected_plan": "EXPLICIT_STATE: one DeferStack shared by both resources, LIFO across iterations",
+  "file": "heldout/H02_two_per_iteration/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 10,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 12,
+    "source": "defer closeFile(ids[i]+\"a\", f)"
+   },
+   {
+    "kind": "acquire",
+    "label": "B",
+    "line": 13,
+    "source": "g, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D2 B",
+    "line": 15,
+    "source": "defer closeFile(ids[i]+\"b\", g)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0a true",
+     "acquire 0b true",
+     "acquire 1a true",
+     "acquire 1b true",
+     "after-loop",
+     "close 1b true",
+     "close 1a true",
+     "close 0b true",
+     "close 0a true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:3:EMFILE",
+    "expected_stdout": [
+     "acquire 0a true",
+     "acquire 0b true",
+     "acquire 1a false",
+     "close 0b true",
+     "close 0a true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H03",
+  "name": "conditional_in_loop",
+  "category": "loop+conditional",
+  "expected_rescflow_category": "A",
+  "expected_plan": "EXPLICIT_STATE: DeferStack, push only on even iterations; explicit close otherwise",
+  "file": "heldout/H03_conditional_in_loop/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 10,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 13,
+    "source": "defer closeFile(ids[i], f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0 true",
+     "acquire 1 true",
+     "close 1 true",
+     "acquire 2 true",
+     "after-loop",
+     "close 2 true",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H04",
+  "name": "closure_two_vars",
+  "category": "capture-cell",
+  "expected_rescflow_category": "A",
+  "expected_plan": "EXPLICIT_STATE: f, g (and their names) live in cells read by the deferred closure at exit",
+  "file": "heldout/H04_closure_two_vars/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "acquire",
+    "label": "B",
+    "line": 10,
+    "source": "g, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A,B",
+    "line": 13,
+    "source": "defer func() { closeFile(fn, f); closeFile(gn, g) }()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "use A true",
+     "close A true",
+     "close B true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "swap",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "use B true",
+     "close B true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:2:EMFILE",
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B false",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H05",
+  "name": "field_alias",
+  "category": "alias-heap-field",
+  "expected_rescflow_category": "A",
+  "expected_plan": "LOCAL: h.f aliases f; deferred argument evaluated at registration; guard at function scope",
+  "file": "heldout/H05_field_alias/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 11,
+    "source": "defer closeFile(\"A\", h.f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H06",
+  "name": "method_defer",
+  "category": "transfer-to-callee",
+  "expected_rescflow_category": "A",
+  "expected_plan": "OWNERSHIP_TRANSFER: run() takes ownership (no caller use afterwards); guard inside run",
+  "file": "heldout/H06_method_defer/main.go",
+  "sites": [
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 8,
+    "source": "defer closeFile(\"A\", l.f)"
+   },
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 12,
+    "source": "f, err := os.Open(path)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "after-run",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H07",
+  "name": "early_return_in_loop",
+  "category": "loop+early-return",
+  "expected_rescflow_category": "A",
+  "expected_plan": "EXPLICIT_STATE: DeferStack drained on the early return inside the loop",
+  "file": "heldout/H07_early_return_in_loop/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 10,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 12,
+    "source": "defer closeFile(ids[i], f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0 true",
+     "acquire 1 true",
+     "acquire 2 true",
+     "after-loop",
+     "close 2 true",
+     "close 1 true",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "early",
+    "inject": null,
+    "expected_stdout": [
+     "acquire 0 true",
+     "acquire 1 true",
+     "early",
+     "close 1 true",
+     "close 0 true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H08",
+  "name": "factory_helper",
+  "category": "interprocedural-acquire",
+  "expected_rescflow_category": "A",
+  "expected_plan": "LOCAL after summary: openChecked returns a fresh resource on success; guard in scenario",
+  "file": "heldout/H08_factory_helper/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 15,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:1:ENOENT",
+    "expected_stdout": [
+     "acquire A false",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H09",
+  "name": "nested_calls",
+  "category": "two-frames",
+  "expected_rescflow_category": "A",
+  "expected_plan": "LOCAL x2: each function owns its own guard; B closes at inner() exit, before A is used",
+  "file": "heldout/H09_nested_calls/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "B",
+    "line": 8,
+    "source": "g, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D2 B",
+    "line": 10,
+    "source": "defer closeFile(\"B\", g)"
+   },
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 14,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 16,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B true",
+     "use B true",
+     "close B true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:2:EMFILE",
+    "expected_stdout": [
+     "acquire A true",
+     "acquire B false",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H10",
+  "name": "close_error_join",
+  "category": "named-result+close-error",
+  "expected_rescflow_category": "A",
+  "expected_plan": "EXPLICIT_STATE: close error joined into named result only if no earlier error; explicit close, not Drop",
+  "file": "heldout/H10_close_error_join/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 10,
+    "source": "defer func() { if cerr := closeFile(\"A\", f); err == nil { err = cerr } }()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "result-error false"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "close:1:EIO",
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A false",
+     "result-error true"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "",
+    "inject": "openat:1:ENOENT",
+    "expected_stdout": [
+     "acquire A false",
+     "result-error true"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H11",
+  "name": "panic_from_callee",
+  "category": "panic-unwind",
+  "expected_rescflow_category": "A",
+  "expected_plan": "LOCAL + recovery: guard drops during unwinding; catch_unwind for the recover defer",
+  "file": "heldout/H11_panic_from_callee/main.go",
+  "sites": [
+   {
+    "kind": "defer",
+    "label": "D0 none",
+    "line": 9,
+    "source": "defer func() { if recover() != nil { fmt.Println(\"recovered\") } }()"
+   },
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 10,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 12,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "recovered",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H12",
+  "name": "path_dependent_ownership",
+  "category": "escape-on-one-path",
+  "expected_rescflow_category": "B",
+  "expected_plan": "Two plans (return ownership vs local guard). Choice rule: the defer is registered only after the returning branch, so move on the \"keep\" path and use a guard on the other; return Option<File>",
+  "file": "heldout/H12_path_dependent_ownership/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 11,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "keep",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "returned",
+     "use A true",
+     "close A true"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H13",
+  "name": "goroutine_defer",
+  "category": "concurrency",
+  "expected_rescflow_category": "C",
+  "expected_plan": "Out of scope: resource acquired and deferred inside a goroutine; report, do not translate",
+  "file": "heldout/H13_goroutine_defer/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 12,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A",
+    "line": 14,
+    "source": "defer closeFile(\"A\", f)"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "joined",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ },
+ {
+  "id": "H14",
+  "name": "dynamic_closer",
+  "category": "interface-multi-target",
+  "expected_rescflow_category": "C",
+  "expected_plan": "Deferred Close dispatches to one of two implementations chosen at run time; on the noop path A is never closed. No single owner or cleanup plan; report",
+  "file": "heldout/H14_dynamic_closer/main.go",
+  "sites": [
+   {
+    "kind": "acquire",
+    "label": "A",
+    "line": 8,
+    "source": "f, err := os.Open(path)"
+   },
+   {
+    "kind": "defer",
+    "label": "D1 A?",
+    "line": 12,
+    "source": "defer c.Close()"
+   }
+  ],
+  "inputs": [
+   {
+    "mode": "",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "close A true",
+     "returned"
+    ],
+    "expected_exit": 0
+   },
+   {
+    "mode": "noop",
+    "inject": null,
+    "expected_stdout": [
+     "acquire A true",
+     "use A true",
+     "noop close",
+     "returned"
+    ],
+    "expected_exit": 0
+   }
+  ],
+  "label_status": "author-derived (Claude, 2026-11-23); checked against Go; needs team review"
+ }
+]

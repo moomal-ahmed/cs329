@@ -1,0 +1,13 @@
+== benchmarks: 20 programs
+  acquisition sites: TP 24 FP 0 FN 0
+  defer sites:       TP 20 FP 0 FN 0
+  defer->resource:   exact 19, superset 1, mismatch 0
+  anomalies as expected: 20/20
+  unresolved as expected: 20/20
+    14 late_closure: defer@10: label ['B'] analysis ['A', 'B'] (superset (path-dependent))
+== heldout: 14 programs
+  acquisition sites: TP 17 FP 0 FN 0
+  defer sites:       TP 17 FP 0 FN 0
+  defer->resource:   exact 17, superset 0, mismatch 0
+  anomalies as expected: 14/14
+  unresolved as expected: 14/14

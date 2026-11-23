@@ -1,0 +1,21 @@
+error[E0530]: let bindings cannot shadow statics
+   --> main.rs:205:13
+    |
+163 |     use super::*;
+    |         -------- the static `path` is imported here
+...
+205 |         let path = _arg0.into_go_string();
+    |             ^^^^ cannot be named the same as a static
+
+error[E0599]: no method named `stat` found for struct `os_File` in the current scope
+   --> main.rs:300:60
+    |
+ 53 | pub struct os_File {
+    | ------------------ method `stat` not found for this struct
+...
+300 |     let (_, mut err) = (*f.borrow_mut().as_mut().unwrap()).stat();
+    |                                                            ^^^^ method not found in `os_File`
+
+Some errors have detailed explanations: E0530, E0599.
+For more information about an error, try `rustc --explain E0530`.
+error: could not compile `transpiled` (bin "transpiled") due to 2 previous errors

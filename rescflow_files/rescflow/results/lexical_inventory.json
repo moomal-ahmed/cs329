@@ -1,0 +1,347 @@
+{
+  "evidence_type": "executed lexical inventory on authored corpus; no type or SSA validation",
+  "metrics": {
+    "acquire": {
+      "tp": 24,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "defer": {
+      "tp": 20,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "controls": [
+    {
+      "name": "ignore_comments_and_strings",
+      "source": "// defer os.Open(\"x\")\n/* defer os.Open(\"x\") */\nvar x = \"defer os.Open(\\\"x\\\")\"\n",
+      "expected": [],
+      "observed": []
+    },
+    {
+      "name": "shadowed_os_false_positive",
+      "source": "func f(os Fake) { os.Open(\"x\") }",
+      "expected": [
+        {
+          "kind": "acquire",
+          "line": 1
+        }
+      ],
+      "observed": [
+        {
+          "kind": "acquire",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "name": "aliased_import_false_negative",
+      "source": "import fs \"os\"\nfunc f() { fs.Open(\"x\") }",
+      "expected": [],
+      "observed": []
+    }
+  ],
+  "programs": [
+    {
+      "id": "01",
+      "file": "benchmarks/01_local/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "file": "benchmarks/02_early_before/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 9
+        },
+        {
+          "kind": "defer",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "file": "benchmarks/03_early_after/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "file": "benchmarks/04_failed_acquire/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "file": "benchmarks/05_two_lifo/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        },
+        {
+          "kind": "acquire",
+          "line": 11
+        },
+        {
+          "kind": "defer",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "file": "benchmarks/06_nested_block/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 9
+        },
+        {
+          "kind": "defer",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "file": "benchmarks/07_conditional/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "file": "benchmarks/08_loop/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 10
+        },
+        {
+          "kind": "defer",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "file": "benchmarks/09_return_open/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "file": "benchmarks/10_return_closed/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "file": "benchmarks/11_global_escape/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "file": "benchmarks/12_alias/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "file": "benchmarks/13_eager_argument/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        },
+        {
+          "kind": "acquire",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "file": "benchmarks/14_late_closure/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        },
+        {
+          "kind": "acquire",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "file": "benchmarks/15_closure_parameter/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        },
+        {
+          "kind": "acquire",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "file": "benchmarks/16_named_result/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "file": "benchmarks/17_panic_unwind/main.go",
+      "sites": [
+        {
+          "kind": "defer",
+          "line": 8
+        },
+        {
+          "kind": "acquire",
+          "line": 9
+        },
+        {
+          "kind": "defer",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "file": "benchmarks/18_helper_boundary/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 15
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "file": "benchmarks/19_double_close/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "file": "benchmarks/20_interface_dispatch/main.go",
+      "sites": [
+        {
+          "kind": "acquire",
+          "line": 8
+        },
+        {
+          "kind": "defer",
+          "line": 11
+        }
+      ]
+    }
+  ]
+}

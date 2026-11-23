@@ -1,0 +1,937 @@
+{
+  "note": "SECONDARY experiment: isolate Go2Rust's defer/resource translation from two stdlib-stub bugs.\n\nEvery Go2Rust output in results/baselines.json fails to compile with the same two errors,\nboth inside Go2Rust's generated `os` stand-in, not in translated benchmark code:\n  E0530  os::open's local `let path` collides with the benchmark's global `path`\n  E0599  the os_File stand-in has no `stat` method (used by the useFile helper)\nThis script applies two minimal textual patches to that stand-in only:\n  1. rename the stub-local `path` to `__go_path`\n  2. add os_File::stat returning an error iff the stand-in's own closed flag is set\n     (mirrors Go: Stat on a closed *os.File fails). Close() is NOT modified.\nNo translated scenario/helper code is touched. Results are reported separately from the\nunmodified baseline and must not be presented as Go2Rust's own success rate.\n",
+  "summary": {
+    "cases": 20,
+    "built": 20,
+    "input_pairs_executed": 23,
+    "input_pairs_matching_go": 19,
+    "cases_all_inputs_match": 16
+  },
+  "rows": [
+    {
+      "tool": "go2rust_patched",
+      "id": "01",
+      "name": "local",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpnqoeiytv/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "02",
+      "name": "early_before",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpq6ju747w/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        },
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpq6ju747w/input.txt",
+            "early"
+          ],
+          "returncode": 0,
+          "stdout": "early\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "matches_observed_go": true,
+          "go_stdout": "early\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "03",
+      "name": "early_after",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpb6pgs4ie/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        },
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpb6pgs4ie/input.txt",
+            "early"
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "04",
+      "name": "failed_acquire",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpn96u46x2/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A false\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "05",
+      "name": "two_lifo",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmp8u631trg/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "B",
+                "already_closed": false,
+                "printed": "B"
+              },
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "06",
+      "name": "nested_block",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmptkz8w_pq/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "07",
+      "name": "conditional",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmp_1wxjft1/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        },
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmp_1wxjft1/input.txt",
+            "defer"
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "defer",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "08",
+      "name": "loop",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmptj19zuih/input.txt",
+            ""
+          ],
+          "returncode": 101,
+          "stdout": "",
+          "stderr": "\nthread 'main' (17963) panicked at main.rs:173:9:\nsprint bridge: generic stub function body has no implementation; add a custom emitter or remove the call \u2014 see AGENTS.md 'Strategy: Transpile stdlib, don't bridge it' and docs/bridge_debt.md\nstack backtrace:\n   0: __rustc::rust_begin_unwind\n   1: core::panicking::panic_fmt\n   2: transpiled::fmt::sprint::<(alloc::rc::Rc<core::cell::RefCell<core::option::Option<i32>>>,)>\n   3: transpiled::main\nnote: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.\n",
+          "mode": "",
+          "matches_observed_go": false,
+          "go_stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+          "diff": {
+            "first_divergence": {
+              "index": 0,
+              "go": "acquire 0 true",
+              "translated": null
+            },
+            "missing_events": [
+              "acquire 0 true",
+              "acquire 1 true",
+              "acquire 2 true",
+              "after-loop",
+              "close 0 true",
+              "close 1 true",
+              "close 2 true",
+              "iteration 0",
+              "iteration 1",
+              "iteration 2",
+              "returned"
+            ],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "09",
+      "name": "return_open",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpoyvubqkp/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "10",
+      "name": "return_closed",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmplchmwvq2/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "11",
+      "name": "global_escape",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpcl5kn1wz/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "12",
+      "name": "alias",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpb02ktg0k/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "13",
+      "name": "eager_argument",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmp0kzf_xz2/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "B",
+                "already_closed": false,
+                "printed": "B"
+              },
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "14",
+      "name": "late_closure",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmprtcgb6z_/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              },
+              {
+                "actual": "A",
+                "already_closed": true,
+                "printed": "B"
+              }
+            ],
+            "never_closed": [
+              "B"
+            ],
+            "mislabeled": 1,
+            "double_closes": 1
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "15",
+      "name": "closure_parameter",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmplc9f9x_j/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "B",
+                "already_closed": false,
+                "printed": "B"
+              },
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "16",
+      "name": "named_result",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpi3ullhkf/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A true\nresult-error false\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": false,
+          "go_stdout": "acquire A true\nclose A true\nclose A false\nresult-error true\n",
+          "diff": {
+            "first_divergence": {
+              "index": 2,
+              "go": "close A false",
+              "translated": "close A true"
+            },
+            "missing_events": [
+              "close A false",
+              "result-error true"
+            ],
+            "extra_events": [
+              "close A true",
+              "result-error false"
+            ],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              },
+              {
+                "actual": "A",
+                "already_closed": true,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 1
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "17",
+      "name": "panic_unwind",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpmqz8zlef/input.txt",
+            ""
+          ],
+          "returncode": 101,
+          "stdout": "acquire A true\npanic\n",
+          "stderr": "\nthread 'main' (18445) panicked at main.rs:280:5:\ntest\nstack backtrace:\n   0: __rustc::rust_begin_unwind\n   1: core::panicking::panic_fmt\n   2: transpiled::main\nnote: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.\n",
+          "mode": "",
+          "matches_observed_go": false,
+          "go_stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+          "diff": {
+            "first_divergence": {
+              "index": 2,
+              "go": "close A true",
+              "translated": null
+            },
+            "missing_events": [
+              "close A true",
+              "recovered",
+              "returned"
+            ],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [],
+            "never_closed": [
+              "A"
+            ],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "18",
+      "name": "helper_boundary",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmppx6zvl53/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nhelper\nclose A true\nuse A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nhelper\nclose A true\nuse A false\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "19",
+      "name": "double_close",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmpmb4az40s/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": false,
+          "go_stdout": "acquire A true\nclose A true\nclose A false\nreturned\n",
+          "diff": {
+            "first_divergence": {
+              "index": 2,
+              "go": "close A false",
+              "translated": "close A true"
+            },
+            "missing_events": [
+              "close A false"
+            ],
+            "extra_events": [
+              "close A true"
+            ],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              },
+              {
+                "actual": "A",
+                "already_closed": true,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 1
+          }
+        }
+      ],
+      "status": "executed"
+    },
+    {
+      "tool": "go2rust_patched",
+      "id": "20",
+      "name": "interface_dispatch",
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-g2r-patched-506to9u5/release/transpiled",
+            "/tmp/tmptwi9g4cq/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_observed_go": true,
+          "go_stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "diff": {
+            "first_divergence": null,
+            "missing_events": [],
+            "extra_events": [],
+            "same_events_different_order": false
+          },
+          "identity": {
+            "closes": [
+              {
+                "actual": "A",
+                "already_closed": false,
+                "printed": "A"
+              }
+            ],
+            "never_closed": [],
+            "mislabeled": 0,
+            "double_closes": 0
+          }
+        }
+      ],
+      "status": "executed"
+    }
+  ]
+}

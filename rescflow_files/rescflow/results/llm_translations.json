@@ -1,0 +1,963 @@
+{
+  "summary": {
+    "cases": 20,
+    "translations_present": 18,
+    "compiled": 18,
+    "label_inputs_executed": 21,
+    "output_matches_go": 21,
+    "os_trace_matches_go": 21,
+    "extra_inputs_matching": "36/36",
+    "missing": [
+      "05 two_lifo",
+      "13 eager_argument"
+    ]
+  },
+  "rows": [
+    {
+      "id": "01",
+      "name": "local",
+      "file": "Claude_translations/main.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "02",
+      "name": "early_before",
+      "file": "Claude_translations/main-5.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        },
+        {
+          "returncode": 0,
+          "stdout": "early\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "matches_go": true,
+          "os_trace": [
+            "early",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "03",
+      "name": "early_after",
+      "file": "Claude_translations/main-11.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "early",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "04",
+      "name": "failed_acquire",
+      "file": "Claude_translations/main-12.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "acquire A false",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "05",
+      "name": "two_lifo",
+      "file": null,
+      "runs": [],
+      "extra_runs": [],
+      "status": "missing_translation"
+    },
+    {
+      "id": "06",
+      "name": "nested_block",
+      "file": "Claude_translations/main-2.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "inside",
+            "after-block",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "07",
+      "name": "conditional",
+      "file": "Claude_translations/main-6.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "body-end",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        },
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "defer",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "body-end",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "08",
+      "name": "loop",
+      "file": "Claude_translations/main-10.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire 0 true",
+            "iteration 0",
+            "[os open #2]",
+            "acquire 1 true",
+            "iteration 1",
+            "[os open #3]",
+            "acquire 2 true",
+            "iteration 2",
+            "after-loop",
+            "[os close #3]",
+            "close 2 true",
+            "[os close #2]",
+            "close 1 true",
+            "[os close #1]",
+            "close 0 true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire 0 false\nreturned\n",
+          "rust_stdout": "acquire 0 false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "09",
+      "name": "return_open",
+      "file": "Claude_translations/main-13.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "returned",
+            "use A true",
+            "[os close #1]",
+            "close A true"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "10",
+      "name": "return_closed",
+      "file": "Claude_translations/main-18.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "returned",
+            "use A false"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "11",
+      "name": "global_escape",
+      "file": "Claude_translations/main-3.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "stored",
+            "returned",
+            "use A true",
+            "[os close #1]",
+            "close A true"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "12",
+      "name": "alias",
+      "file": "Claude_translations/main-7.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "13",
+      "name": "eager_argument",
+      "file": null,
+      "runs": [],
+      "extra_runs": [],
+      "status": "missing_translation"
+    },
+    {
+      "id": "14",
+      "name": "late_closure",
+      "file": "Claude_translations/main-14.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "[os close #1]",
+            "close A true",
+            "use B true",
+            "[os close #2]",
+            "close B true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "15",
+      "name": "closure_parameter",
+      "file": "Claude_translations/main-17.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os open #2]",
+            "acquire B true",
+            "[os close #2]",
+            "close B true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "16",
+      "name": "named_result",
+      "file": "Claude_translations/main-4.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A false\nresult-error true\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "close A false",
+            "result-error true"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nresult-error true\n",
+          "rust_stdout": "acquire A false\nresult-error true\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "17",
+      "name": "panic_unwind",
+      "file": "Claude_translations/main-8.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "panic",
+            "[os close #1]",
+            "close A true",
+            "recovered",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "18",
+      "name": "helper_boundary",
+      "file": "Claude_translations/main-9.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nhelper\nclose A true\nuse A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "helper",
+            "[os close #1]",
+            "close A true",
+            "use A false",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "19",
+      "name": "double_close",
+      "file": "Claude_translations/main-15.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "[os close #1]",
+            "close A true",
+            "close A false",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    },
+    {
+      "id": "20",
+      "name": "interface_dispatch",
+      "file": "Claude_translations/main-16.rs",
+      "runs": [
+        {
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "matches_go": true,
+          "os_trace": [
+            "[os open #1]",
+            "acquire A true",
+            "use A true",
+            "[os close #1]",
+            "close A true",
+            "returned"
+          ],
+          "os_trace_matches_go": true,
+          "handles_open_at_exit": []
+        }
+      ],
+      "extra_runs": [
+        {
+          "input": "missing_path",
+          "go_stdout": "acquire A false\nreturned\n",
+          "rust_stdout": "acquire A false\nreturned\n",
+          "go_rc": 0,
+          "rust_rc": 0,
+          "go_stderr1": "",
+          "rust_stderr1": "",
+          "matches_go": true
+        },
+        {
+          "input": "no_args",
+          "go_stdout": "",
+          "rust_stdout": "",
+          "go_rc": 2,
+          "rust_rc": 2,
+          "go_stderr1": "panic: pass input file path",
+          "rust_stderr1": "panic: pass input file path",
+          "matches_go": true
+        }
+      ],
+      "compile_warnings": 0,
+      "status": "executed"
+    }
+  ]
+}

@@ -1,0 +1,1291 @@
+RescFlow analysis (go1.26.5) of ./heldout/...
+  package example.com/rescflow/heldout/H01_loop_count: analyzed
+  package example.com/rescflow/heldout/H02_two_per_iteration: analyzed
+  package example.com/rescflow/heldout/H03_conditional_in_loop: analyzed
+  package example.com/rescflow/heldout/H04_closure_two_vars: analyzed
+  package example.com/rescflow/heldout/H05_field_alias: analyzed
+  package example.com/rescflow/heldout/H06_method_defer: analyzed
+  package example.com/rescflow/heldout/H07_early_return_in_loop: analyzed
+  package example.com/rescflow/heldout/H08_factory_helper: analyzed
+  package example.com/rescflow/heldout/H09_nested_calls: analyzed
+  package example.com/rescflow/heldout/H10_close_error_join: analyzed
+  package example.com/rescflow/heldout/H11_panic_from_callee: analyzed
+  package example.com/rescflow/heldout/H12_path_dependent_ownership: analyzed
+  package example.com/rescflow/heldout/H13_goroutine_defer: analyzed
+  package example.com/rescflow/heldout/H14_dynamic_closer: analyzed
+
+== func H01_loop_count.scenario  (heldout/H01_loop_count/main.go:7)
+0: entry
+	t0 = *mode
+	t1 = t0 == "0":string
+	if t1 goto 1 else 2
+1: if.then
+	jump 2
+2: if.done  [2 path states]
+	t2 = phi [0: 3:int, 1: 0:int] #n
+	t3 = *mode
+	t4 = t3 == "1":string
+	if t4 goto 3 else 4
+3: if.then  [2 path states]
+	jump 4
+4: if.done  [4 path states]
+	t5 = phi [2: t2, 3: 1:int] #n
+	t6 = new [3]string (slicelit)
+	t7 = &t6[0:int]
+	*t7 = "0":string
+	t8 = &t6[1:int]
+	*t8 = "1":string
+	t9 = &t6[2:int]
+	*t9 = "2":string
+	t10 = slice t6[:]
+	jump 5
+5: for.loop  [loop]  [12 path states]
+	t11 = phi [4: 0:int, 9: t36] #i
+	t12 = t11 < t5
+	if t12 goto 6 else 7
+6: for.body  [loop]  [12 path states]
+	t13 = *path
+	t14 = os.Open(t13)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@13: MaybeOpen (open iff the call succeeds)
+	t15 = extract t14 #0
+	t16 = extract t14 #1
+	t17 = &t10[t11]
+	t18 = *t17
+	t19 = recordOpen(t18, t15, t16)
+	if t19 goto 9 else 8
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+		  ⟹ true edge: f@13=Open
+		  ⟹ false edge: f@13=Failed
+7: for.done  [12 path states]
+	t20 = new [1]any (varargs)
+	t21 = &t20[0:int]
+	t22 = make any <- string ("after-loop":string)
+	*t21 = t22
+	t23 = slice t20[:]
+	t24 = fmt.Println(t23...)
+	rundefers
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Open -> Closed (defer@15 at return@19)
+		  ⟹ pop defer@15 -> acts on {f@13}
+	return
+8: if.then  [8 path states]
+	rundefers
+		  ⟹ release f@13: Failed -> Closed (defer@15 at return@14)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Failed -> Closed (defer@15 at return@14)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Failed -> Closed (defer@15 at return@14)
+		  ⟹ pop defer@15 -> acts on {f@13}
+		  ⟹ release f@13: Failed -> Closed (defer@15 at return@14)
+		  ⟹ pop defer@15 -> acts on {f@13}
+	return
+9: if.done  [loop]  [8 path states]
+	t25 = &t10[t11]
+	t26 = *t25
+	defer closeFile(t26, t15)
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+		  ⟹ push defer@15 [f: value fixed at registration = {f@13}] (loop); pending: 1
+	t27 = &t10[t11]
+	t28 = *t27
+	t29 = new [2]any (varargs)
+	t30 = &t29[0:int]
+	t31 = make any <- string ("iteration":string)
+	*t30 = t31
+	t32 = &t29[1:int]
+	t33 = make any <- string (t28)
+	*t32 = t33
+	t34 = slice t29[:]
+	t35 = fmt.Println(t34...)
+	t36 = t11 + 1:int
+	jump 5
+10: recover  [unreachable]
+	return
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 19 [return]: defer@15->[f@13]
+  exit line 14 [return]: no deferred calls
+  exit line 14 [return]: no deferred calls
+  exit line 14 [return]: no deferred calls
+  exit line 14 [return]: no deferred calls
+  exit line 14 [return]: defer@15->[f@13]
+  exit line 14 [return]: defer@15->[f@13]
+  exit line 14 [return]: defer@15->[f@13]
+  exit line 14 [return]: defer@15->[f@13]
+
+== func H02_two_per_iteration.scenario  (heldout/H02_two_per_iteration/main.go:7)
+0: entry
+	t0 = new [2]string (slicelit)
+	t1 = &t0[0:int]
+	*t1 = "0":string
+	t2 = &t0[1:int]
+	*t2 = "1":string
+	t3 = slice t0[:]
+	jump 1
+1: for.loop  [loop]  [3 path states]
+	t4 = phi [0: 0:int, 8: t33] #i
+	t5 = t4 < 2:int
+	if t5 goto 2 else 3
+2: for.body  [loop]  [3 path states]
+	t6 = *path
+	t7 = os.Open(t6)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+	t8 = extract t7 #0
+	t9 = extract t7 #1
+	t10 = &t3[t4]
+	t11 = *t10
+	t12 = t11 + "a":string
+	t13 = recordOpen(t12, t8, t9)
+	if t13 goto 5 else 4
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+3: for.done  [3 path states]
+	t14 = new [1]any (varargs)
+	t15 = &t14[0:int]
+	t16 = make any <- string ("after-loop":string)
+	*t15 = t16
+	t17 = slice t14[:]
+	t18 = fmt.Println(t17...)
+	rundefers
+		  ⟹ release heldout/H02_two_per_iteration/main.go:13: Open -> Closed (defer@15 at return@18)
+		  ⟹ pop defer@15 -> acts on {heldout/H02_two_per_iteration/main.go:13}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@18)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release heldout/H02_two_per_iteration/main.go:13: Open -> Closed (defer@15 at return@18)
+		  ⟹ pop defer@15 -> acts on {heldout/H02_two_per_iteration/main.go:13}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@18)
+		  ⟹ pop defer@12 -> acts on {f@10}
+	return
+4: if.then  [3 path states]
+	rundefers
+		  ⟹ release heldout/H02_two_per_iteration/main.go:13: Open -> Closed (defer@15 at return@11)
+		  ⟹ pop defer@15 -> acts on {heldout/H02_two_per_iteration/main.go:13}
+		  ⟹ release f@10: Failed -> Closed (defer@12 at return@11)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release heldout/H02_two_per_iteration/main.go:13: Open -> Closed (defer@15 at return@11)
+		  ⟹ pop defer@15 -> acts on {heldout/H02_two_per_iteration/main.go:13}
+		  ⟹ release f@10: Failed -> Closed (defer@12 at return@11)
+		  ⟹ pop defer@12 -> acts on {f@10}
+	return
+5: if.done  [loop]  [3 path states]
+	t19 = &t3[t4]
+	t20 = *t19
+	t21 = t20 + "a":string
+	defer closeFile(t21, t8)
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (loop); pending: 1
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (loop); pending: 2
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (loop); pending: 2
+	t22 = *path
+	t23 = os.Open(t22)
+		  ⟹ new resource g@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource g@13: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource g@13: MaybeOpen (open iff the call succeeds)
+	t24 = extract t23 #0
+	t25 = extract t23 #1
+	t26 = &t3[t4]
+	t27 = *t26
+	t28 = t27 + "b":string
+	t29 = recordOpen(t28, t24, t25)
+	if t29 goto 8 else 7
+		  ⟹ true edge: g@13=Open
+		  ⟹ false edge: g@13=Failed
+		  ⟹ true edge: g@13=Open
+		  ⟹ false edge: g@13=Failed
+		  ⟹ true edge: g@13=Open
+		  ⟹ false edge: g@13=Failed
+6: recover  [unreachable]
+	return
+7: if.then  [2 path states]
+	rundefers
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@14)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release g@13: Failed -> Closed (defer@15 at return@14)
+		  ⟹ pop defer@15 -> acts on {g@13}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@14)
+		  ⟹ pop defer@12 -> acts on {f@10}
+	return
+8: if.done  [loop]  [2 path states]
+	t30 = &t3[t4]
+	t31 = *t30
+	t32 = t31 + "b":string
+	defer closeFile(t32, t24)
+		  ⟹ push defer@15 [g: value fixed at registration = {g@13}] (loop); pending: 2
+		  ⟹ push defer@15 [g: value fixed at registration = {g@13}] (loop); pending: 2
+	t33 = t4 + 1:int
+	jump 1
+  exit line 18 [return]: no deferred calls
+  exit line 18 [return]: defer@15->[g@13] defer@12->[f@10]
+  exit line 18 [return]: defer@15->[g@13] defer@12->[f@10]
+  exit line 11 [return]: no deferred calls
+  exit line 11 [return]: defer@15->[g@13] defer@12->[f@10]
+  exit line 11 [return]: defer@15->[g@13] defer@12->[f@10]
+  exit line 14 [return]: defer@12->[f@10]
+  exit line 14 [return]: defer@15->[g@13] defer@12->[f@10]
+
+== func H03_conditional_in_loop.scenario  (heldout/H03_conditional_in_loop/main.go:7)
+0: entry
+	t0 = new [3]string (slicelit)
+	t1 = &t0[0:int]
+	*t1 = "0":string
+	t2 = &t0[1:int]
+	*t2 = "1":string
+	t3 = &t0[2:int]
+	*t3 = "2":string
+	t4 = slice t0[:]
+	jump 1
+1: for.loop  [loop]  [9 path states]
+	t5 = phi [0: 0:int, 7: t23] #i
+	t6 = t5 < 3:int
+	if t6 goto 2 else 3
+2: for.body  [loop]  [9 path states]
+	t7 = *path
+	t8 = os.Open(t7)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+	t9 = extract t8 #0
+	t10 = extract t8 #1
+	t11 = &t4[t5]
+	t12 = *t11
+	t13 = recordOpen(t12, t9, t10)
+	if t13 goto 5 else 4
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+3: for.done  [9 path states]
+	t14 = new [1]any (varargs)
+	t15 = &t14[0:int]
+	t16 = make any <- string ("after-loop":string)
+	*t15 = t16
+	t17 = slice t14[:]
+	t18 = fmt.Println(t17...)
+	rundefers
+		  ⟹ release f@10: Open -> Closed (defer@13 at return@19)
+		  ⟹ pop defer@13 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@13 at return@19)
+		  ⟹ pop defer@13 -> acts on {f@10}
+		  ⟹ release f@10: Closed -> Closed (defer@13 at return@19)
+		  ⟹ pop defer@13 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@13 at return@19)
+		  ⟹ pop defer@13 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@13 at return@19)
+		  ⟹ pop defer@13 -> acts on {f@10}
+		  ⟹ release f@10: Closed -> Closed (defer@13 at return@19)
+		  ⟹ pop defer@13 -> acts on {f@10}
+	return
+4: if.then  [4 path states]
+	rundefers
+		  ⟹ release f@10: Failed -> Closed (defer@13 at return@11)
+		  ⟹ pop defer@13 -> acts on {f@10}
+		  ⟹ release f@10: Failed -> Closed (defer@13 at return@11)
+		  ⟹ pop defer@13 -> acts on {f@10}
+	return
+5: if.done  [loop]  [4 path states]
+	t19 = t5 % 2:int
+	t20 = t19 == 0:int
+	if t20 goto 6 else 8
+6: if.then  [loop]  [4 path states]
+	t21 = &t4[t5]
+	t22 = *t21
+	defer closeFile(t22, t9)
+		  ⟹ push defer@13 [f: value fixed at registration = {f@10}] (loop); pending: 1
+		  ⟹ push defer@13 [f: value fixed at registration = {f@10}] (loop); pending: 1
+		  ⟹ push defer@13 [f: value fixed at registration = {f@10}] (loop); pending: 1
+		  ⟹ push defer@13 [f: value fixed at registration = {f@10}] (loop); pending: 1
+	jump 7
+7: if.done  [loop]  [8 path states]
+	t23 = t5 + 1:int
+	jump 1
+8: if.else  [loop]  [4 path states]
+	t24 = &t4[t5]
+	t25 = *t24
+	t26 = closeFile(t25, t9)
+		  ⟹ release f@10: Open -> Closed (call H03_conditional_in_loop.closeFile)
+		  ⟹ release f@10: Open -> Closed (call H03_conditional_in_loop.closeFile)
+		  ⟹ release f@10: Open -> Closed (call H03_conditional_in_loop.closeFile)
+		  ⟹ release f@10: Open -> Closed (call H03_conditional_in_loop.closeFile)
+	jump 7
+9: recover  [unreachable]
+	return
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: defer@13->[f@10]
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: defer@13->[f@10]
+  exit line 19 [return]: defer@13->[f@10]
+  exit line 19 [return]: defer@13->[f@10]
+  exit line 19 [return]: no deferred calls
+  exit line 19 [return]: defer@13->[f@10]
+  exit line 19 [return]: defer@13->[f@10]
+  exit line 11 [return]: no deferred calls
+  exit line 11 [return]: defer@13->[f@10]
+  exit line 11 [return]: no deferred calls
+  exit line 11 [return]: defer@13->[f@10]
+
+== func H04_closure_two_vars.scenario  (heldout/H04_closure_two_vars/main.go:7)
+0: entry
+	t0 = new *os.File (f)
+	t1 = *path
+	t2 = os.Open(t1)
+		  ⟹ new resource f@8: MaybeOpen (open iff the call succeeds)
+	t3 = extract t2 #0
+	*t0 = t3
+		  ⟹ cell t0(f) := {f@8}
+	t4 = extract t2 #1
+	t5 = *t0
+		  ⟹ t5 = load t0(f) -> {f@8}
+	t6 = recordOpen("A":string, t5, t4)
+	if t6 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	rundefers
+	return
+2: if.done
+	t7 = new *os.File (g)
+	t8 = *path
+	t9 = os.Open(t8)
+		  ⟹ new resource g@10: MaybeOpen (open iff the call succeeds)
+	t10 = extract t9 #0
+	*t7 = t10
+		  ⟹ cell t7(g) := {g@10}
+	t11 = extract t9 #1
+	t12 = *t7
+		  ⟹ t12 = load t7(g) -> {g@10}
+	t13 = recordOpen("B":string, t12, t11)
+	if t13 goto 4 else 3
+		  ⟹ true edge: g@10=Open
+		  ⟹ false edge: g@10=Failed
+3: if.then
+	t14 = *t0
+		  ⟹ t14 = load t0(f) -> {f@8}
+	t15 = closeFile("A":string, t14)
+		  ⟹ release f@8: Open -> Closed (call H04_closure_two_vars.closeFile)
+	rundefers
+	return
+4: if.done
+	t16 = new string (fn)
+	t17 = new string (gn)
+	*t16 = "A":string
+	*t17 = "B":string
+	t18 = make closure scenario$1 [t16, t0, t17, t7]
+	defer t18()
+		  ⟹ push defer@13 [fn: cell t16(fn), read at exit; f: cell t0(f), read at exit; gn: cell t17(gn), read at exit; g: cell t7(g), read at exit] (always); pending: 1
+	t19 = *mode
+	t20 = t19 == "swap":string
+	if t20 goto 6 else 7
+5: recover  [unreachable]
+	return
+6: if.then
+	t21 = *t7
+		  ⟹ t21 = load t7(g) -> {g@10}
+	t22 = *t0
+		  ⟹ t22 = load t0(f) -> {f@8}
+	*t0 = t21
+		  ⟹ cell t0(f) := {g@10}
+	*t7 = t22
+		  ⟹ cell t7(g) := {f@8}
+	t23 = *t17
+	t24 = *t16
+	*t16 = t23
+	*t17 = t24
+	jump 7
+7: if.done  [2 path states]
+	t25 = *t16
+	t26 = *t0
+		  ⟹ t26 = load t0(f) -> {f@8}
+		  ⟹ t26 = load t0(f) -> {g@10}
+	t27 = useFile(t25, t26)
+		  ⟹ use f@8 (Open)
+		  ⟹ use g@10 (Open)
+		  ⟹ use f@8 (Open)
+		  ⟹ use g@10 (Open)
+	rundefers
+		  ⟹ release f@8: Open -> Closed (defer@13 at return@16)
+		  ⟹ release g@10: Open -> Closed (defer@13 at return@16)
+		  ⟹ pop defer@13 -> acts on {g@10, f@8}
+		  ⟹ release g@10: Open -> Closed (defer@13 at return@16)
+		  ⟹ release f@8: Open -> Closed (defer@13 at return@16)
+		  ⟹ pop defer@13 -> acts on {g@10, f@8}
+	return
+  exit line 9 [return]: no deferred calls
+  exit line 11 [return]: no deferred calls
+  exit line 16 [return]: defer@13->[g@10 f@8]
+  exit line 16 [return]: defer@13->[g@10 f@8]
+
+== func H04_closure_two_vars.scenario$1  (heldout/H04_closure_two_vars/main.go:13)
+0: entry
+	t0 = *fn
+	t1 = *f
+		  ⟹ t1 = load *f -> {input#1}
+	t2 = closeFile(t0, t1)
+	t3 = *gn
+	t4 = *g
+		  ⟹ t4 = load *g -> {input#3}
+	t5 = closeFile(t3, t4)
+	return
+  exit line 13 [return]: no deferred calls
+
+== func H05_field_alias.scenario  (heldout/H05_field_alias/main.go:7)
+0: entry
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@8: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("A":string, t2, t3)
+	if t4 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	rundefers
+	return
+2: if.done
+	t5 = new holder (complit)
+	t6 = &t5.f [#0]
+	*t6 = t2
+		  ⟹ cell t5(complit).f0 := {f@8}
+	t7 = &t5.f [#0]
+	t8 = *t7
+		  ⟹ t8 = load t5(complit).f0 -> {f@8}
+	defer closeFile("A":string, t8)
+		  ⟹ push defer@11 [t8: value fixed at registration = {f@8}] (always); pending: 1
+	t9 = useFile("A":string, t2)
+		  ⟹ use f@8 (Open)
+	rundefers
+		  ⟹ release f@8: Open -> Closed (defer@11 at return@13)
+		  ⟹ pop defer@11 -> acts on {f@8}
+	return
+3: recover  [unreachable]
+	return
+  exit line 9 [return]: no deferred calls
+  exit line 13 [return]: defer@11->[f@8]
+
+== func H06_method_defer.(*logFile).run  (heldout/H06_method_defer/main.go:7)
+0: entry
+	t0 = &l.f [#0]
+	t1 = *t0
+		  ⟹ t1 = load *l -> {input#0}
+	defer closeFile("A":string, t1)
+		  ⟹ push defer@8 [t1: value fixed at registration = {input#0}] (always); pending: 1
+	t2 = &l.f [#0]
+	t3 = *t2
+		  ⟹ t3 = load *l -> {input#0}
+	t4 = useFile("A":string, t3)
+	rundefers
+		  ⟹ pop defer@8 -> acts on {input#0}
+	return
+1: recover  [unreachable]
+	return
+  exit line 10 [return]: defer@8->[input#0]
+
+== func H06_method_defer.scenario  (heldout/H06_method_defer/main.go:11)
+0: entry
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@12: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("A":string, t2, t3)
+	if t4 goto 2 else 1
+		  ⟹ true edge: f@12=Open
+		  ⟹ false edge: f@12=Failed
+1: if.then
+	return
+2: if.done
+	t5 = new logFile (complit)
+	t6 = &t5.f [#0]
+	*t6 = t2
+		  ⟹ cell t5(complit).f0 := {f@12}
+	t7 = (*logFile).run(t5)
+		  ⟹ use f@12 (Open)
+		  ⟹ release f@12: Open -> Closed (call H06_method_defer.(*logFile).run)
+	t8 = new [1]any (varargs)
+	t9 = &t8[0:int]
+	t10 = make any <- string ("after-run":string)
+	*t9 = t10
+	t11 = slice t8[:]
+	t12 = fmt.Println(t11...)
+	return
+  exit line 13 [return]: no deferred calls
+  exit line 17 [return]: no deferred calls
+
+== func H07_early_return_in_loop.scenario  (heldout/H07_early_return_in_loop/main.go:7)
+0: entry
+	t0 = new [3]string (slicelit)
+	t1 = &t0[0:int]
+	*t1 = "0":string
+	t2 = &t0[1:int]
+	*t2 = "1":string
+	t3 = &t0[2:int]
+	*t3 = "2":string
+	t4 = slice t0[:]
+	jump 1
+1: for.loop  [loop]  [5 path states]
+	t5 = phi [0: 0:int, 8: t28] #i
+	t6 = t5 < 3:int
+	if t6 goto 2 else 3
+2: for.body  [loop]  [5 path states]
+	t7 = *path
+	t8 = os.Open(t7)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+	t9 = extract t8 #0
+	t10 = extract t8 #1
+	t11 = &t4[t5]
+	t12 = *t11
+	t13 = recordOpen(t12, t9, t10)
+	if t13 goto 5 else 4
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+3: for.done  [5 path states]
+	t14 = new [1]any (varargs)
+	t15 = &t14[0:int]
+	t16 = make any <- string ("after-loop":string)
+	*t15 = t16
+	t17 = slice t14[:]
+	t18 = fmt.Println(t17...)
+	rundefers
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@16)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@16)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@16)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@16)
+		  ⟹ pop defer@12 -> acts on {f@10}
+	return
+4: if.then  [3 path states]
+	rundefers
+		  ⟹ release f@10: Failed -> Closed (defer@12 at return@11)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release f@10: Failed -> Closed (defer@12 at return@11)
+		  ⟹ pop defer@12 -> acts on {f@10}
+	return
+5: if.done  [loop]  [3 path states]
+	t19 = &t4[t5]
+	t20 = *t19
+	defer closeFile(t20, t9)
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (loop); pending: 1
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (loop); pending: 1
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (loop); pending: 1
+	t21 = *mode
+	t22 = t21 == "early":string
+	if t22 goto 9 else 8
+		  ⟹ condition "early":string==global mode already decided on this path: only the false edge is feasible
+		  ⟹ condition "early":string==global mode already decided on this path: only the true edge is feasible
+6: recover  [unreachable]
+	return
+7: if.then  [2 path states]
+	t23 = new [1]any (varargs)
+	t24 = &t23[0:int]
+	t25 = make any <- string ("early":string)
+	*t24 = t25
+	t26 = slice t23[:]
+	t27 = fmt.Println(t26...)
+	rundefers
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@13)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ release f@10: Open -> Closed (defer@12 at return@13)
+		  ⟹ pop defer@12 -> acts on {f@10}
+	return
+8: if.done  [loop]  [4 path states]
+	t28 = t5 + 1:int
+	jump 1
+9: cond.true  [loop]  [2 path states]
+	t29 = t5 == 1:int
+	if t29 goto 7 else 8
+  exit line 16 [return]: no deferred calls
+  exit line 16 [return]: defer@12->[f@10]
+  exit line 16 [return]: defer@12->[f@10]
+  exit line 16 [return]: defer@12->[f@10]
+  exit line 16 [return]: defer@12->[f@10]
+  exit line 11 [return]: no deferred calls
+  exit line 11 [return]: defer@12->[f@10]
+  exit line 11 [return]: defer@12->[f@10]
+  exit line 13 [return]: defer@12->[f@10]
+  exit line 13 [return]: defer@12->[f@10]
+
+== func H08_factory_helper.openChecked  (heldout/H08_factory_helper/main.go:7)
+0: entry
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@8: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen(id, t2, t3)
+	if t4 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	return nil:*os.File, false:bool
+2: if.done
+	return t2, true:bool
+  exit line 9 [return]: no deferred calls
+  exit line 10 [return]: no deferred calls
+
+== func H08_factory_helper.scenario  (heldout/H08_factory_helper/main.go:12)
+0: entry
+	t0 = openChecked("A":string)
+		  ⟹ receives resource f@8 from H08_factory_helper.openChecked: MaybeOpen
+	t1 = extract t0 #0
+	t2 = extract t0 #1
+	if t2 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	rundefers
+	return
+2: if.done
+	defer closeFile("A":string, t1)
+		  ⟹ push defer@15 [f: value fixed at registration = {f@8}] (always); pending: 1
+	t3 = useFile("A":string, t1)
+		  ⟹ use f@8 (Open)
+	rundefers
+		  ⟹ release f@8: Open -> Closed (defer@15 at return@17)
+		  ⟹ pop defer@15 -> acts on {f@8}
+	return
+3: recover  [unreachable]
+	return
+  exit line 14 [return]: no deferred calls
+  exit line 17 [return]: defer@15->[f@8]
+
+== func H09_nested_calls.inner  (heldout/H09_nested_calls/main.go:7)
+0: entry
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource g@8: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("B":string, t2, t3)
+	if t4 goto 2 else 1
+		  ⟹ true edge: g@8=Open
+		  ⟹ false edge: g@8=Failed
+1: if.then
+	rundefers
+	return
+2: if.done
+	defer closeFile("B":string, t2)
+		  ⟹ push defer@10 [g: value fixed at registration = {g@8}] (always); pending: 1
+	t5 = useFile("B":string, t2)
+		  ⟹ use g@8 (Open)
+	rundefers
+		  ⟹ release g@8: Open -> Closed (defer@10 at return@12)
+		  ⟹ pop defer@10 -> acts on {g@8}
+	return
+3: recover  [unreachable]
+	return
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[g@8]
+
+== func H09_nested_calls.scenario  (heldout/H09_nested_calls/main.go:13)
+0: entry
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@14: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("A":string, t2, t3)
+	if t4 goto 2 else 1
+		  ⟹ true edge: f@14=Open
+		  ⟹ false edge: f@14=Failed
+1: if.then
+	rundefers
+	return
+2: if.done
+	defer closeFile("A":string, t2)
+		  ⟹ push defer@16 [f: value fixed at registration = {f@14}] (always); pending: 1
+	t5 = inner()
+	t6 = useFile("A":string, t2)
+		  ⟹ use f@14 (Open)
+	rundefers
+		  ⟹ release f@14: Open -> Closed (defer@16 at return@19)
+		  ⟹ pop defer@16 -> acts on {f@14}
+	return
+3: recover  [unreachable]
+	return
+  exit line 15 [return]: no deferred calls
+  exit line 19 [return]: defer@16->[f@14]
+
+== func H10_close_error_join.scenario  (heldout/H10_close_error_join/main.go:7)
+0: entry
+	t0 = new error (err)
+	t1 = new *os.File (f)
+	t2 = *path
+	t3 = os.Open(t2)
+		  ⟹ new resource f@8: MaybeOpen (open iff the call succeeds)
+	t4 = extract t3 #0
+	*t1 = t4
+		  ⟹ cell t1(f) := {f@8}
+	t5 = extract t3 #1
+	*t0 = t5
+	t6 = *t1
+		  ⟹ t6 = load t1(f) -> {f@8}
+	t7 = *t0
+	t8 = recordOpen("A":string, t6, t7)
+	if t8 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	t9 = *t0
+	*t0 = t9
+	rundefers
+	t10 = *t0
+	return t10
+2: if.done
+	t11 = make closure scenario$1 [t1, t0]
+	defer t11()
+		  ⟹ push defer@10 [f: cell t1(f), read at exit; err: cell t0(err), read at exit] (always); pending: 1
+	t12 = *t1
+		  ⟹ t12 = load t1(f) -> {f@8}
+	t13 = useFile("A":string, t12)
+		  ⟹ use f@8 (Open)
+	*t0 = nil:error
+	rundefers
+		  ⟹ release f@8: Open -> Closed (defer@10 at return@12)
+		  ⟹ pop defer@10 -> acts on {f@8}
+	t14 = *t0
+	return t14
+3: recover  [unreachable]
+	t15 = *t0
+	return t15
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[f@8]
+
+== func H10_close_error_join.scenario$1  (heldout/H10_close_error_join/main.go:10)
+0: entry
+	t0 = *f
+		  ⟹ t0 = load *f -> {input#0}
+	t1 = closeFile("A":string, t0)
+	t2 = *err
+	t3 = t2 == nil:error
+	if t3 goto 1 else 2
+1: if.then
+	*err = t1
+	jump 2
+2: if.done  [2 path states]
+	return
+  exit line 10 [return]: no deferred calls
+  exit line 10 [return]: no deferred calls
+
+== func H11_panic_from_callee.scenario  (heldout/H11_panic_from_callee/main.go:8)
+0: entry
+	defer scenario$1()
+		  ⟹ push defer@9 [] (always); pending: 1
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@10: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("A":string, t2, t3)
+	if t4 goto 3 else 2
+		  ⟹ true edge: f@10=Open
+		  ⟹ false edge: f@10=Failed
+1: recover
+	return
+2: if.then
+	rundefers
+		  ⟹ pop defer@9 -> acts on {}
+	return
+3: if.done
+	defer closeFile("A":string, t2)
+		  ⟹ push defer@12 [f: value fixed at registration = {f@10}] (always); pending: 2
+	t5 = useFile("A":string, t2)
+		  ⟹ use f@10 (Open)
+	t6 = mustFail()
+		  ⟹ release f@10: Open -> Closed (defer@12 at panic->recovered@14)
+		  ⟹ pop defer@12 -> acts on {f@10}
+		  ⟹ pop defer@9 -> acts on {}
+	t7 = new [1]any (varargs)
+	t8 = &t7[0:int]
+	t9 = make any <- string ("unreachable":string)
+	*t8 = t9
+	t10 = slice t7[:]
+	t11 = fmt.Println(t10...)
+	rundefers
+	return
+  exit line 16 [return after recover]: no deferred calls
+  exit line 11 [return]: defer@9->[]
+  exit line 14 [panic->recovered (panic inside H11_panic_from_callee.mustFail)]: defer@12->[f@10] defer@9->[]
+
+== func H12_path_dependent_ownership.scenario  (heldout/H12_path_dependent_ownership/main.go:7)
+0: entry
+	t0 = local *os.File ()
+	t1 = *path
+	t2 = os.Open(t1)
+		  ⟹ new resource f@8: MaybeOpen (open iff the call succeeds)
+	t3 = extract t2 #0
+	t4 = extract t2 #1
+	t5 = recordOpen("A":string, t3, t4)
+	if t5 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	*t0 = nil:*os.File
+	rundefers
+	t6 = *t0
+	return t6
+2: if.done
+	t7 = *mode
+	t8 = t7 == "keep":string
+	if t8 goto 3 else 4
+3: if.then
+	*t0 = t3
+		  ⟹ cell t0(alloc) := {f@8}
+	rundefers
+	t9 = *t0
+		  ⟹ t9 = load t0(alloc) -> {f@8}
+	return t9
+4: if.done
+	defer closeFile("A":string, t3)
+		  ⟹ push defer@11 [f: value fixed at registration = {f@8}] (always); pending: 1
+	t10 = useFile("A":string, t3)
+		  ⟹ use f@8 (Open)
+	*t0 = nil:*os.File
+	rundefers
+		  ⟹ release f@8: Open -> Closed (defer@11 at return@13)
+		  ⟹ pop defer@11 -> acts on {f@8}
+	t11 = *t0
+	return t11
+5: recover  [unreachable]
+	t12 = *t0
+	return t12
+  exit line 9 [return]: no deferred calls
+  exit line 10 [return]: no deferred calls
+  exit line 13 [return]: defer@11->[f@8]
+
+== func H12_path_dependent_ownership.main  (heldout/H12_path_dependent_ownership/main.go:18)
+0: entry
+	t0 = *os.Args
+	t1 = len(t0)
+	t2 = t1 < 2:int
+	if t2 goto 1 else 2
+1: if.then
+	t3 = make interface{} <- string ("pass input file path":string)
+	panic t3
+2: if.done
+	t4 = *os.Args
+	t5 = &t4[1:int]
+	t6 = *t5
+	*path = t6
+	t7 = *os.Args
+	t8 = len(t7)
+	t9 = t8 > 2:int
+	if t9 goto 3 else 4
+3: if.then
+	t10 = *os.Args
+	t11 = &t10[2:int]
+	t12 = *t11
+	*mode = t12
+	jump 4
+4: if.done  [2 path states]
+	t13 = scenario()
+		  ⟹ receives resource f@8 from H12_path_dependent_ownership.scenario: MaybeOpen
+		  ⟹ receives resource f@8 from H12_path_dependent_ownership.scenario: MaybeOpen
+	t14 = new [1]any (varargs)
+	t15 = &t14[0:int]
+	t16 = make any <- string ("returned":string)
+	*t15 = t16
+	t17 = slice t14[:]
+	t18 = fmt.Println(t17...)
+	t19 = t13 != nil:*os.File
+	if t19 goto 5 else 6
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+5: if.then  [2 path states]
+	t20 = useFile("A":string, t13)
+		  ⟹ use f@8 (Open)
+		  ⟹ use f@8 (Open)
+	t21 = closeFile("A":string, t13)
+		  ⟹ release f@8: Open -> Closed (call H12_path_dependent_ownership.closeFile)
+		  ⟹ release f@8: Open -> Closed (call H12_path_dependent_ownership.closeFile)
+	jump 6
+6: if.done  [4 path states]
+	return
+  exit line 19 [panic (panic)]: no deferred calls
+  exit line 23 [return]: no deferred calls
+  exit line 23 [return]: no deferred calls
+  exit line 23 [return]: no deferred calls
+  exit line 23 [return]: no deferred calls
+
+== func H13_goroutine_defer.scenario$1  (heldout/H13_goroutine_defer/main.go:10)
+0: entry
+	defer (*sync.WaitGroup).Done(wg)
+		  ⟹ push defer@11 [wg: cell *wg, read at exit] (always); pending: 1
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@12: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("A":string, t2, t3)
+	if t4 goto 3 else 2
+		  ⟹ true edge: f@12=Open
+		  ⟹ false edge: f@12=Failed
+1: recover  [unreachable]
+	return
+2: if.then
+	rundefers
+		  ⟹ pop defer@11 -> acts on {}
+	return
+3: if.done
+	defer closeFile("A":string, t2)
+		  ⟹ push defer@14 [f: value fixed at registration = {f@12}] (always); pending: 2
+	t5 = useFile("A":string, t2)
+		  ⟹ use f@12 (Open)
+	rundefers
+		  ⟹ release f@12: Open -> Closed (defer@14 at return@16)
+		  ⟹ pop defer@14 -> acts on {f@12}
+		  ⟹ pop defer@11 -> acts on {}
+	return
+  exit line 13 [return]: defer@11->[]
+  exit line 16 [return]: defer@14->[f@12] defer@11->[]
+
+== func H14_dynamic_closer.scenario  (heldout/H14_dynamic_closer/main.go:7)
+0: entry
+	t0 = *path
+	t1 = os.Open(t0)
+		  ⟹ new resource f@8: MaybeOpen (open iff the call succeeds)
+	t2 = extract t1 #0
+	t3 = extract t1 #1
+	t4 = recordOpen("A":string, t2, t3)
+	if t4 goto 2 else 1
+		  ⟹ true edge: f@8=Open
+		  ⟹ false edge: f@8=Failed
+1: if.then
+	rundefers
+	return
+2: if.done
+	t5 = local fileCloser (complit)
+	t6 = &t5.f [#0]
+	*t6 = t2
+		  ⟹ cell t5(complit).f0 := {f@8}
+	t7 = *t5
+		  ⟹ t7 = load t5(complit) -> {f@8}
+	t8 = make closer <- fileCloser (t7)
+	t9 = *mode
+	t10 = t9 == "noop":string
+	if t10 goto 3 else 4
+3: if.then
+	t11 = make closer <- noopCloser (noopCloser{}:noopCloser)
+	jump 4
+4: if.done  [2 path states]
+	t12 = phi [2: t8, 3: t11] #c
+	defer invoke t12.Close()
+		  ⟹ push defer@12 [c: value fixed at registration = {f@8}] (always); pending: 1
+		  ⟹ push defer@12 [c: value fixed at registration = {f@8}] (always); pending: 1
+	t13 = useFile("A":string, t2)
+		  ⟹ use f@8 (Open)
+		  ⟹ use f@8 (Open)
+	rundefers
+		  ⟹ release f@8: Open -> Closed (defer@12 at return@14)
+		  ⟹ pop defer@12 -> acts on {f@8}
+		  ⟹ release f@8: Open -> Closed (defer@12 at return@14)
+		  ⟹ pop defer@12 -> acts on {f@8}
+	return
+5: recover  [unreachable]
+	return
+  exit line 9 [return]: no deferred calls
+  exit line 14 [return]: defer@12->[f@8]  STILL OPEN: [f@8]
+  exit line 14 [return]: defer@12->[f@8]  STILL OPEN: [f@8]
+
+== func H14_dynamic_closer.(fileCloser).Close  (heldout/H14_dynamic_closer/main.go:41)
+0: entry
+	t0 = local fileCloser (c)
+	*t0 = c
+		  ⟹ cell t0(c) := {input#0}
+	t1 = &t0.f [#0]
+	t2 = *t1
+		  ⟹ t2 = load t0(c).f0 -> {input#0}
+	t3 = closeFile("A":string, t2)
+	return t3
+  exit line 41 [return]: no deferred calls
+
+== resource records (17)
+
+heldout/H01_loop_count/main.go:13  var f in H01_loop_count.scenario  (loop=true goroutine=false)
+  acquire  line 13  [unacquired] via os.Open
+  acquire  line 13  [Open]    via os.Open
+  release  line 15  [Open]    via defer@15 at return@19
+  release  line 15  [Failed]  via defer@15 at return@14
+  defer@15 (loop) example.com/rescflow/heldout/H01_loop_count.closeFile(t26, t15)
+      captures f: value fixed at registration = {f@13}
+      at return@19 acts on [f@13]
+      at return@14 acts on [f@13]
+
+heldout/H02_two_per_iteration/main.go:10  var f in H02_two_per_iteration.scenario  (loop=true goroutine=false)
+  acquire  line 10  [unacquired] via os.Open
+  acquire  line 10  [Open]    via os.Open
+  release  line 12  [Open]    via defer@12 at return@18
+  release  line 12  [Failed]  via defer@12 at return@11
+  release  line 12  [Open]    via defer@12 at return@14
+  defer@12 (loop) example.com/rescflow/heldout/H02_two_per_iteration.closeFile(t21, t8)
+      captures f: value fixed at registration = {f@10}
+      at return@18 acts on [f@10]
+      at return@11 acts on [f@10]
+      at return@14 acts on [f@10]
+
+heldout/H02_two_per_iteration/main.go:13  var g in H02_two_per_iteration.scenario  (loop=true goroutine=false)
+  acquire  line 13  [unacquired] via os.Open
+  acquire  line 13  [Open]    via os.Open
+  release  line 15  [Failed]  via defer@15 at return@14
+  defer@15 (loop) example.com/rescflow/heldout/H02_two_per_iteration.closeFile(t32, t24)
+      captures g: value fixed at registration = {g@13}
+      at return@18 acts on [g@13]
+      at return@11 acts on [g@13]
+      at return@14 acts on [g@13]
+
+heldout/H03_conditional_in_loop/main.go:10  var f in H03_conditional_in_loop.scenario  (loop=true goroutine=false)
+  acquire  line 10  [unacquired] via os.Open
+  acquire  line 10  [Open]    via os.Open
+  acquire  line 10  [Closed]  via os.Open
+  release  line 13  [Open]    via defer@13 at return@19
+  release  line 13  [Closed]  via defer@13 at return@19
+  release  line 13  [Failed]  via defer@13 at return@11
+  release  line 15  [Open]    via call H03_conditional_in_loop.closeFile
+  defer@13 (loop) example.com/rescflow/heldout/H03_conditional_in_loop.closeFile(t22, t9)
+      captures f: value fixed at registration = {f@10}
+      at return@19 acts on [f@10]
+      at return@11 acts on [f@10]
+
+heldout/H04_closure_two_vars/main.go:8  var f in H04_closure_two_vars.scenario  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  release  line 11  [Open]    via call H04_closure_two_vars.closeFile
+  use      line 15  [Open]    via call H04_closure_two_vars.useFile
+  release  line 13  [Open]    via defer@13 at return@16
+  defer@13 (always) t18()
+      captures fn: cell t16(fn), read at exit
+      captures f: cell t0(f), read at exit
+      captures gn: cell t17(gn), read at exit
+      captures g: cell t7(g), read at exit
+      at return@16 acts on [g@10 f@8]
+
+heldout/H04_closure_two_vars/main.go:10  var g in H04_closure_two_vars.scenario  (loop=false goroutine=false)
+  acquire  line 10  [unacquired] via os.Open
+  use      line 15  [Open]    via call H04_closure_two_vars.useFile
+  release  line 13  [Open]    via defer@13 at return@16
+  defer@13 (always) t18()
+      captures fn: cell t16(fn), read at exit
+      captures f: cell t0(f), read at exit
+      captures gn: cell t17(gn), read at exit
+      captures g: cell t7(g), read at exit
+      at return@16 acts on [g@10 f@8]
+
+heldout/H05_field_alias/main.go:8  var f in H05_field_alias.scenario  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  use      line 12  [Open]    via call H05_field_alias.useFile
+  release  line 11  [Open]    via defer@11 at return@13
+  defer@11 (always) example.com/rescflow/heldout/H05_field_alias.closeFile("A":string, t8)
+      captures t8: value fixed at registration = {f@8}
+      at return@13 acts on [f@8]
+
+heldout/H06_method_defer/main.go:12  var f in H06_method_defer.scenario  (loop=false goroutine=false)
+  acquire  line 12  [unacquired] via os.Open
+  use      line 15  [Open]    via call H06_method_defer.(*logFile).run
+  release  line 15  [Open]    via call H06_method_defer.(*logFile).run
+  defer@8 (always) example.com/rescflow/heldout/H06_method_defer.closeFile("A":string, t1)
+      captures t1: value fixed at registration = {input#0}
+      at return@10 acts on [input#0]
+      at exit of H06_method_defer.(*logFile).run, called from H06_method_defer.scenario@15 acts on [f@12]
+
+heldout/H07_early_return_in_loop/main.go:10  var f in H07_early_return_in_loop.scenario  (loop=true goroutine=false)
+  acquire  line 10  [unacquired] via os.Open
+  acquire  line 10  [Open]    via os.Open
+  release  line 12  [Open]    via defer@12 at return@16
+  release  line 12  [Failed]  via defer@12 at return@11
+  release  line 12  [Open]    via defer@12 at return@13
+  defer@12 (loop) example.com/rescflow/heldout/H07_early_return_in_loop.closeFile(t20, t9)
+      captures f: value fixed at registration = {f@10}
+      at return@11 acts on [f@10]
+      at return@13 acts on [f@10]
+      at return@16 acts on [f@10]
+
+heldout/H08_factory_helper/main.go:8  var f in H08_factory_helper.openChecked  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  acquire  line 13  [unacquired] via returned by H08_factory_helper.openChecked (result 0)
+  use      line 16  [Open]    via call H08_factory_helper.useFile
+  release  line 15  [Open]    via defer@15 at return@17
+  defer@15 (always) example.com/rescflow/heldout/H08_factory_helper.closeFile("A":string, t1)
+      captures f: value fixed at registration = {f@8}
+      at return@17 acts on [f@8]
+  escape   line 10: returned to the caller of H08_factory_helper.openChecked (ownership transfer)
+
+heldout/H09_nested_calls/main.go:8  var g in H09_nested_calls.inner  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  use      line 11  [Open]    via call H09_nested_calls.useFile
+  release  line 10  [Open]    via defer@10 at return@12
+  defer@10 (always) example.com/rescflow/heldout/H09_nested_calls.closeFile("B":string, t2)
+      captures g: value fixed at registration = {g@8}
+      at return@12 acts on [g@8]
+
+heldout/H09_nested_calls/main.go:14  var f in H09_nested_calls.scenario  (loop=false goroutine=false)
+  acquire  line 14  [unacquired] via os.Open
+  use      line 18  [Open]    via call H09_nested_calls.useFile
+  release  line 16  [Open]    via defer@16 at return@19
+  defer@16 (always) example.com/rescflow/heldout/H09_nested_calls.closeFile("A":string, t2)
+      captures f: value fixed at registration = {f@14}
+      at return@19 acts on [f@14]
+
+heldout/H10_close_error_join/main.go:8  var f in H10_close_error_join.scenario  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  use      line 11  [Open]    via call H10_close_error_join.useFile
+  release  line 10  [Open]    via defer@10 at return@12
+  defer@10 (always) t11()
+      captures f: cell t1(f), read at exit
+      captures err: cell t0(err), read at exit
+      at return@12 acts on [f@8]
+      close error -> named result "err"
+  note     close error is stored into named result "err" of H10_close_error_join.scenario
+
+heldout/H11_panic_from_callee/main.go:10  var f in H11_panic_from_callee.scenario  (loop=false goroutine=false)
+  acquire  line 10  [unacquired] via os.Open
+  use      line 13  [Open]    via call H11_panic_from_callee.useFile
+  release  line 12  [Open]    via defer@12 at panic->recovered@14
+  defer@12 (always) example.com/rescflow/heldout/H11_panic_from_callee.closeFile("A":string, t2)
+      captures f: value fixed at registration = {f@10}
+      at panic->recovered@14 acts on [f@10]
+
+heldout/H12_path_dependent_ownership/main.go:8  var f in H12_path_dependent_ownership.scenario  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  use      line 12  [Open]    via call H12_path_dependent_ownership.useFile
+  release  line 11  [Open]    via defer@11 at return@13
+  acquire  line 22  [unacquired] via returned by H12_path_dependent_ownership.scenario (result 0)
+  use      line 22  [Open]    via call H12_path_dependent_ownership.useFile
+  release  line 22  [Open]    via call H12_path_dependent_ownership.closeFile
+  defer@11 (always) example.com/rescflow/heldout/H12_path_dependent_ownership.closeFile("A":string, t3)
+      captures f: value fixed at registration = {f@8}
+      at return@13 acts on [f@8]
+  escape   line 10: returned to the caller of H12_path_dependent_ownership.scenario (ownership transfer)
+
+heldout/H13_goroutine_defer/main.go:12  var f in H13_goroutine_defer.scenario$1  (loop=false goroutine=true)
+  acquire  line 12  [unacquired] via os.Open
+  use      line 15  [Open]    via call H13_goroutine_defer.useFile
+  release  line 14  [Open]    via defer@14 at return@16
+  defer@14 (always) example.com/rescflow/heldout/H13_goroutine_defer.closeFile("A":string, t2)
+      captures f: value fixed at registration = {f@12}
+      at return@16 acts on [f@12]
+  note     UNRESOLVED goroutine at line 12: resource acquired, used or released inside a goroutine (`go` statement)
+
+heldout/H14_dynamic_closer/main.go:8  var f in H14_dynamic_closer.scenario  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  use      line 13  [Open]    via call H14_dynamic_closer.useFile
+  release  line 12  [Open]    via defer@12 at return@14
+  defer@12 (always) invoke t12.Close()
+      captures c: value fixed at registration = {f@8}
+      at return@14 acts on [f@8]
+  ANOMALY  released by some but not all possible implementations at line 12 (H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close)
+  ANOMALY  may still be open when H14_dynamic_closer.scenario returns at line 14 (state Open|Closed)
+  note     UNRESOLVED dispatch-multi at line 12: interface method call with several possible implementations
+
+== could not be resolved (2)
+  [goroutine] heldout/H13_goroutine_defer/main.go:12 H13_goroutine_defer.scenario$1  resources=[f@12]
+    construct:    resource acquired, used or released inside a goroutine (`go` statement)
+    missing fact: the happens-before order between the goroutine's cleanup and the rest of the program
+    why:          the analysis models a single sequential call stack. A defer inside a goroutine runs when that goroutine's function returns; that moment is ordered with the parent only through synchronization (WaitGroup, channels, mutexes) whose semantics RescFlow does not interpret
+    consequence:  the cleanup point relative to the caller is unknown; a Rust translation would also need Send/'static ownership (e.g. move into the thread, Arc<Mutex<..>>) that the analysis cannot justify
+    human input:  state the synchronization contract (e.g. `wg.Wait()` joins the goroutine before the caller continues) and whether the resource may move to another thread
+    detail:       acquired inside a function started with `go`
+  [dispatch-multi] heldout/H14_dynamic_closer/main.go:12 H14_dynamic_closer.scenario  resources=[f@8]
+    construct:    interface method call with several possible implementations
+    missing fact: which concrete type receives the call at run time
+    why:          the interface value is built from different concrete types on different paths, and the implementations do not have the same effect on the resource (one releases it, another does not)
+    consequence:  release is path-dependent: on at least one path the resource is never closed by this call. No single ownership plan covers both
+    human input:  decide which implementation is intended to own cleanup, or make the close explicit on every path
+    detail:       possible targets: H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close

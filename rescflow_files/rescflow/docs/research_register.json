@@ -1,0 +1,155 @@
+[
+  {
+    "id": "S1",
+    "title": "Go language specification: Defer statements",
+    "url": "https://go.dev/ref/spec#Defer_statements",
+    "accessed": "2026-10-26",
+    "inspection": "Official language specification; relevant section read",
+    "finding": "Function-exit defer stack, argument evaluation and named result semantics.",
+    "implication": "Defines the source-language contract, not evidence that a translator violates it."
+  },
+  {
+    "id": "S2",
+    "title": "Rust Reference: Destructors",
+    "url": "https://doc.rust-lang.org/reference/destructors.html",
+    "accessed": "2026-10-26",
+    "inspection": "Official reference; destructor/drop-scope documentation read",
+    "finding": "Rust cleanup follows drop scopes and ownership operations.",
+    "implication": "A syntactic block-to-block rewrite needs a cleanup-timing argument."
+  },
+  {
+    "id": "S3",
+    "title": "Rust standard library: std::fs::File",
+    "url": "https://doc.rust-lang.org/std/fs/struct.File.html",
+    "accessed": "2026-10-26",
+    "inspection": "Official API; relevant description read",
+    "finding": "File Drop ignores close errors.",
+    "implication": "A named Go result that observes Close errors cannot be justified by File Drop alone; sync_all is not established as an exact Close-error replacement."
+  },
+  {
+    "id": "S4",
+    "title": "Go os.Exit",
+    "url": "https://pkg.go.dev/os#Exit",
+    "accessed": "2026-10-26",
+    "inspection": "Official API; relevant section read",
+    "finding": "Exit terminates without executing deferred functions.",
+    "implication": "Exclude abrupt process exit from an initial normal-return proof."
+  },
+  {
+    "id": "S5",
+    "title": "golang.org/x/tools/go/ssa",
+    "url": "https://pkg.go.dev/golang.org/x/tools/go/ssa",
+    "accessed": "2026-10-26",
+    "inspection": "Official API; Defer and instruction documentation read",
+    "finding": "SSA has Defer and RunDefers instructions and source positions.",
+    "implication": "Use an established typed IR; SSA itself does not prove resource obligations."
+  },
+  {
+    "id": "S6",
+    "title": "go/packages and ssautil",
+    "url": "https://pkg.go.dev/golang.org/x/tools/go/ssa/ssautil",
+    "accessed": "2026-10-26",
+    "inspection": "Official API signatures read; packages documentation also consulted",
+    "finding": "AllPackages consumes loaded packages and constructs an SSA program.",
+    "implication": "Select packages.LoadAllSyntax and SSA for the compiler-backed prototype; compilation pending."
+  },
+  {
+    "id": "S7",
+    "title": "Go2Rust repository",
+    "url": "https://github.com/tylerlaprade/go2rust",
+    "accessed": "2026-10-26",
+    "inspection": "Current README read; code checkout unavailable",
+    "finding": "Documents conservative translation, wrapped representations and several defer features. The self-hosted behavior gate is not fully passing.",
+    "implication": "Do not infer a general resource-cleanup bug from a self-hosting caveat; measure this corpus on a pinned revision."
+  },
+  {
+    "id": "S8",
+    "title": "Rustygo repository (KarpelesLab)",
+    "url": "https://github.com/KarpelesLab/rustygo",
+    "accessed": "2026-10-26",
+    "inspection": "Current README read; code checkout unavailable",
+    "finding": "Documents Go SSA input, a tracing GC runtime, defer support and Linux-only file/socket layer.",
+    "implication": "Retained GC is an architectural choice, not evidence of incorrect cleanup. Linux is the sensible first file-benchmark platform."
+  },
+  {
+    "id": "S9",
+    "title": "Zhang et al. Scalable, Validated Code Translation of Entire Projects using Large Language Models. PLDI 2025.",
+    "url": "https://mengwangoxf.github.io/Papers/PLDI25.pdf",
+    "accessed": "2026-10-26",
+    "inspection": "Paper abstract and relevant design passages read",
+    "finding": "Oxidizer uses feature mappings and type checks with execution-based I/O validation; reports 73% of functions validated on its evaluation.",
+    "implication": "A function-level I/O result is not RescFlow resource-event accuracy or a universal equivalence proof."
+  },
+  {
+    "id": "S10",
+    "title": "Shadab et al. Inference of Resource Management Specifications. OOPSLA 2023.",
+    "url": "https://homes.cs.washington.edu/~mernst/pubs/resource-inference-oopsla2023-abstract.html",
+    "accessed": "2026-10-26",
+    "inspection": "Author abstract read",
+    "finding": "Infers resource specifications in Java/C#; reports 85.5% recovery of manually written annotations.",
+    "implication": "Motivates ownership/obligation summaries; that percentage is not expected Go analysis recall."
+  },
+  {
+    "id": "S11",
+    "title": "Zhang et al. Ownership Guided C to Rust Translation. 2023.",
+    "url": "https://arxiv.org/abs/2303.10515",
+    "accessed": "2026-10-26",
+    "inspection": "Author preprint abstract read",
+    "finding": "Crown infers ownership for C pointers and uses it for Rust translation.",
+    "implication": "Ownership information is useful but does not itself encode Go defer timing."
+  },
+  {
+    "id": "S12",
+    "title": "Chen, Coughlin and Bond. &inator: Correct, Precise C-to-Rust Interface Translation. 2026.",
+    "url": "https://arxiv.org/abs/2604.17261",
+    "accessed": "2026-10-26",
+    "inspection": "Preprint abstract; v2 dated April 21, 2026",
+    "finding": "Constraint-based interfaces combine semantic and borrowing requirements.",
+    "implication": "Use explicit proof obligations and conservative abstention; do not claim its C guarantees extend to Go cleanup."
+  },
+  {
+    "id": "S13",
+    "title": "Zhang et al. Validated Code Translation for Projects with External Libraries. 2026.",
+    "url": "https://arxiv.org/abs/2602.18534",
+    "accessed": "2026-10-26",
+    "inspection": "Preprint abstract; February 20, 2026",
+    "finding": "Combines API mapping with public-API adapters for opaque library types in Go-to-Rust validation.",
+    "implication": "Directly relevant to os.File and later database handles; add API-level event observations rather than comparing raw IR lifetimes."
+  },
+  {
+    "id": "S14",
+    "title": "Malakar et al. Repairing Leaks in Resource Wrappers. ASE 2025.",
+    "url": "https://arxiv.org/abs/2510.03461",
+    "accessed": "2026-10-26",
+    "inspection": "Preprint abstract plus ASE proceedings metadata verified",
+    "finding": "Addresses wrapper resources and field containment in leak repair.",
+    "implication": "The proposal calls this a preprint; a 2025 ASE publication is now documented. Wrapper fields deserve explicit analysis."
+  },
+  {
+    "id": "S15",
+    "title": "Wang et al. Mostly Automatic Translation of Language Interpreters from C to Safe Rust. 2026.",
+    "url": "https://arxiv.org/abs/2606.27122",
+    "accessed": "2026-10-26",
+    "inspection": "Preprint abstract; June 25, 2026",
+    "finding": "Reboot reports stronger results on provided tests than on separate validation tests.",
+    "implication": "Reserve held-out cases; do not treat passing the authored suite as general correctness."
+  },
+  {
+    "id": "S16",
+    "title": "Okhravi et al. TRACTOR Benchmark for Evaluating C to Rust Translators. 2026.",
+    "url": "https://arxiv.org/abs/2609.25121",
+    "accessed": "2026-10-26",
+    "inspection": "Preprint abstract; September 20, 2026",
+    "finding": "Separates correctness, safety, idiomaticity and performance in a translation benchmark.",
+    "implication": "Keep those dimensions distinct; relevant evaluation precedent, not a Go baseline."
+  },
+  {
+    "id": "S17",
+    "title": "The Go Authors. A Guide to the Go Garbage Collector",
+    "url": "https://go.dev/doc/gc-guide",
+    "accessed": "2026-10-26",
+    "inspection": "Official guide search retrieval; background only",
+    "finding": "Discusses memory-management tradeoffs and resource cleanup context.",
+    "implication": "Do not convert workload-specific migration stories into a universal Rust speed or leak-elimination claim."
+  }
+]

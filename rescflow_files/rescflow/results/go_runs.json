@@ -1,0 +1,653 @@
+{
+  "environment": {
+    "python": "3.13.18 (main, Oct 26 2026, 14:08:19) [Clang 23.1.3 ]",
+    "platform": "Linux-6.18.44-fc-v310-x86_64-with-glibc2.39",
+    "go": {
+      "command": [
+        "/usr/local/go/bin/go",
+        "version"
+      ],
+      "returncode": 0,
+      "stdout": "go version go1.27.0 linux/amd64\n",
+      "stderr": ""
+    }
+  },
+  "programs": [
+    {
+      "id": "01",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case01",
+          "/home/user/cs329/rescflow/benchmarks/01_local/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case01",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "02",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case02",
+          "/home/user/cs329/rescflow/benchmarks/02_early_before/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case02",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        },
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case02",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            "early"
+          ],
+          "returncode": 0,
+          "stdout": "early\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "03",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case03",
+          "/home/user/cs329/rescflow/benchmarks/03_early_after/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case03",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        },
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case03",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            "early"
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nearly\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "early",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "04",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case04",
+          "/home/user/cs329/rescflow/benchmarks/04_failed_acquire/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case04",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "05",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case05",
+          "/home/user/cs329/rescflow/benchmarks/05_two_lifo/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case05",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nbody\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "06",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case06",
+          "/home/user/cs329/rescflow/benchmarks/06_nested_block/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case06",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\ninside\nafter-block\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "07",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case07",
+          "/home/user/cs329/rescflow/benchmarks/07_conditional/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case07",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nbody-end\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        },
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case07",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            "defer"
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nbody-end\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "defer",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "08",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case08",
+          "/home/user/cs329/rescflow/benchmarks/08_loop/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case08",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire 0 true\niteration 0\nacquire 1 true\niteration 1\nacquire 2 true\niteration 2\nafter-loop\nclose 2 true\nclose 1 true\nclose 0 true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "09",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case09",
+          "/home/user/cs329/rescflow/benchmarks/09_return_open/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case09",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "10",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case10",
+          "/home/user/cs329/rescflow/benchmarks/10_return_closed/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case10",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nreturned\nuse A false\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "11",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case11",
+          "/home/user/cs329/rescflow/benchmarks/11_global_escape/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case11",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nstored\nreturned\nuse A true\nclose A true\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "12",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case12",
+          "/home/user/cs329/rescflow/benchmarks/12_alias/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case12",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "13",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case13",
+          "/home/user/cs329/rescflow/benchmarks/13_eager_argument/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case13",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nuse B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "14",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case14",
+          "/home/user/cs329/rescflow/benchmarks/14_late_closure/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case14",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose A true\nuse B true\nclose B true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "15",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case15",
+          "/home/user/cs329/rescflow/benchmarks/15_closure_parameter/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case15",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nacquire B true\nclose B true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "16",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case16",
+          "/home/user/cs329/rescflow/benchmarks/16_named_result/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case16",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A false\nresult-error true\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "17",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case17",
+          "/home/user/cs329/rescflow/benchmarks/17_panic_unwind/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case17",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\npanic\nclose A true\nrecovered\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "18",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case18",
+          "/home/user/cs329/rescflow/benchmarks/18_helper_boundary/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case18",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nhelper\nclose A true\nuse A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "19",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case19",
+          "/home/user/cs329/rescflow/benchmarks/19_double_close/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case19",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nclose A true\nclose A false\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    },
+    {
+      "id": "20",
+      "build": {
+        "command": [
+          "/usr/local/go/bin/go",
+          "build",
+          "-o",
+          "/tmp/rescflow-5s98a_il/case20",
+          "/home/user/cs329/rescflow/benchmarks/20_interface_dispatch/main.go"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runs": [
+        {
+          "command": [
+            "/tmp/rescflow-5s98a_il/case20",
+            "/tmp/rescflow-5s98a_il/input.txt",
+            ""
+          ],
+          "returncode": 0,
+          "stdout": "acquire A true\nuse A true\nclose A true\nreturned\n",
+          "stderr": "",
+          "mode": "",
+          "oracle_match": true
+        }
+      ],
+      "status": "oracle_pass"
+    }
+  ]
+}

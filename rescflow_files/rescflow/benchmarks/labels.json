@@ -1,0 +1,801 @@
+[
+  {
+    "id": "01",
+    "name": "local",
+    "category": "local",
+    "cleanup_order": "A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/01_local/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "use A true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "02",
+    "name": "early_before",
+    "category": "early-return",
+    "cleanup_order": "A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/02_early_before/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 9,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 11,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      },
+      {
+        "mode": "early",
+        "trace": [
+          "early",
+          "returned"
+        ],
+        "expected_stdout": [
+          "early",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "03",
+    "name": "early_after",
+    "category": "early-return",
+    "cleanup_order": "A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/03_early_after/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "use A true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      },
+      {
+        "mode": "early",
+        "trace": [
+          "acquire A true",
+          "early",
+          "close A true",
+          "returned"
+        ],
+        "expected_stdout": [
+          "acquire A true",
+          "early",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "04",
+    "name": "failed_acquire",
+    "category": "failure",
+    "cleanup_order": "none (acquisition fails)",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/04_failed_acquire/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path + \"/missing\")"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A false",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "05",
+    "name": "two_lifo",
+    "category": "ordered",
+    "cleanup_order": "B,A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/05_two_lifo/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      },
+      {
+        "kind": "acquire",
+        "label": "B",
+        "line": 11,
+        "source": "g, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D2 B",
+        "line": 13,
+        "source": "defer closeFile(\"B\", g)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "acquire B true",
+          "body",
+          "close B true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "06",
+    "name": "nested_block",
+    "category": "scope",
+    "cleanup_order": "A at function exit, not block exit",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/06_nested_block/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 9,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 11,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "inside",
+          "after-block",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "07",
+    "name": "conditional",
+    "category": "conditional",
+    "cleanup_order": "A deferred only in defer mode; otherwise explicit",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/07_conditional/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 11,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "use A true",
+          "close A true",
+          "body-end",
+          "returned"
+        ],
+        "expected_exit": 0
+      },
+      {
+        "mode": "defer",
+        "expected_stdout": [
+          "acquire A true",
+          "use A true",
+          "body-end",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "08",
+    "name": "loop",
+    "category": "loop",
+    "cleanup_order": "2,1,0; one static acquisition site, three instances",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/08_loop/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 10,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 12,
+        "source": "defer closeFile(id, f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire 0 true",
+          "iteration 0",
+          "acquire 1 true",
+          "iteration 1",
+          "acquire 2 true",
+          "iteration 2",
+          "after-loop",
+          "close 2 true",
+          "close 1 true",
+          "close 0 true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "09",
+    "name": "return_open",
+    "category": "returned",
+    "cleanup_order": "caller closes A",
+    "escape": "return",
+    "notes": "scenario signature returns *os.File",
+    "file": "benchmarks/09_return_open/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "returned",
+          "use A true",
+          "close A true"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "10",
+    "name": "return_closed",
+    "category": "returned-closed",
+    "cleanup_order": "A before caller receives handle",
+    "escape": "return",
+    "notes": "Preserve the source closed handle; do not silently repair it.",
+    "file": "benchmarks/10_return_closed/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "close A true",
+          "returned",
+          "use A false"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "11",
+    "name": "global_escape",
+    "category": "stored",
+    "cleanup_order": "caller closes A",
+    "escape": "global",
+    "notes": "",
+    "file": "benchmarks/11_global_escape/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "stored",
+          "returned",
+          "use A true",
+          "close A true"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "12",
+    "name": "alias",
+    "category": "alias",
+    "cleanup_order": "A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/12_alias/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 11,
+        "source": "defer closeFile(\"A\", g)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "use A true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "13",
+    "name": "eager_argument",
+    "category": "capture-value",
+    "cleanup_order": "explicit B, then deferred A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/13_eager_argument/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      },
+      {
+        "kind": "acquire",
+        "label": "B",
+        "line": 11,
+        "source": "g, err := os.Open(path)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "acquire B true",
+          "use B true",
+          "close B true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "14",
+    "name": "late_closure",
+    "category": "capture-cell",
+    "cleanup_order": "explicit A, then deferred B",
+    "escape": "none",
+    "notes": "B label applies to the successful path. If B acquisition fails, the closure closes A with a misleading printed B tag; excluded from current oracle inputs.",
+    "file": "benchmarks/14_late_closure/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 B",
+        "line": 10,
+        "source": "defer func() { closeFile(\"B\", f) }()"
+      },
+      {
+        "kind": "acquire",
+        "label": "B",
+        "line": 11,
+        "source": "g, err := os.Open(path)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "acquire B true",
+          "close A true",
+          "use B true",
+          "close B true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "15",
+    "name": "closure_parameter",
+    "category": "capture-value",
+    "cleanup_order": "explicit B, then deferred A",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/15_closure_parameter/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer func(x *os.File) { closeFile(\"A\", x) }(f)"
+      },
+      {
+        "kind": "acquire",
+        "label": "B",
+        "line": 11,
+        "source": "g, err := os.Open(path)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "acquire B true",
+          "close B true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "16",
+    "name": "named_result",
+    "category": "named-result",
+    "cleanup_order": "explicit A success, deferred A error",
+    "escape": "none",
+    "notes": "A deterministic second-close error drives named-result mutation; not an injected disk fault.",
+    "file": "benchmarks/16_named_result/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer func() { result = closeFile(\"A\", f) }()"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "close A true",
+          "close A false",
+          "result-error true"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "17",
+    "name": "panic_unwind",
+    "category": "panic",
+    "cleanup_order": "A then recovery",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/17_panic_unwind/main.go",
+    "sites": [
+      {
+        "kind": "defer",
+        "label": "D0 none",
+        "line": 8,
+        "source": "defer func() { if recover() != nil { fmt.Println(\"recovered\") } }()"
+      },
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 9,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 11,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "panic",
+          "close A true",
+          "recovered",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "18",
+    "name": "helper_boundary",
+    "category": "interprocedural",
+    "cleanup_order": "A at helper exit",
+    "escape": "borrow-to-helper",
+    "notes": "",
+    "file": "benchmarks/18_helper_boundary/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 15,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "helper",
+          "close A true",
+          "use A false",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "19",
+    "name": "double_close",
+    "category": "double-close",
+    "cleanup_order": "explicit A then deferred A error",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/19_double_close/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 10,
+        "source": "defer closeFile(\"A\", f)"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "close A true",
+          "close A false",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  },
+  {
+    "id": "20",
+    "name": "interface_dispatch",
+    "category": "interface",
+    "cleanup_order": "A through interface",
+    "escape": "none",
+    "notes": "",
+    "file": "benchmarks/20_interface_dispatch/main.go",
+    "sites": [
+      {
+        "kind": "acquire",
+        "label": "A",
+        "line": 8,
+        "source": "f, err := os.Open(path)"
+      },
+      {
+        "kind": "defer",
+        "label": "D1 A",
+        "line": 11,
+        "source": "defer c.Close()"
+      }
+    ],
+    "inputs": [
+      {
+        "mode": "",
+        "expected_stdout": [
+          "acquire A true",
+          "use A true",
+          "close A true",
+          "returned"
+        ],
+        "expected_exit": 0
+      }
+    ],
+    "label_status": "author-derived; not independently reviewed; Go execution pending"
+  }
+]

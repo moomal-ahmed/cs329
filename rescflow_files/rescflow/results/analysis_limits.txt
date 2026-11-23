@@ -1,0 +1,259 @@
+######## testdata/limits/channel_send
+RescFlow analysis (go1.26.5) of ./testdata/limits/channel_send/
+  package example.com/rescflow/testdata/limits/channel_send: analyzed
+
+== resource records (1)
+
+testdata/limits/channel_send/main.go:9  var f in channel_send.main  (loop=false goroutine=false)
+  acquire  line 9   [unacquired] via os.Open
+  escape   line 11: stored in a map or sent on a channel
+  note     UNRESOLVED collection at line 11: resource stored in a slice, array element, map or channel
+
+== could not be resolved (1)
+  [collection] testdata/limits/channel_send/main.go:11 channel_send.main  resources=[f@9]
+    construct:    resource stored in a slice, array element, map or channel
+    missing fact: which element holds which resource
+    why:          the analysis does not distinguish elements of collections, so every element is one abstract cell and updates are never exact
+    consequence:  ownership is shared by the whole collection; cleanup order of individual elements is unknown
+    human input:  state whether the collection owns its resources (Vec<File> dropped together) and in which order they must be closed
+    detail:       send t0 <- t3
+(exit code 0)
+######## testdata/limits/closure_escape
+RescFlow analysis (go1.26.5) of ./testdata/limits/closure_escape/
+  package example.com/rescflow/testdata/limits/closure_escape: analyzed
+
+== resource records (1)
+
+testdata/limits/closure_escape/main.go:8  var f in closure_escape.opener  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  acquire  line 13  [unacquired] via returned by closure_escape.opener (result 0)
+  escape   line 10: returned to the caller of closure_escape.opener (ownership transfer)
+  escape   line 14: passed to a call through a function value
+  note     UNRESOLVED closure-escape at line 10: closure capturing a resource escapes the function
+  note     UNRESOLVED dynamic-call at line 14: call through a function value
+
+== could not be resolved (2)
+  [closure-escape] testdata/limits/closure_escape/main.go:10 closure_escape.opener  resources=[f@8]
+    construct:    closure capturing a resource escapes the function
+    missing fact: when (or whether) the closure runs
+    why:          the closure is returned or stored instead of being called or deferred here, so its effects happen at an unknown later time
+    consequence:  the captured resource's lifetime extends beyond the function; treated as an escape
+    human input:  state who calls the closure and whether it must own the resource
+    detail:       make closure opener$1 [t0]
+  [dynamic-call] testdata/limits/closure_escape/main.go:14 closure_escape.main  resources=[f@8]
+    construct:    call through a function value
+    missing fact: which function body runs
+    why:          the callee is a variable (parameter, field, map entry), not a statically known function or a closure created in the same function
+    consequence:  the call may release or keep the resource; it is treated as an escape
+    human input:  identify the possible callees, or pass the resource only to statically known functions
+    detail:       t0()
+(exit code 0)
+######## testdata/limits/collection
+RescFlow analysis (go1.26.5) of ./testdata/limits/collection/
+  package example.com/rescflow/testdata/limits/collection: analyzed
+
+== resource records (1)
+
+testdata/limits/collection/main.go:10  var f in collection.main  (loop=true goroutine=false)
+  acquire  line 10  [unacquired] via os.Open
+  acquire  line 10  [Open]    via os.Open
+  escape   line 12: stored in a slice/array element
+  note     UNRESOLVED collection at line 12: resource stored in a slice, array element, map or channel
+
+== could not be resolved (1)
+  [collection] testdata/limits/collection/main.go:12 collection.main  resources=[f@10]
+    construct:    resource stored in a slice, array element, map or channel
+    missing fact: which element holds which resource
+    why:          the analysis does not distinguish elements of collections, so every element is one abstract cell and updates are never exact
+    consequence:  ownership is shared by the whole collection; cleanup order of individual elements is unknown
+    human input:  state whether the collection owns its resources (Vec<File> dropped together) and in which order they must be closed
+    detail:       *t10 = t5
+(exit code 0)
+######## testdata/limits/dynamic_call
+RescFlow analysis (go1.26.5) of ./testdata/limits/dynamic_call/
+  package example.com/rescflow/testdata/limits/dynamic_call: analyzed
+
+== func dynamic_call.run  (testdata/limits/dynamic_call/main.go:7)
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[]
+
+== resource records (1)
+
+testdata/limits/dynamic_call/main.go:8  var f in dynamic_call.run  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  escape   line 10: deferred call with unknown target
+  note     UNRESOLVED dynamic-call at line 10: call through a function value
+
+== could not be resolved (1)
+  [dynamic-call] testdata/limits/dynamic_call/main.go:10 dynamic_call.run  resources=[f@8]
+    construct:    call through a function value
+    missing fact: which function body runs
+    why:          the callee is a variable (parameter, field, map entry), not a statically known function or a closure created in the same function
+    consequence:  the call may release or keep the resource; it is treated as an escape
+    human input:  identify the possible callees, or pass the resource only to statically known functions
+    detail:       closer(t2)
+(exit code 0)
+######## testdata/limits/newer_go
+RescFlow analysis (go1.26.5) of ./...
+
+== resource records (0)
+
+== could not be resolved (1)
+  [load-list] :0   resources=[]
+    construct:    module requires a newer Go version
+    missing fact: the package's files and dependencies
+    why:          the go directive (or a //go:build version) asks for a Go release newer than the analyzer's toolchain (go1.26.5); the go command and go/types refuse code whose language version they do not know
+    consequence:  no syntax tree, types or SSA exist for this package, so none of its resources can be analyzed
+    human input:  analyze with a matching Go toolchain and golang.org/x/tools release, or lower the go directive if the code does not use newer language features
+    detail:       err: exit status 1: stderr: go: go.mod requires go >= 1.99 (running go 1.26.5; GOTOOLCHAIN=local)
+
+(exit code 2)
+######## testdata/limits/os_exit
+RescFlow analysis (go1.26.5) of ./testdata/limits/os_exit/
+  package example.com/rescflow/testdata/limits/os_exit: analyzed
+
+== func os_exit.main  (testdata/limits/os_exit/main.go:7)
+  exit line 9 [return]: no deferred calls
+  exit line 11 [os.Exit (defers skipped)]: no deferred calls  STILL OPEN: [f@8]
+  exit line 13 [return]: defer@10->[f@8]
+
+== resource records (1)
+
+testdata/limits/os_exit/main.go:8  var f in os_exit.main  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  release  line 10  [Open]    via defer@10 at return@13
+  defer@10 (always) (*os.File).Close(t2)
+      captures f: value fixed at registration = {f@8}
+      at return@13 acts on [f@8]
+  note     UNRESOLVED exit-bypass at line 11: os.Exit / log.Fatal while a deferred cleanup or open resource is pending
+
+== could not be resolved (1)
+  [exit-bypass] testdata/limits/os_exit/main.go:11 os_exit.main  resources=[f@8]
+    construct:    os.Exit / log.Fatal while a deferred cleanup or open resource is pending
+    missing fact: none: the behavior is known, Go skips deferred calls
+    why:          os.Exit terminates immediately without running defers; Rust's std::process::exit also skips destructors, but RescFlow's initial scope excludes abrupt exit
+    consequence:  the pending cleanup never runs; the OS reclaims the descriptor at process exit
+    human input:  confirm that skipping cleanup on this path is intended
+    detail:       os.Exit
+(exit code 0)
+######## testdata/limits/recursion
+RescFlow analysis (go1.26.5) of ./testdata/limits/recursion/
+  package example.com/rescflow/testdata/limits/recursion: analyzed
+
+== func recursion.closeAll  (testdata/limits/recursion/main.go:7)
+  exit line 8 [return]: no deferred calls
+  exit line 11 [return]: defer@9->[]
+
+== resource records (1)
+
+testdata/limits/recursion/main.go:17  var f in recursion.main  (loop=false goroutine=false)
+  acquire  line 17  [unacquired] via os.Open
+  release  line 19  [Open]    via call recursion.walk
+  escape   line 19: passed to recursion.walk (recursion) (inside recursion.walk)
+
+== could not be resolved (2)
+  [recursion] testdata/limits/recursion/main.go:10 recursion.closeAll  resources=[]
+    construct:    recursive call cycle
+    missing fact: a finished summary for the callee
+    why:          summaries are computed bottom-up over the call graph; a cycle has no bottom, and this prototype does not iterate summaries to a fixpoint
+    consequence:  the recursive call is treated as unknown; resources passed through it escape
+    human input:  confirm the recursion's resource contract (e.g. each level closes what it opens)
+    detail:       recursion.closeAll
+  [recursion] testdata/limits/recursion/main.go:14 recursion.walk  resources=[]
+    construct:    recursive call cycle
+    missing fact: a finished summary for the callee
+    why:          summaries are computed bottom-up over the call graph; a cycle has no bottom, and this prototype does not iterate summaries to a fixpoint
+    consequence:  the recursive call is treated as unknown; resources passed through it escape
+    human input:  confirm the recursion's resource contract (e.g. each level closes what it opens)
+    detail:       recursion.walk
+(exit code 0)
+######## testdata/limits/syntax_error
+RescFlow analysis (go1.26.5) of ./testdata/limits/syntax_error/
+  package example.com/rescflow/testdata/limits/syntax_error: NOT ANALYZED
+    [load-parse] testdata/limits/syntax_error/main.go:11   resources=[]
+      construct:    source does not parse
+      missing fact: a syntax tree
+      why:          the file is not syntactically valid Go; SSA is built from typed syntax trees, so nothing downstream can run
+      consequence:  the package is skipped entirely
+      human input:  fix the syntax error at the reported position
+      detail:       testdata/limits/syntax_error/main.go:11:17: missing ',' before newline in argument list; testdata/limits/syntax_error/main.go:12:1: expected operand, found '}'; testdata/limits/syntax_error/main.go:12:3: expected ')', found 'EOF'; ... and 4 more
+    [load-type] testdata/limits/syntax_error/main.go:11   resources=[]
+      construct:    source does not type-check
+      missing fact: complete type information
+      why:          go/ssa only builds well-typed packages: every call target, method set and conversion must be known. An ill-typed package cannot be lowered to SSA soundly
+      consequence:  the package is skipped entirely
+      human input:  fix the type error (or supply the missing dependency) so that `go vet` passes
+      detail:       testdata/limits/syntax_error/main.go:11:1: multiple-value fmt.Println("x") (value of type (n int, err error)) in single-value context; testdata/limits/syntax_error/main.go:11:1: too many arguments in call to f.Close
+	have ((n int, err error), unknown type)
+	want ()
+
+== resource records (0)
+(exit code 2)
+######## testdata/limits/type_error
+RescFlow analysis (go1.26.5) of ./testdata/limits/type_error/
+  package example.com/rescflow/testdata/limits/type_error: NOT ANALYZED
+    [load-type] testdata/limits/type_error/main.go:11   resources=[]
+      construct:    source does not type-check
+      missing fact: complete type information
+      why:          go/ssa only builds well-typed packages: every call target, method set and conversion must be known. An ill-typed package cannot be lowered to SSA soundly
+      consequence:  the package is skipped entirely
+      human input:  fix the type error (or supply the missing dependency) so that `go vet` passes
+      detail:       testdata/limits/type_error/main.go:11:13: undefined: undefinedName
+
+== resource records (0)
+(exit code 2)
+######## testdata/limits/unknown_callee
+RescFlow analysis (go1.26.5) of ./testdata/limits/unknown_callee/
+  package example.com/rescflow/testdata/limits/unknown_callee: analyzed
+
+== func unknown_callee.main  (testdata/limits/unknown_callee/main.go:7)
+  exit line 9 [return]: no deferred calls
+  exit line 13 [return]: defer@10->[f@8]
+
+== resource records (1)
+
+testdata/limits/unknown_callee/main.go:8  var f in unknown_callee.main  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  release  line 10  [Open]    via defer@10 at return@13
+  defer@10 (always) (*os.File).Close(t2)
+      captures f: value fixed at registration = {f@8}
+      at return@13 acts on [f@8]
+  escape   line 11: passed to bufio.NewReader (no analyzable body (outside the analyzed packages))
+  note     UNRESOLVED unknown-callee at line 11: resource passed to a function without an analyzable body
+
+== could not be resolved (1)
+  [unknown-callee] testdata/limits/unknown_callee/main.go:11 unknown_callee.main  resources=[f@8]
+    construct:    resource passed to a function without an analyzable body
+    missing fact: what the callee does with the resource
+    why:          the callee lives outside the analyzed packages (standard library without a model, assembly, cgo) so no summary exists
+    consequence:  the resource is treated as escaping at this call: ownership after the call is unknown
+    human input:  add a summary for the callee to the API model (does it close, use, store or return the resource?)
+    detail:       bufio.NewReader
+(exit code 0)
+######## testdata/limits/unsafe_alias
+RescFlow analysis (go1.26.5) of ./testdata/limits/unsafe_alias/
+  package example.com/rescflow/testdata/limits/unsafe_alias: analyzed
+
+== func unsafe_alias.main  (testdata/limits/unsafe_alias/main.go:7)
+  exit line 9 [return]: no deferred calls
+  exit line 13 [return]: defer@10->[f@8]
+
+== resource records (1)
+
+testdata/limits/unsafe_alias/main.go:8  var f in unsafe_alias.main  (loop=false goroutine=false)
+  acquire  line 8   [unacquired] via os.Open
+  release  line 10  [Open]    via defer@10 at return@13
+  defer@10 (always) (*os.File).Close(t2)
+      captures f: value fixed at registration = {f@8}
+      at return@13 acts on [f@8]
+  note     UNRESOLVED unsafe at line 11: resource converted to unsafe.Pointer or passed to reflect
+
+== could not be resolved (1)
+  [unsafe] testdata/limits/unsafe_alias/main.go:11 unsafe_alias.main  resources=[f@8]
+    construct:    resource converted to unsafe.Pointer or passed to reflect
+    missing fact: all aliases of the resource
+    why:          unsafe and reflect create aliases the type system cannot see
+    consequence:  ownership and release facts for this resource cannot be trusted
+    human input:  remove the unsafe/reflect use or describe the aliasing
+    detail:       convert unsafe.Pointer <- *os.File (t2)
+(exit code 0)

@@ -1,0 +1,925 @@
+{
+  "benchmarks": {
+    "totals": {
+      "acq_tp": 24,
+      "acq_fp": 0,
+      "acq_fn": 0,
+      "def_tp": 20,
+      "def_fp": 0,
+      "def_fn": 0,
+      "assoc_exact": 19,
+      "assoc_superset": 1,
+      "assoc_wrong": 0,
+      "anomaly_ok": 20,
+      "anomaly_bad": 0,
+      "unresolved_ok": 20,
+      "unresolved_bad": 0
+    },
+    "programs": [
+      {
+        "id": "01",
+        "name": "local",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "02",
+        "name": "early_before",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "03",
+        "name": "early_after",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "04",
+        "name": "failed_acquire",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "05",
+        "name": "two_lifo",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          },
+          "13": {
+            "label": [
+              "B"
+            ],
+            "analysis": [
+              "B"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "06",
+        "name": "nested_block",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "07",
+        "name": "conditional",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "08",
+        "name": "loop",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "12": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "09",
+        "name": "return_open",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {},
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "10",
+        "name": "return_closed",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [
+          "use after close at line 20 (call 10_return_closed.useFile)"
+        ],
+        "anomaly_expected": "use after close",
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "11",
+        "name": "global_escape",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {},
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "12",
+        "name": "alias",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "13",
+        "name": "eager_argument",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "14",
+        "name": "late_closure",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "B"
+            ],
+            "analysis": [
+              "A",
+              "B"
+            ],
+            "verdict": "superset (path-dependent)"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "15",
+        "name": "closure_parameter",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "16",
+        "name": "named_result",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [
+          "double close: already closed when released at line 10 (defer@10 at return@12)"
+        ],
+        "anomaly_expected": "double close",
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "17",
+        "name": "panic_unwind",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "8": {
+            "label": [],
+            "analysis": [],
+            "verdict": "exact"
+          },
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "18",
+        "name": "helper_boundary",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "15": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [
+          "use after close at line 11 (call 18_helper_boundary.useFile)"
+        ],
+        "anomaly_expected": "use after close",
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "19",
+        "name": "double_close",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [
+          "double close: already closed when released at line 10 (defer@10 at return@12)"
+        ],
+        "anomaly_expected": "double close",
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "20",
+        "name": "interface_dispatch",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      }
+    ]
+  },
+  "heldout": {
+    "totals": {
+      "acq_tp": 17,
+      "acq_fp": 0,
+      "acq_fn": 0,
+      "def_tp": 17,
+      "def_fp": 0,
+      "def_fn": 0,
+      "assoc_exact": 17,
+      "assoc_superset": 0,
+      "assoc_wrong": 0,
+      "anomaly_ok": 14,
+      "anomaly_bad": 0,
+      "unresolved_ok": 14,
+      "unresolved_bad": 0
+    },
+    "programs": [
+      {
+        "id": "H01",
+        "name": "loop_count",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "15": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H02",
+        "name": "two_per_iteration",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "12": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          },
+          "15": {
+            "label": [
+              "B"
+            ],
+            "analysis": [
+              "B"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H03",
+        "name": "conditional_in_loop",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "13": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H04",
+        "name": "closure_two_vars",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "13": {
+            "label": [
+              "A",
+              "B"
+            ],
+            "analysis": [
+              "A",
+              "B"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H05",
+        "name": "field_alias",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H06",
+        "name": "method_defer",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "8": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H07",
+        "name": "early_return_in_loop",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "12": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H08",
+        "name": "factory_helper",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "15": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H09",
+        "name": "nested_calls",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "B"
+            ],
+            "analysis": [
+              "B"
+            ],
+            "verdict": "exact"
+          },
+          "16": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H10",
+        "name": "close_error_join",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "10": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H11",
+        "name": "panic_from_callee",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "9": {
+            "label": [],
+            "analysis": [],
+            "verdict": "exact"
+          },
+          "12": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H12",
+        "name": "path_dependent_ownership",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "11": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [],
+        "unresolved_expected": null,
+        "unresolved_ok": true
+      },
+      {
+        "id": "H13",
+        "name": "goroutine_defer",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "14": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [],
+        "anomaly_expected": null,
+        "anomaly_ok": true,
+        "unresolved": [
+          "goroutine"
+        ],
+        "unresolved_expected": "goroutine",
+        "unresolved_ok": true
+      },
+      {
+        "id": "H14",
+        "name": "dynamic_closer",
+        "acq_missed": [],
+        "acq_extra": [],
+        "defer_missed": [],
+        "defer_extra": [],
+        "assoc": {
+          "12": {
+            "label": [
+              "A"
+            ],
+            "analysis": [
+              "A"
+            ],
+            "verdict": "exact"
+          }
+        },
+        "anomalies": [
+          "released by some but not all possible implementations at line 12 (H14_dynamic_closer.(fileCloser).Close, H14_dynamic_closer.(noopCloser).Close)",
+          "may still be open when H14_dynamic_closer.scenario returns at line 14 (state Open|Closed)"
+        ],
+        "anomaly_expected": "may still be open",
+        "anomaly_ok": true,
+        "unresolved": [
+          "dispatch-multi"
+        ],
+        "unresolved_expected": "dispatch-multi",
+        "unresolved_ok": true
+      }
+    ]
+  }
+}

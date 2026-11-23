@@ -1,0 +1,161 @@
+{
+  "evidence_type": "executed Python semantic model; not Go or Rust results",
+  "cases": [
+    {
+      "case": "local",
+      "expected": [
+        "acquire A",
+        "body",
+        "close A"
+      ],
+      "model": [
+        "acquire A",
+        "body",
+        "close A"
+      ],
+      "mutant": "bad_block_exit",
+      "mutant_trace": [
+        "acquire A",
+        "body",
+        "close A"
+      ],
+      "difference": false
+    },
+    {
+      "case": "lifo",
+      "expected": [
+        "acquire A",
+        "acquire B",
+        "close B",
+        "close A"
+      ],
+      "model": [
+        "acquire A",
+        "acquire B",
+        "close B",
+        "close A"
+      ],
+      "mutant": "bad_fifo",
+      "mutant_trace": [
+        "acquire A",
+        "acquire B",
+        "close A",
+        "close B"
+      ],
+      "difference": true
+    },
+    {
+      "case": "nested_block",
+      "expected": [
+        "acquire A",
+        "inside",
+        "after-block",
+        "close A"
+      ],
+      "model": [
+        "acquire A",
+        "inside",
+        "after-block",
+        "close A"
+      ],
+      "mutant": "bad_block_exit",
+      "mutant_trace": [
+        "acquire A",
+        "inside",
+        "close A",
+        "after-block"
+      ],
+      "difference": true
+    },
+    {
+      "case": "loop_unrolled",
+      "expected": [
+        "acquire 0",
+        "iteration 0",
+        "acquire 1",
+        "iteration 1",
+        "acquire 2",
+        "iteration 2",
+        "after-loop",
+        "close 2",
+        "close 1",
+        "close 0"
+      ],
+      "model": [
+        "acquire 0",
+        "iteration 0",
+        "acquire 1",
+        "iteration 1",
+        "acquire 2",
+        "iteration 2",
+        "after-loop",
+        "close 2",
+        "close 1",
+        "close 0"
+      ],
+      "mutant": "bad_block_exit",
+      "mutant_trace": [
+        "acquire 0",
+        "iteration 0",
+        "close 0",
+        "acquire 1",
+        "iteration 1",
+        "close 1",
+        "acquire 2",
+        "iteration 2",
+        "close 2",
+        "after-loop"
+      ],
+      "difference": true
+    },
+    {
+      "case": "eager_argument",
+      "expected": [
+        "acquire A",
+        "acquire B",
+        "close A"
+      ],
+      "model": [
+        "acquire A",
+        "acquire B",
+        "close A"
+      ],
+      "mutant": "bad_late_argument",
+      "mutant_trace": [
+        "acquire A",
+        "acquire B",
+        "close B"
+      ],
+      "difference": true
+    },
+    {
+      "case": "late_closure",
+      "expected": [
+        "acquire A",
+        "acquire B",
+        "close B"
+      ],
+      "model": [
+        "acquire A",
+        "acquire B",
+        "close B"
+      ],
+      "mutant": "bad_eager_closure",
+      "mutant_trace": [
+        "acquire A",
+        "acquire B",
+        "close A"
+      ],
+      "difference": true
+    },
+    {
+      "case": "named_result",
+      "model_result": 7,
+      "mutant_result": 0,
+      "difference": true
+    }
+  ],
+  "checks_passed": 7,
+  "distinguished_case_policy_pairs": 6,
+  "negative_controls": 1
+}

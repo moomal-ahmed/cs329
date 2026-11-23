@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-26",
+  "executed_checks": [
+    {
+      "command": "python3 scripts/audit_corpus.py",
+      "result": "pass: 20 programs, 23 inputs, 24 acquisition sites, 20 defer sites; no source inconsistencies"
+    },
+    {
+      "command": "python3 scripts/lexical_inventory.py",
+      "result": "pass on corpus: acquisition TP24 FP0 FN0; defer TP20 FP0 FN0; controls demonstrate alias/shadowing limits"
+    },
+    {
+      "command": "python3 models/defer_model.py",
+      "result": "7 checks pass; 6 case-policy differences; 1 negative control"
+    },
+    {
+      "command": "python3 -m py_compile scripts/*.py models/*.py",
+      "result": "pass"
+    }
+  ],
+  "blocked_checks": [
+    "Go oracle execution",
+    "Go SSA compilation/execution",
+    "Go2Rust translation",
+    "Rustygo translation",
+    "Rust output compilation/execution"
+  ],
+  "pdf_qa": "15-page report and 3-page brief rendered and visually inspected; no layout overflow found"
+}
