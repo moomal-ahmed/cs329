@@ -115,6 +115,17 @@ type state struct {
 	facts   map[string]bool     // branch conditions already decided on this path
 	res     map[ObjID]RState    // resource -> may-states
 	pending []*pend             // defer stack, registration order
+
+	// Path exploration only (fc.enum): exact, per-path facts. Not part of key().
+	venv       map[ssa.Value]ObjSet   // value -> resources on this path
+	tenv       map[ssa.Value]typeSet  // value -> concrete types on this path
+	tret       map[ssa.Value][]ObjSet // inlined call -> resources per result
+	inst       map[ObjID]int          // loop acquisition site -> instances opened so far
+	curInst    map[ObjID]ObjID        // loop acquisition site -> latest instance
+	callObj    map[*ssa.Call]ObjID    // acquisition call -> the instance it created
+	trace      []TraceEv              // open/close events so far
+	incomplete string                 // why this path's prediction is not complete
+	exitKind   string                 // panic | os.Exit when the path ended without return
 }
 
 func newState() *state {
@@ -147,6 +158,38 @@ func (s *state) clone() *state {
 		c.res[k] = v
 	}
 	c.pending = append([]*pend(nil), s.pending...)
+	if s.venv != nil {
+		c.venv = make(map[ssa.Value]ObjSet, len(s.venv))
+		for k, v := range s.venv {
+			c.venv[k] = v.clone()
+		}
+		c.tenv = make(map[ssa.Value]typeSet, len(s.tenv))
+		for k, v := range s.tenv {
+			t := typeSet{}
+			for x := range v {
+				t[x] = true
+			}
+			c.tenv[k] = t
+		}
+		c.tret = make(map[ssa.Value][]ObjSet, len(s.tret))
+		for k, v := range s.tret {
+			c.tret[k] = v
+		}
+		c.inst = make(map[ObjID]int, len(s.inst))
+		for k, v := range s.inst {
+			c.inst[k] = v
+		}
+		c.curInst = make(map[ObjID]ObjID, len(s.curInst))
+		for k, v := range s.curInst {
+			c.curInst[k] = v
+		}
+		c.callObj = make(map[*ssa.Call]ObjID, len(s.callObj))
+		for k, v := range s.callObj {
+			c.callObj[k] = v
+		}
+	}
+	c.trace = append([]TraceEv(nil), s.trace...)
+	c.incomplete, c.exitKind = s.incomplete, s.exitKind
 	return c
 }
 

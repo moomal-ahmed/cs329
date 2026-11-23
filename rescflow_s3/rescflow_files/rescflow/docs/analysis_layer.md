@@ -154,3 +154,54 @@ memory, unknown), `anomalies` (use after close, double close, may-be-open), and 
 `unresolved`. Per function: `exits` with the defer order. Together these choose among the
 Rust patterns: guard, `Option<guard>`, `DeferStack`, cell plus closure guard, result slot, ownership
 move, or review report (C).
+
+## Step 2b: predicted open/close order vs real Go runs
+
+`rescflow -traces` adds a **path explorer** that runs after the analysis. Starting from `main`, it walks concrete paths:
+- it follows every feasible branch;
+- it walks into calls to analyzed functions, so a helper's opens and closes appear at the call;
+- it unrolls each CFG edge at most 4 times;
+- it gives every loop iteration its own file instance (`f@10#1`, `f@10#2`, …);
+- it keeps values per path, so a defer registered in iteration *k* closes iteration *k*'s file.
+
+For each path it records the file events in the order the OS would see them. A close of an
+already-closed file is not recorded, because Go makes no system call for it. Each sequence is
+then canonicalized by order of opening: `o1 o2 c1 c2` means open the first, open the second,
+close the first, close the second.
+
+`scripts/check_traces.py` runs every Go program under `strace` on:
+- every labelled input;
+- for each mode, "the k-th open of the input fails" for every k, and "the first close fails";
+- a missing path, and no arguments.
+
+It records the real `openat`/`close` calls on the input file, canonicalizes them the same way, and checks
+**real ∈ predicted**:
+
+```bash
+python3 scripts/check_traces.py ./rescflow /path/to/go1.26.5            # results/trace_check.txt
+python3 scripts/check_traces.py ./rescflow /path/to/go1.26.5 --mutant-fifo   # negative control
+```
+
+| | Benchmarks (20) | Held-out (14) |
+|---|---|---|
+| Real runs (labelled + injected + extra) | 111 (23 + 88) | 100 (27 + 73) |
+| **Real sequence = a predicted path** | **111** | **98** |
+| Not covered (path predicted as incomplete) | 0 | 2 (H13: goroutine, flagged in advance) |
+| **Mismatch** | **0** | **0** |
+| Negative control (FIFO close order): mismatches caught | 11 runs / 5 programs | 17 runs / 6 programs |
+
+**Predicted but never exercised** (no wrong prediction is involved; these are paths the inputs never take):
+- loops: 4-iteration paths, because the analysis does not evaluate loop counters (08, H01, H02, H07);
+- 04: the open of `path+"/missing"` succeeding;
+- H03: 12 of 47 orderings, because the analysis does not know `i%2` alternates. This is the main
+  imprecision, since it predicts every mix of "defer" and "explicit close" per iteration.
+
+**Fault injection is made deterministic.** strace counts `when=N` per thread, and Go sometimes
+issues the second `open` from another OS thread. An injected run is therefore accepted only if strace reports the
+injection and all calls on the input file came from one thread. Otherwise it is retried (up to 25
+times) or reported as not reproducible (0 here).
+
+**Limits of the explorer:**
+- Paths multiply when `main` chains several functions with branches: `testdata/fresh_check` (4 functions) gives 558 paths.
+- The budget is 20,000 exits per program. Beyond it, output is marked `truncated`.
+- Goroutines, unmodelled callees and dynamic calls mark a path `incomplete` instead of guessing.

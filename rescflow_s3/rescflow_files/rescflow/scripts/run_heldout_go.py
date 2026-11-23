@@ -11,15 +11,26 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def run_input(binary, inp, spec, cwd):
-    """Run once; with an inject spec 'syscall:N:ERRNO', fail the Nth syscall on the input file."""
+def run_input(binary, inp, spec, cwd, attempts=25):
+    """Run once; with an inject spec 'syscall:N:ERRNO', fail the Nth syscall on the input file.
+
+    strace counts `when=N` per thread and Go may make the file syscalls from more than one OS
+    thread, so an injected run is accepted only if strace reports the injection and all
+    syscalls on the input file came from one thread; otherwise it is retried."""
     cmd = [str(binary), str(inp), spec['mode']]
+    log = Path(cwd) / 'inject.log'
     if spec.get('inject'):
         call, nth, errno = spec['inject'].split(':')
-        cmd = ['strace', '-f', '-qq', '-o', '/dev/null', '-P', str(inp), '-e', f'trace={call}',
+        cmd = ['strace', '-f', '-qq', '-o', str(log), '-P', str(inp), '-e', 'trace=openat,close',
                '-e', f'inject={call}:error={errno}:when={nth}'] + cmd
-    p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=60)
-    return dict(returncode=p.returncode, stdout=p.stdout, stderr=p.stderr)
+    for attempt in range(attempts if spec.get('inject') else 1):
+        p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=60)
+        if not spec.get('inject'):
+            break
+        text = log.read_text()
+        if 'INJECTED' in text and len({l.split()[0] for l in text.splitlines() if l.strip()}) <= 1:
+            break
+    return dict(returncode=p.returncode, stdout=p.stdout, stderr=p.stderr, attempts=attempt + 1)
 
 
 def main():

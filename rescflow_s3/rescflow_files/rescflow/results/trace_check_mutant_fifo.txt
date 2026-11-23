@@ -1,0 +1,38 @@
+== benchmarks: 20 programs, 111 real runs (23 labelled inputs, the rest injected/extra)
+   MATCH 100   covered-by-incomplete 0   not-covered 0   MISMATCH 11   predicted-but-unexercised 8   injections-not-reproducible 0
+   01   local                      runs  5  predicted paths  3  unexercised []
+   02   early_before               runs  6  predicted paths  4  unexercised []
+   03   early_after                runs  8  predicted paths  4  unexercised []
+   04   failed_acquire             runs  3  predicted paths  3  unexercised ['o1 c1']
+   05   two_lifo                   runs  6  predicted paths  4  unexercised ['o1 o2 c1 c2']  <-- mode='': real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 c2 c1] MISMATCH
+   06   nested_block               runs  5  predicted paths  3  unexercised []
+   07   conditional                runs  8  predicted paths  4  unexercised []
+   08   loop                       runs  7  predicted paths 10  unexercised ['o1 o2 c1 c2', 'o1 o2 o3 c1 c2 c3', 'o1 o2 o3 o4 c1 c2 c3 c4']  <-- mode='': real [o1 o2 o3 c3 c2 c1] MISMATCH; mode='' inject=openat:3:EMFILE: real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 o3 c3 c2 c1] MISMATCH
+   09   return_open                runs  5  predicted paths  3  unexercised []
+   10   return_closed              runs  5  predicted paths  3  unexercised []
+   11   global_escape              runs  5  predicted paths  3  unexercised []
+   12   alias                      runs  5  predicted paths  3  unexercised []
+   13   eager_argument             runs  6  predicted paths  4  unexercised ['o1 o2 c1 c2']  <-- mode='': real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 c2 c1] MISMATCH
+   14   late_closure               runs  6  predicted paths  4  unexercised ['o1 o2 c2 c1']  <-- mode='': real [o1 o2 c1 c2] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 c1 c2] MISMATCH
+   15   closure_parameter          runs  6  predicted paths  4  unexercised ['o1 o2 c1 c2']  <-- mode='': real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 c2 c1] MISMATCH
+   16   named_result               runs  5  predicted paths  3  unexercised []
+   17   panic_unwind               runs  5  predicted paths  3  unexercised []
+   18   helper_boundary            runs  5  predicted paths  3  unexercised []
+   19   double_close               runs  5  predicted paths  3  unexercised []
+   20   interface_dispatch         runs  5  predicted paths  3  unexercised []
+== heldout: 14 programs, 100 real runs (27 labelled inputs, the rest injected/extra)
+   MATCH 81   covered-by-incomplete 0   not-covered 2   MISMATCH 17   predicted-but-unexercised 28   injections-not-reproducible 0
+   H01  loop_count                 runs 11  predicted paths 10  unexercised ['o1 o2 c1 c2', 'o1 o2 o3 c1 c2 c3', 'o1 o2 o3 o4 c1 c2 c3 c4']  <-- mode='3': real [o1 o2 o3 c3 c2 c1] MISMATCH; mode='3' inject=openat:3:EMFILE: real [o1 o2 c2 c1] MISMATCH; mode='3' inject=close:1:EIO: real [o1 o2 o3 c3 c2 c1] MISMATCH
+   H02  two_per_iteration          runs  8  predicted paths 14  unexercised ['o1 o2 c1 c2', 'o1 o2 o3 c1 c2 c3', 'o1 o2 o3 o4 c1 c2 c3 c4', 'o1 o2 o3 o4 o5 c1 c2 c3 c4 c5', 'o1 o2 o3 o4 o5 o6 c1 c2 c3 c4 c5 c6', 'o1 o2 o3 o4 o5 o6 o7 c1 c2 c3 c4 c5 c6 c7', 'o1 o2 o3 o4 o5 o6 o7 o8 c1 c2 c3 c4 c5 c6 c7 c8']  <-- mode='': real [o1 o2 o3 o4 c4 c3 c2 c1] MISMATCH; mode='' inject=openat:3:EMFILE: real [o1 o2 c2 c1] MISMATCH; mode='' inject=openat:4:EMFILE: real [o1 o2 o3 c3 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 o3 o4 c4 c3 c2 c1] MISMATCH
+   H03  conditional_in_loop        runs  7  predicted paths 47  unexercised ['o1 c1 o2 c2', 'o1 c1 o2 c2 o3 c3', 'o1 c1 o2 c2 o3 c3 o4 c4', 'o1 c1 o2 c2 o3 o4 c3 c4', 'o1 c1 o2 o3 c2 c3', 'o1 c1 o2 o3 c3 o4 c2 c4', 'o1 c1 o2 o3 o4 c2 c3 c4', 'o1 o2 c1 c2', 'o1 o2 c2 o3 c1 c3', 'o1 o2 c2 o3 c3 o4 c1 c4', 'o1 o2 c2 o3 o4 c1 c3 c4', 'o1 o2 o3 c1 c2 c3', 'o1 o2 o3 c3 o4 c1 c2 c4', 'o1 o2 o3 o4 c1 c2 c3 c4']  <-- mode='': real [o1 o2 c2 o3 c3 c1] MISMATCH; mode='' inject=openat:3:EMFILE: real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 c2 o3 c3 c1] MISMATCH
+   H04  closure_two_vars           runs 10  predicted paths  5  unexercised []
+   H05  field_alias                runs  5  predicted paths  3  unexercised []
+   H06  method_defer               runs  5  predicted paths  3  unexercised []
+   H07  early_return_in_loop       runs 11  predicted paths 14  unexercised ['o1 o2 c1 c2', 'o1 o2 o3 c1 c2 c3', 'o1 o2 o3 o4 c1 c2 c3 c4']  <-- mode='': real [o1 o2 o3 c3 c2 c1] MISMATCH; mode='early': real [o1 o2 c2 c1] MISMATCH; mode='' inject=openat:3:EMFILE: real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 o3 c3 c2 c1] MISMATCH; mode='early' inject=close:1:EIO: real [o1 o2 c2 c1] MISMATCH
+   H08  factory_helper             runs  6  predicted paths  3  unexercised []
+   H09  nested_calls               runs  6  predicted paths  4  unexercised ['o1 o2 c1 c2']  <-- mode='': real [o1 o2 c2 c1] MISMATCH; mode='' inject=close:1:EIO: real [o1 o2 c2 c1] MISMATCH
+   H10  close_error_join           runs  6  predicted paths  3  unexercised []
+   H11  panic_from_callee          runs  5  predicted paths  3  unexercised []
+   H12  path_dependent_ownership   runs  8  predicted paths  4  unexercised []
+   H13  goroutine_defer            runs  5  predicted paths  2  unexercised []  <-- mode='': real [o1 c1] NOT-COVERED; mode='' inject=close:1:EIO: real [o1 c1] NOT-COVERED
+   H14  dynamic_closer             runs  7  predicted paths  4  unexercised []

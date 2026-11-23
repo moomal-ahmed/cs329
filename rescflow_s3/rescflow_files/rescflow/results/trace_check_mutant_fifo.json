@@ -1,0 +1,3680 @@
+{
+  "benchmarks": {
+    "totals": {
+      "runs": 111,
+      "match": 100,
+      "incomplete_match": 0,
+      "not_covered": 0,
+      "mismatch": 11,
+      "unexercised": 8,
+      "unreliable_injections": 0
+    },
+    "programs": [
+      {
+        "id": "01",
+        "name": "local",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "02",
+        "name": "early_before",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@9 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@9",
+              "close f@9 (defer@11 at return@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='early'",
+            "origin": "label",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "03",
+        "name": "early_after",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@10 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@10 at return@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='early'",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='early' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='early' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "04",
+        "name": "failed_acquire",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 c1"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "05",
+        "name": "two_lifo",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "open g@11 FAILED",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@8",
+              "open g@11",
+              "close g@11 (defer@13 at return@15)",
+              "close f@8 (defer@10 at return@15)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "06",
+        "name": "nested_block",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@9 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@9",
+              "close f@9 (defer@11 at return@15)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "07",
+        "name": "conditional",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@11 at return@16)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='defer'",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='defer' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='defer' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "08",
+        "name": "loop",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@10#1 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "open f@10#2 FAILED",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (defer@12 at return@16)",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3 FAILED",
+              "close f@10#2 (defer@12 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (defer@12 at return@16)",
+              "close f@10#2 (defer@12 at return@16)",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4 FAILED",
+              "close f@10#3 (defer@12 at return@11)",
+              "close f@10#2 (defer@12 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@12 at return@16)",
+              "close f@10#3 (defer@12 at return@16)",
+              "close f@10#2 (defer@12 at return@16)",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:3:EMFILE",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2",
+          "o1 o2 o3 c1 c2 c3",
+          "o1 o2 o3 o4 c1 c2 c3 c4"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "09",
+        "name": "return_open",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "10",
+        "name": "return_closed",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@10 at return@11)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "11",
+        "name": "global_escape",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "12",
+        "name": "alias",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@11 at return@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "13",
+        "name": "eager_argument",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "open g@11 FAILED",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@8",
+              "open g@11",
+              "close g@11 (call os.(*File).Close)",
+              "close f@8 (defer@10 at return@16)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "14",
+        "name": "late_closure",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "open g@11 FAILED",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 c1",
+            "events": [
+              "open f@8",
+              "open g@11",
+              "close f@8 (call os.(*File).Close)",
+              "close g@11 (defer@10 at return@17)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c1 c2",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c1 c2",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c2 c1"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "15",
+        "name": "closure_parameter",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "open g@11 FAILED",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@8",
+              "open g@11",
+              "close g@11 (call os.(*File).Close)",
+              "close f@8 (defer@10 at return@15)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "16",
+        "name": "named_result",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "17",
+        "name": "panic_unwind",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@9 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@9",
+              "close f@9 (defer@11 at panic->recovered@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "18",
+        "name": "helper_boundary",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@15 at return@17)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "19",
+        "name": "double_close",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "20",
+        "name": "interface_dispatch",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@11 at return@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      }
+    ]
+  },
+  "heldout": {
+    "totals": {
+      "runs": 100,
+      "match": 81,
+      "incomplete_match": 0,
+      "not_covered": 2,
+      "mismatch": 17,
+      "unexercised": 28,
+      "unreliable_injections": 0
+    },
+    "programs": [
+      {
+        "id": "H01",
+        "name": "loop_count",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@13#1 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@13#1",
+              "close f@13#1 (defer@15 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@13#1",
+              "open f@13#2 FAILED",
+              "close f@13#1 (defer@15 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@13#1",
+              "open f@13#2",
+              "close f@13#2 (defer@15 at return@19)",
+              "close f@13#1 (defer@15 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@13#1",
+              "open f@13#2",
+              "open f@13#3 FAILED",
+              "close f@13#2 (defer@15 at return@14)",
+              "close f@13#1 (defer@15 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@13#1",
+              "open f@13#2",
+              "open f@13#3",
+              "close f@13#3 (defer@15 at return@19)",
+              "close f@13#2 (defer@15 at return@19)",
+              "close f@13#1 (defer@15 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@13#1",
+              "open f@13#2",
+              "open f@13#3",
+              "open f@13#4 FAILED",
+              "close f@13#3 (defer@15 at return@14)",
+              "close f@13#2 (defer@15 at return@14)",
+              "close f@13#1 (defer@15 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@13#1",
+              "open f@13#2",
+              "open f@13#3",
+              "open f@13#4",
+              "close f@13#4 (defer@15 at return@19)",
+              "close f@13#3 (defer@15 at return@19)",
+              "close f@13#2 (defer@15 at return@19)",
+              "close f@13#1 (defer@15 at return@19)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode='0'",
+            "origin": "label",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='1'",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='3'",
+            "origin": "label",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='3' inject=openat:2:EMFILE",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='1' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='1' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='3' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='3' inject=openat:3:EMFILE",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='3' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2",
+          "o1 o2 o3 c1 c2 c3",
+          "o1 o2 o3 o4 c1 c2 c3 c4"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H02",
+        "name": "two_per_iteration",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@10#1 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "open g@13#1 FAILED",
+              "close f@10#1 (defer@12 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "close g@13#1 (defer@15 at return@18)",
+              "close f@10#1 (defer@12 at return@18)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2 FAILED",
+              "close g@13#1 (defer@15 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2 FAILED",
+              "close f@10#2 (defer@12 at return@14)",
+              "close g@13#1 (defer@15 at return@14)",
+              "close f@10#1 (defer@12 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "close g@13#2 (defer@15 at return@18)",
+              "close f@10#2 (defer@12 at return@18)",
+              "close g@13#1 (defer@15 at return@18)",
+              "close f@10#1 (defer@12 at return@18)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "open f@10#3 FAILED",
+              "close g@13#2 (defer@15 at return@11)",
+              "close f@10#2 (defer@12 at return@11)",
+              "close g@13#1 (defer@15 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 o5 c1 c2 c3 c4 c5",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "open f@10#3",
+              "open g@13#3 FAILED",
+              "close f@10#3 (defer@12 at return@14)",
+              "close g@13#2 (defer@15 at return@14)",
+              "close f@10#2 (defer@12 at return@14)",
+              "close g@13#1 (defer@15 at return@14)",
+              "close f@10#1 (defer@12 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 o5 o6 c1 c2 c3 c4 c5 c6",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "open f@10#3",
+              "open g@13#3",
+              "close g@13#3 (defer@15 at return@18)",
+              "close f@10#3 (defer@12 at return@18)",
+              "close g@13#2 (defer@15 at return@18)",
+              "close f@10#2 (defer@12 at return@18)",
+              "close g@13#1 (defer@15 at return@18)",
+              "close f@10#1 (defer@12 at return@18)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 o5 o6 c1 c2 c3 c4 c5 c6",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "open f@10#3",
+              "open g@13#3",
+              "open f@10#4 FAILED",
+              "close g@13#3 (defer@15 at return@11)",
+              "close f@10#3 (defer@12 at return@11)",
+              "close g@13#2 (defer@15 at return@11)",
+              "close f@10#2 (defer@12 at return@11)",
+              "close g@13#1 (defer@15 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 o5 o6 o7 c1 c2 c3 c4 c5 c6 c7",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "open f@10#3",
+              "open g@13#3",
+              "open f@10#4",
+              "open g@13#4 FAILED",
+              "close f@10#4 (defer@12 at return@14)",
+              "close g@13#3 (defer@15 at return@14)",
+              "close f@10#3 (defer@12 at return@14)",
+              "close g@13#2 (defer@15 at return@14)",
+              "close f@10#2 (defer@12 at return@14)",
+              "close g@13#1 (defer@15 at return@14)",
+              "close f@10#1 (defer@12 at return@14)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 o5 o6 o7 o8 c1 c2 c3 c4 c5 c6 c7 c8",
+            "events": [
+              "open f@10#1",
+              "open g@13#1",
+              "open f@10#2",
+              "open g@13#2",
+              "open f@10#3",
+              "open g@13#3",
+              "open f@10#4",
+              "open g@13#4",
+              "close g@13#4 (defer@15 at return@18)",
+              "close f@10#4 (defer@12 at return@18)",
+              "close g@13#3 (defer@15 at return@18)",
+              "close f@10#3 (defer@12 at return@18)",
+              "close g@13#2 (defer@15 at return@18)",
+              "close f@10#2 (defer@12 at return@18)",
+              "close g@13#1 (defer@15 at return@18)",
+              "close f@10#1 (defer@12 at return@18)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 o3 o4 c4 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:3:EMFILE",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:4:EMFILE",
+            "origin": "auto",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 o3 o4 c4 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2",
+          "o1 o2 o3 c1 c2 c3",
+          "o1 o2 o3 o4 c1 c2 c3 c4",
+          "o1 o2 o3 o4 o5 c1 c2 c3 c4 c5",
+          "o1 o2 o3 o4 o5 o6 c1 c2 c3 c4 c5 c6",
+          "o1 o2 o3 o4 o5 o6 o7 c1 c2 c3 c4 c5 c6 c7",
+          "o1 o2 o3 o4 o5 o6 o7 o8 c1 c2 c3 c4 c5 c6 c7 c8"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H03",
+        "name": "conditional_in_loop",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@10#1 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "open f@10#2 FAILED",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3 FAILED",
+              "close f@10#2 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "open f@10#4 FAILED",
+              "close f@10#3 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 c3 o4 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 c3 o4 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 o4 c3 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#3 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 c2 o3 o4 c3 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#3 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 c2 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 c2 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4 FAILED",
+              "close f@10#2 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 c2 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 c2 c3",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4 FAILED",
+              "close f@10#3 (defer@13 at return@11)",
+              "close f@10#2 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 c3 o4 c2 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 c3 o4 c2 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 o4 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1 o2 o3 o4 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (call os.(*File).Close)",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3 FAILED",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3 FAILED",
+              "close f@10#2 (defer@13 at return@11)",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 c1 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 c1 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4 FAILED",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 c1 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 c1 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "open f@10#4 FAILED",
+              "close f@10#3 (defer@13 at return@11)",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 c3 o4 c1 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 c3 o4 c1 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 o4 c1 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 o3 o4 c1 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (call os.(*File).Close)",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4 FAILED",
+              "close f@10#2 (defer@13 at return@11)",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4 FAILED",
+              "close f@10#3 (defer@13 at return@11)",
+              "close f@10#2 (defer@13 at return@11)",
+              "close f@10#1 (defer@13 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c3 o4 c1 c2 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c3 o4 c1 c2 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (call os.(*File).Close)",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (call os.(*File).Close)",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@13 at return@19)",
+              "close f@10#3 (defer@13 at return@19)",
+              "close f@10#2 (defer@13 at return@19)",
+              "close f@10#1 (defer@13 at return@19)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c2 o3 c3 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:3:EMFILE",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 o3 c3 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 c1 o2 c2",
+          "o1 c1 o2 c2 o3 c3",
+          "o1 c1 o2 c2 o3 c3 o4 c4",
+          "o1 c1 o2 c2 o3 o4 c3 c4",
+          "o1 c1 o2 o3 c2 c3",
+          "o1 c1 o2 o3 c3 o4 c2 c4",
+          "o1 c1 o2 o3 o4 c2 c3 c4",
+          "o1 o2 c1 c2",
+          "o1 o2 c2 o3 c1 c3",
+          "o1 o2 c2 o3 c3 o4 c1 c4",
+          "o1 o2 c2 o3 o4 c1 c3 c4",
+          "o1 o2 o3 c1 c2 c3",
+          "o1 o2 o3 c3 o4 c1 c2 c4",
+          "o1 o2 o3 o4 c1 c2 c3 c4"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H04",
+        "name": "closure_two_vars",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "open g@10 FAILED",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c2 c1",
+            "events": [
+              "open f@8",
+              "open g@10",
+              "close f@8 (defer@13 at return@16)",
+              "close g@10 (defer@13 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@8",
+              "open g@10",
+              "close g@10 (defer@13 at return@16)",
+              "close f@8 (defer@13 at return@16)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c1 c2",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='swap'",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c1 c2",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='swap' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='swap' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='swap' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H05",
+        "name": "field_alias",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@11 at return@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H06",
+        "name": "method_defer",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@12 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@12",
+              "close f@12 (defer@8 at return@10)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H07",
+        "name": "early_return_in_loop",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@10#1 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (defer@12 at return@13)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10#1",
+              "open f@10#2 FAILED",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (defer@12 at return@13)",
+              "close f@10#1 (defer@12 at return@13)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "close f@10#2 (defer@12 at return@16)",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3 FAILED",
+              "close f@10#2 (defer@12 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (defer@12 at return@13)",
+              "close f@10#2 (defer@12 at return@13)",
+              "close f@10#1 (defer@12 at return@13)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "close f@10#3 (defer@12 at return@16)",
+              "close f@10#2 (defer@12 at return@16)",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 c1 c2 c3",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4 FAILED",
+              "close f@10#3 (defer@12 at return@11)",
+              "close f@10#2 (defer@12 at return@11)",
+              "close f@10#1 (defer@12 at return@11)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@12 at return@13)",
+              "close f@10#3 (defer@12 at return@13)",
+              "close f@10#2 (defer@12 at return@13)",
+              "close f@10#1 (defer@12 at return@13)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 o3 o4 c1 c2 c3 c4",
+            "events": [
+              "open f@10#1",
+              "open f@10#2",
+              "open f@10#3",
+              "open f@10#4",
+              "close f@10#4 (defer@12 at return@16)",
+              "close f@10#3 (defer@12 at return@16)",
+              "close f@10#2 (defer@12 at return@16)",
+              "close f@10#1 (defer@12 at return@16)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='early'",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:3:EMFILE",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 o3 c3 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='early' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='early' inject=openat:2:EMFILE",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='early' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2",
+          "o1 o2 o3 c1 c2 c3",
+          "o1 o2 o3 o4 c1 c2 c3 c4"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H08",
+        "name": "factory_helper",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@15 at return@17)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:ENOENT",
+            "origin": "label",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H09",
+        "name": "nested_calls",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@14 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@14",
+              "open g@8 FAILED",
+              "close f@14 (defer@16 at return@19)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 o2 c1 c2",
+            "events": [
+              "open f@14",
+              "open g@8",
+              "close g@8 (defer@10 at return@12)",
+              "close f@14 (defer@16 at return@19)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "mode='' inject=openat:2:EMFILE",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 o2 c2 c1",
+            "rc": 0,
+            "verdict": "MISMATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [
+          "o1 o2 c1 c2"
+        ],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H10",
+        "name": "close_error_join",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@10 at return@12)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:ENOENT",
+            "origin": "label",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H11",
+        "name": "panic_from_callee",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@10 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@10",
+              "close f@10 (defer@12 at panic->recovered@14)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H12",
+        "name": "path_dependent_ownership",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (call os.(*File).Close)"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@11 at return@13)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='keep'",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='keep' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='keep' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H13",
+        "name": "goroutine_defer",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "return",
+            "incomplete": "goroutine: its file events are not predicted"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "NOT-COVERED"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "NOT-COVERED"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      },
+      {
+        "id": "H14",
+        "name": "dynamic_closer",
+        "predicted": [
+          {
+            "canonical": "",
+            "events": [],
+            "exit": "panic"
+          },
+          {
+            "canonical": "",
+            "events": [
+              "open f@8 FAILED"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1",
+            "events": [
+              "open f@8"
+            ],
+            "exit": "return"
+          },
+          {
+            "canonical": "o1 c1",
+            "events": [
+              "open f@8",
+              "close f@8 (defer@12 at return@14)"
+            ],
+            "exit": "return"
+          }
+        ],
+        "truncated": false,
+        "runs": [
+          {
+            "input": "mode=''",
+            "origin": "label",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='noop'",
+            "origin": "label",
+            "real": "o1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='' inject=close:1:EIO",
+            "origin": "auto",
+            "real": "o1 c1",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "mode='noop' inject=openat:1:EMFILE",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "missing path",
+            "origin": "auto",
+            "real": "",
+            "rc": 0,
+            "verdict": "MATCH"
+          },
+          {
+            "input": "no arguments",
+            "origin": "auto",
+            "real": "",
+            "rc": 2,
+            "verdict": "MATCH"
+          }
+        ],
+        "unexercised_predictions": [],
+        "unreliable_injections": []
+      }
+    ]
+  }
+}

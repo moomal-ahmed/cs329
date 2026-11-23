@@ -1,0 +1,80 @@
+RescFlow analysis (go1.26.5) of ./testdata/fresh_check
+  package example.com/rescflow/testdata/fresh_check: analyzed
+
+== func fresh_check.copyFile  (testdata/fresh_check/main.go:11)
+  exit line 14 [return]: no deferred calls
+  exit line 19 [return]: defer@16->[in@12]
+  exit line 27 [return]: defer@21->[out@17] defer@16->[in@12]
+
+== func fresh_check.firstCheck  (testdata/fresh_check/main.go:31)
+  exit line 34 [return]: no deferred calls
+  exit line 39 [return]: no deferred calls
+  exit line 42 [return]: no deferred calls  STILL OPEN: [f@32]
+  exit line 45 [return]: no deferred calls
+
+== func fresh_check.processAll$1  (testdata/fresh_check/main.go:51)
+  exit line 54 [return]: no deferred calls
+  exit line 59 [return]: defer@56->[f@52]
+
+== func fresh_check.main  (testdata/fresh_check/main.go:76)
+  exit line 82 [return]: no deferred calls
+  exit line 86 [return]: defer@84->[f@67]
+
+== resource records (5)
+
+testdata/fresh_check/main.go:12  var in in fresh_check.copyFile  (loop=false goroutine=false)
+  acquire  line 12  [unacquired] via os.Open
+  release  line 16  [Open]    via defer@16 at return@19
+  release  line 16  [Open]    via defer@16 at return@27
+  defer@16 (always) (*os.File).Close(t2)
+      captures in: value fixed at registration = {in@12}
+      at return@19 acts on [in@12]
+      at return@27 acts on [in@12]
+  escape   line 26: passed to io.Copy (no analyzable body (outside the analyzed packages))
+  note     UNRESOLVED unknown-callee at line 26: resource passed to a function without an analyzable body
+
+testdata/fresh_check/main.go:17  var out in fresh_check.copyFile  (loop=false goroutine=false)
+  acquire  line 17  [unacquired] via os.Create
+  release  line 21  [Open]    via defer@21 at return@27
+  defer@21 (always) t17()
+      captures out: cell t8(out), read at exit
+      captures err: cell t0(err), read at exit
+      at return@27 acts on [out@17]
+      close error -> named result "err"
+  escape   line 26: passed to io.Copy (no analyzable body (outside the analyzed packages))
+  note     UNRESOLVED unknown-callee at line 26: resource passed to a function without an analyzable body
+  note     close error is stored into named result "err" of fresh_check.copyFile
+
+testdata/fresh_check/main.go:32  var f in fresh_check.firstCheck  (loop=false goroutine=false)
+  acquire  line 32  [unacquired] via os.Open
+  use      line 36  [Open]    via call os.(*File).Stat
+  release  line 38  [Open]    via call os.(*File).Close
+  release  line 44  [Open]    via call os.(*File).Close
+  ANOMALY  may still be open when fresh_check.firstCheck returns at line 42 (state Open)
+
+testdata/fresh_check/main.go:52  var f in fresh_check.processAll$1  (loop=false goroutine=false)
+  acquire  line 52  [unacquired] via os.Open
+  use      line 57  [Open]    via call os.(*File).Stat
+  release  line 56  [Open]    via defer@56 at return@59
+  defer@56 (always) (*os.File).Close(t2)
+      captures f: value fixed at registration = {f@52}
+      at return@59 acts on [f@52]
+
+testdata/fresh_check/main.go:67  var f in fresh_check.NewLogger  (loop=false goroutine=false)
+  acquire  line 67  [unacquired] via os.Create
+  acquire  line 80  [unacquired] via returned by fresh_check.NewLogger (result 0)
+  use      line 85  [Open]    via call fresh_check.(*Logger).Log
+  release  line 84  [Open]    via defer@84 at return@86
+  defer@84 (always) (*example.com/rescflow/testdata/fresh_check.Logger).Close(t10)
+      captures l: value fixed at registration = {f@67}
+      at return@86 acts on [f@67]
+  escape   line 71: returned to the caller of fresh_check.NewLogger (ownership transfer)
+
+== could not be resolved (1)
+  [unknown-callee] testdata/fresh_check/main.go:26 fresh_check.copyFile  resources=[in@12 out@17]
+    construct:    resource passed to a function without an analyzable body
+    missing fact: what the callee does with the resource
+    why:          the callee lives outside the analyzed packages (standard library without a model, assembly, cgo) so no summary exists
+    consequence:  the resource is treated as escaping at this call: ownership after the call is unknown
+    human input:  add a summary for the callee to the API model (does it close, use, store or return the resource?)
+    detail:       io.Copy

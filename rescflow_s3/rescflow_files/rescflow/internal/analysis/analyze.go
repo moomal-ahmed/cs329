@@ -59,6 +59,7 @@ type Analyzer struct {
 	unresSeen map[string]bool
 	funcs     map[*ssa.Function]*FuncReport
 	dfacts    map[*ssa.Defer]*DeferFact
+	fcs       map[*ssa.Function]*fctx
 }
 
 type meaning struct {
@@ -107,6 +108,11 @@ type fctx struct {
 	returnSeen bool
 	curBlock   *ssa.BasicBlock
 	curDefer   *ssa.Defer
+	// path exploration (explore.go)
+	enum      bool
+	cur       *state
+	curPred   *ssa.BasicBlock
+	recoverTo *state
 }
 
 // ---------------------------------------------------------------- helpers
@@ -195,6 +201,13 @@ func (fc *fctx) addPts(v ssa.Value, s ObjSet) {
 	if len(s) == 0 {
 		return
 	}
+	if fc.enum && fc.cur != nil {
+		if fc.cur.venv[v] == nil {
+			fc.cur.venv[v] = ObjSet{}
+		}
+		fc.cur.venv[v].addAll(s)
+		return
+	}
 	cur := fc.valPts[v]
 	if cur == nil {
 		cur = ObjSet{}
@@ -220,6 +233,15 @@ func (fc *fctx) addTypes(v ssa.Value, ts typeSet) {
 	if len(ts) == 0 {
 		return
 	}
+	if fc.enum && fc.cur != nil {
+		if fc.cur.tenv[v] == nil {
+			fc.cur.tenv[v] = typeSet{}
+		}
+		for t := range ts {
+			fc.cur.tenv[v][t] = true
+		}
+		return
+	}
 	cur := fc.vtypes[v]
 	if cur == nil {
 		cur = typeSet{}
@@ -240,7 +262,21 @@ func (fc *fctx) setMeaning(v ssa.Value, m meaning) {
 	}
 }
 
+func (fc *fctx) typesOf(v ssa.Value) typeSet {
+	if fc.enum && fc.cur != nil {
+		if ts, ok := fc.cur.tenv[v]; ok {
+			return ts
+		}
+	}
+	return fc.vtypes[v]
+}
+
 func (fc *fctx) pts(v ssa.Value) ObjSet {
+	if fc.enum && fc.cur != nil {
+		if s, ok := fc.cur.venv[v]; ok {
+			return s
+		}
+	}
 	if s := fc.valPts[v]; s != nil {
 		return s
 	}
@@ -299,6 +335,7 @@ func (a *Analyzer) summary(fn *ssa.Function) *Summary {
 	fc.analyze()
 	a.busy[fn] = false
 	a.sums[fn] = fc.sum
+	a.fcs[fn] = fc
 	return fc.sum
 }
 
@@ -500,35 +537,7 @@ func (fc *fctx) block(b *ssa.BasicBlock, st *state) []*state {
 		}
 		fc.instr(ins, st)
 	}
-	outs := make([]*state, len(b.Succs))
-	if !st.live {
-		return outs
-	}
-	if iff, ok := b.Instrs[len(b.Instrs)-1].(*ssa.If); ok && len(b.Succs) == 2 {
-		key, neg := condKey(iff.Cond)
-		if key != "" {
-			if v, known := st.facts[key]; known {
-				taken := 0
-				if v == neg { // cond == (key holds) XOR neg
-					taken = 1
-				}
-				outs[taken] = fc.refine(iff, st, taken == 0)
-				fc.note(iff, "condition %s already decided on this path: only the %s edge is feasible", key, map[int]string{0: "true", 1: "false"}[taken])
-				return outs
-			}
-		}
-		outs[0] = fc.refine(iff, st.clone(), true)
-		outs[1] = fc.refine(iff, st, false)
-		if key != "" {
-			outs[0].facts[key] = !neg
-			outs[1].facts[key] = neg
-		}
-		return outs
-	}
-	for i := range outs {
-		outs[i] = st.clone()
-	}
-	return outs
+	return fc.successors(b, st)
 }
 
 // condKey canonicalizes a branch condition that compares loads of globals, parameters or
@@ -664,6 +673,23 @@ func (fc *fctx) refine(iff *ssa.If, st *state, branch bool) *state {
 		if s == 0 {
 			return
 		}
+		if fc.enum {
+			if b, isInst := instBase(o); (isInst && st.curInst[b] != o) || (!isInst && fc.multi[o]) {
+				return // only the current loop instance is decided by this check
+			}
+			if good && s == SFailed || !good && s&SFailed == 0 && s&SOuter == 0 {
+				st.live = false // this branch contradicts what already happened on the path
+				return
+			}
+			if !good {
+				for i := len(st.trace) - 1; i >= 0; i-- {
+					if st.trace[i].Obj == o && st.trace[i].Ev == "open" {
+						st.trace[i].Failed = true
+						break
+					}
+				}
+			}
+		}
 		if good {
 			if s&(SOpen|SOuter|SClosed) != 0 {
 				s &^= SFailed
@@ -757,11 +783,29 @@ func (fc *fctx) instr(ins ssa.Instruction, st *state) {
 	case *ssa.BinOp:
 		fc.binop(x)
 	case *ssa.Phi:
+		if fc.enum && fc.curPred != nil {
+			for i, p := range x.Block().Preds {
+				if p == fc.curPred {
+					e := x.Edges[i]
+					fc.addPts(x, fc.pts(e))
+					fc.addCells(x, fc.cells(e))
+					fc.addTypes(x, fc.typesOf(e))
+					if m, ok := fc.meaning[e]; ok {
+						fc.setMeaning(x, m)
+					}
+					if ce := fc.closeErr[e]; ce != nil {
+						fc.closeErr[x] = ce
+					}
+					break
+				}
+			}
+			break
+		}
 		var ms []meaning
 		for _, e := range x.Edges {
 			fc.addPts(x, fc.pts(e))
 			fc.addCells(x, fc.cells(e))
-			fc.addTypes(x, fc.vtypes[e])
+			fc.addTypes(x, fc.typesOf(e))
 			if m, ok := fc.meaning[e]; ok {
 				ms = append(ms, m)
 			}
@@ -828,7 +872,7 @@ func (fc *fctx) instr(ins ssa.Instruction, st *state) {
 func (fc *fctx) pass(v, from ssa.Value) {
 	fc.addPts(v, fc.pts(from))
 	fc.addCells(v, fc.cells(from))
-	fc.addTypes(v, fc.vtypes[from])
+	fc.addTypes(v, fc.typesOf(from))
 	if ce := fc.closeErr[from]; ce != nil {
 		fc.closeErr[v] = ce
 	}
@@ -839,6 +883,7 @@ func (fc *fctx) pass(v, from ssa.Value) {
 
 func (fc *fctx) toCollection(ins ssa.Instruction, v ssa.Value, st *state) {
 	if objs := fc.reach(v, st); len(objs) > 0 {
+		fc.markIncomplete(st, "resource stored in a map or sent on a channel")
 		fc.escapeSet(objs, "stored in a map or sent on a channel", fc.line(ins.Pos()))
 		if fc.rec {
 			fc.a.addUnresolved("collection", fc.fn, ins.Pos(), objs, ins.String())
@@ -871,7 +916,7 @@ func (fc *fctx) store(x *ssa.Store, st *state) {
 	cells := fc.cells(x.Addr)
 	objs := fc.pts(x.Val)
 	ptrs := fc.cells(x.Val)
-	ts := fc.vtypes[x.Val]
+	ts := fc.typesOf(x.Val)
 	strong := len(cells) == 1 && !fc.weakCell[cells[0]]
 	for _, c := range cells {
 		if strong {
@@ -969,6 +1014,11 @@ func (fc *fctx) extract(x *ssa.Extract, st *state) {
 	targets, _, kind := fc.resolveCall(&call.Call)
 	if kind == "static" && len(targets) == 1 && classifyAPI(targets[0]) == apiAcquire {
 		o := fc.siteObj(call)
+		if fc.enum && fc.cur != nil {
+			if oi, ok := fc.cur.callObj[call]; ok {
+				o = oi
+			}
+		}
 		switch x.Index {
 		case 0:
 			fc.addPts(x, ObjSet{o: true})
@@ -981,6 +1031,14 @@ func (fc *fctx) extract(x *ssa.Extract, st *state) {
 			fc.setMeaning(x, meaning{root: fc.rootOf(call), pol: true, isErr: true})
 		}
 		return
+	}
+	if fc.enum && fc.cur != nil {
+		if tr, ok := fc.cur.tret[call]; ok {
+			if x.Index < len(tr) {
+				fc.addPts(x, tr[x.Index])
+			}
+			return
+		}
 	}
 	in := fc.callIn[call]
 	for _, t := range targets {
@@ -1060,7 +1118,7 @@ func (fc *fctx) resolveCall(c *ssa.CallCommon) ([]*ssa.Function, []ssa.Value, st
 	if c.IsInvoke() {
 		inputs := append([]ssa.Value{c.Value}, c.Args...)
 		var ts []types.Type
-		for t := range fc.vtypes[c.Value] {
+		for t := range fc.typesOf(c.Value) {
 			ts = append(ts, t)
 		}
 		sort.Slice(ts, func(i, j int) bool { return ts[i].String() < ts[j].String() })
@@ -1126,6 +1184,7 @@ func (fc *fctx) call(ins ssa.Instruction, c *ssa.CallCommon, st *state, val ssa.
 	switch {
 	case kind == "dynamic":
 		if len(all) > 0 {
+			fc.markIncomplete(st, "call through a function value with a resource")
 			fc.escapeSet(all, "passed to a call through a function value", line)
 			if fc.rec {
 				fc.a.addUnresolved("dynamic-call", fc.fn, c.Pos(), all, c.String())
@@ -1134,6 +1193,7 @@ func (fc *fctx) call(ins ssa.Instruction, c *ssa.CallCommon, st *state, val ssa.
 		return
 	case kind == "invoke" && len(targets) == 0:
 		if len(all) > 0 {
+			fc.markIncomplete(st, "interface call with unknown implementations")
 			fc.escapeSet(all, "passed to an interface call with unknown implementations", line)
 			if fc.rec {
 				fc.a.addUnresolved("dispatch-unknown", fc.fn, c.Pos(), all, c.String())
@@ -1149,6 +1209,9 @@ func (fc *fctx) call(ins ssa.Instruction, c *ssa.CallCommon, st *state, val ssa.
 }
 
 func (fc *fctx) applyMulti(ins ssa.Instruction, targets []*ssa.Function, inputs []ssa.Value, inObjs []ObjSet, inCells [][]string, st *state, line int, via string, val ssa.Value, p token.Pos) {
+	if fc.enum {
+		fc.markIncomplete(st, "interface call with several possible implementations on this path")
+	}
 	var joined *state
 	releases := map[bool]bool{}
 	var names []string
@@ -1189,6 +1252,19 @@ func (fc *fctx) applyTarget(ins ssa.Instruction, fn *ssa.Function, inputs []ssa.
 				fc.multi[o] = true
 			}
 			fc.guard[o] = meaning{root: fc.rootOf(call), pol: true}
+			if fc.enum {
+				oi := o
+				if fc.multi[o] {
+					st.inst[o]++
+					oi = ObjID(fmt.Sprintf("%s#%d", o, st.inst[o]))
+					st.curInst[o] = oi
+					fc.guard[oi] = meaning{root: fc.rootOf(call), pol: true}
+				}
+				st.callObj[call] = oi
+				st.res[oi] = SOpen | SFailed
+				fc.emit(st, TraceEv{Ev: "open", Obj: oi, Via: name})
+				return
+			}
 			prev := st.res[o]
 			if fc.multi[o] {
 				if prev != 0 {
@@ -1232,6 +1308,7 @@ func (fc *fctx) applyTarget(ins ssa.Instruction, fn *ssa.Function, inputs []ssa.
 			fc.report.Exits = append(fc.report.Exits, Exit{Line: line, Kind: "os.Exit (defers skipped)", Pops: []Pop{}, Open: labelsOf(fc, open)})
 		}
 		st.live = false
+		st.exitKind = "os.Exit"
 		return
 	}
 	sum := fc.a.summary(fn)
@@ -1241,6 +1318,7 @@ func (fc *fctx) applyTarget(ins ssa.Instruction, fn *ssa.Function, inputs []ssa.
 			all.addAll(s)
 		}
 		if len(all) > 0 {
+			fc.markIncomplete(st, "resource passed to "+name+" ("+sum.Reason+")")
 			fc.escapeSet(all, "passed to "+name+" ("+sum.Reason+")", line)
 			if fc.rec {
 				kind := "unknown-callee"
@@ -1395,6 +1473,9 @@ func (fc *fctx) release(ins ssa.Instruction, objs ObjSet, line int, via string, 
 			}
 		}
 		fc.event(o, line, "release", via, prev)
+		if fc.enum && prev&(SOpen|SOuter) != 0 {
+			fc.emit(st, TraceEv{Ev: "close", Obj: o, Via: via})
+		}
 		loopDefer := fc.curDefer != nil && fc.inLoop[fc.curDefer.Block()] && fc.multi[o]
 		if loopDefer {
 			// one deferred entry stands for every iteration's registration: all instances close
@@ -1466,7 +1547,7 @@ func (fc *fctx) deferInstr(d *ssa.Defer, st *state) {
 		if cs := fc.cells(v); len(cs) > 0 {
 			c.cells = append([]string(nil), cs...)
 		}
-		for t := range fc.vtypes[v] {
+		for t := range fc.typesOf(v) {
 			c.types[t] = true
 		}
 		p.inputs = append(p.inputs, c)
@@ -1483,7 +1564,7 @@ func (fc *fctx) deferInstr(d *ssa.Defer, st *state) {
 	}
 	replaced := false
 	for i, q := range st.pending {
-		if q.d == d {
+		if q.d == d && !fc.enum {
 			st.pending[i] = mergePend(q, p)
 			replaced = true
 		}
@@ -1532,6 +1613,7 @@ func (fc *fctx) mayHoldCells(cs []string, st *state) bool {
 }
 
 func (fc *fctx) goInstr(g *ssa.Go, st *state) {
+	fc.markIncomplete(st, "goroutine: its file events are not predicted")
 	_, inputs, _ := fc.resolveCall(&g.Call)
 	all := ObjSet{}
 	for _, v := range inputs {
@@ -1699,11 +1781,14 @@ func (fc *fctx) panicExit(ins ssa.Instruction, st *state, line int, why string) 
 		s := st.clone()
 		s.live = true
 		s.pending = nil
-		if fc.addState(fc.fn.Recover, s) {
+		if fc.enum {
+			fc.recoverTo = s
+		} else if fc.addState(fc.fn.Recover, s) {
 			fc.changed = true
 		}
 	}
 	st.live = false
+	st.exitKind = "panic"
 }
 
 func older(o ObjID) ObjID { return o + "#older" }

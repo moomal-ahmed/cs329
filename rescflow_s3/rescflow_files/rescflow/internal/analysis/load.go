@@ -16,7 +16,7 @@ import (
 
 // Run loads the packages matching patterns (step 1: parse, type-check, build SSA) and runs
 // the memory-aware resource analysis over every function in them.
-func Run(dir string, patterns []string, explainSSA bool) *Report {
+func Run(dir string, patterns []string, explainSSA, traces bool) *Report {
 	rep := &Report{Schema: "rescflow-analysis/v1", Go: runtime.Version(), Patterns: patterns,
 		Packages: []PackageReport{}, Records: []*Record{}, Functions: []*FuncReport{}, Defers: []*DeferFact{}, Unresolved: []Unresolved{}}
 	root := dir
@@ -107,7 +107,8 @@ func Run(dir string, patterns []string, explainSSA bool) *Report {
 	a := &Analyzer{prog: prog, fset: prog.Fset, root: root, explain: explainSSA,
 		local: map[*ssa.Function]bool{}, sums: map[*ssa.Function]*Summary{}, busy: map[*ssa.Function]bool{},
 		records: map[ObjID]*Record{}, globals: map[string]ObjSet{}, goFns: map[*ssa.Function]bool{},
-		unresSeen: map[string]bool{}, funcs: map[*ssa.Function]*FuncReport{}, dfacts: map[*ssa.Defer]*DeferFact{}}
+		unresSeen: map[string]bool{}, funcs: map[*ssa.Function]*FuncReport{}, dfacts: map[*ssa.Defer]*DeferFact{},
+		fcs: map[*ssa.Function]*fctx{}}
 	var fns []*ssa.Function
 	for fn := range ssautil.AllFunctions(prog) {
 		if fn.Pkg != nil && built[fn.Pkg] && len(fn.Blocks) > 0 && fn.Synthetic == "" {
@@ -196,6 +197,13 @@ func Run(dir string, patterns []string, explainSSA bool) *Report {
 		return rep.Records[i].Line < rep.Records[j].Line
 	})
 	rep.Unresolved = append(rep.Unresolved, a.unres...)
+	if traces {
+		for _, fn := range fns {
+			if fn.Name() == "main" && fn.Pkg.Pkg.Name() == "main" && fn.Signature.Recv() == nil && fn.Parent() == nil {
+				rep.Traces = append(rep.Traces, a.ExploreMain(fn))
+			}
+		}
+	}
 	return rep
 }
 

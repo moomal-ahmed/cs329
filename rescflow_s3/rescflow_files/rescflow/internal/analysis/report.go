@@ -10,6 +10,7 @@ type Report struct {
 	Records    []*Record       `json:"records"`
 	Functions  []*FuncReport   `json:"functions"`
 	Defers     []*DeferFact    `json:"defers"`
+	Traces     []*ProgramTrace `json:"predicted_traces,omitempty"`
 	Unresolved []Unresolved    `json:"unresolved"`
 }
 

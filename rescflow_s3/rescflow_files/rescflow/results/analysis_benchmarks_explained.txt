@@ -47,6 +47,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 02_early_before.scenario  (benchmarks/02_early_before/main.go:7)
 0: entry
@@ -87,6 +91,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 8 [return]: no deferred calls
   exit line 10 [return]: no deferred calls
   exit line 13 [return]: defer@11->[f@9]
+  exit line 8 [return]: no deferred calls
+  exit line 13 [return]: defer@11->[f@9]
+  exit line 10 [return]: no deferred calls
+  exit line 8 [return]: no deferred calls
+  exit line 13 [return]: defer@11->[f@9]
+  exit line 10 [return]: no deferred calls
 
 == func 03_early_after.scenario  (benchmarks/03_early_after/main.go:7)
 0: entry
@@ -131,6 +141,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 9 [return]: no deferred calls
   exit line 11 [return]: defer@10->[f@8]
   exit line 13 [return]: defer@10->[f@8]
+  exit line 11 [return]: defer@10->[f@8]
+  exit line 13 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 11 [return]: defer@10->[f@8]
+  exit line 13 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 04_failed_acquire.scenario  (benchmarks/04_failed_acquire/main.go:7)
 0: entry
@@ -158,6 +174,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 05_two_lifo.scenario  (benchmarks/05_two_lifo/main.go:7)
 0: entry
@@ -210,6 +230,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
   exit line 15 [return]: defer@13->[g@11] defer@10->[f@8]
+  exit line 15 [return]: defer@13->[g@11] defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 15 [return]: defer@13->[g@11] defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 06_nested_block.scenario  (benchmarks/06_nested_block/main.go:7)
 0: entry
@@ -248,6 +274,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 10 [return]: no deferred calls
   exit line 15 [return]: defer@11->[f@9]
+  exit line 15 [return]: defer@11->[f@9]
+  exit line 10 [return]: no deferred calls
+  exit line 15 [return]: defer@11->[f@9]
+  exit line 10 [return]: no deferred calls
 
 == func 07_conditional.scenario  (benchmarks/07_conditional/main.go:7)
 0: entry
@@ -300,6 +330,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 9 [return]: no deferred calls
   exit line 16 [return]: defer@11->[f@8]
   exit line 16 [return]: no deferred calls
+  exit line 16 [return]: defer@11->[f@8]
+  exit line 16 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
+  exit line 16 [return]: defer@11->[f@8]
+  exit line 16 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
 
 == func 08_loop.scenario  (benchmarks/08_loop/main.go:7)
 0: entry
@@ -370,6 +406,24 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 16 [return]: defer@12->[f@10]
   exit line 11 [return]: no deferred calls
   exit line 11 [return]: defer@12->[f@10]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#4] defer@12->[benchmarks/08_loop/main.go:10#3] defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: defer@12->[benchmarks/08_loop/main.go:10#3] defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#3] defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: no deferred calls
+  exit line 16 [return]: no deferred calls
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#4] defer@12->[benchmarks/08_loop/main.go:10#3] defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: defer@12->[benchmarks/08_loop/main.go:10#3] defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#3] defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#2] defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 16 [return]: defer@12->[benchmarks/08_loop/main.go:10#1]
+  exit line 11 [return]: no deferred calls
+  exit line 16 [return]: no deferred calls
 
 == func 09_return_open.scenario  (benchmarks/09_return_open/main.go:7)
 0: entry
@@ -388,6 +442,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return t2
   exit line 9 [return]: no deferred calls
   exit line 10 [return]: no deferred calls
+  exit line 10 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
+  exit line 10 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
 
 == func 09_return_open.main  (benchmarks/09_return_open/main.go:15)
 0: entry
@@ -444,6 +502,11 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 20 [return]: no deferred calls
   exit line 20 [return]: no deferred calls
   exit line 20 [return]: no deferred calls
+  exit line 16 [panic (panic)]: no deferred calls
+  exit line 20 [return]: no deferred calls
+  exit line 20 [return]: no deferred calls
+  exit line 20 [return]: no deferred calls
+  exit line 20 [return]: no deferred calls
 
 == func 10_return_closed.scenario  (benchmarks/10_return_closed/main.go:7)
 0: entry
@@ -478,6 +541,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return t8
   exit line 9 [return]: no deferred calls
   exit line 11 [return]: defer@10->[f@8]
+  exit line 11 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 11 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 10_return_closed.main  (benchmarks/10_return_closed/main.go:16)
 0: entry
@@ -531,6 +598,11 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 21 [return]: no deferred calls
   exit line 21 [return]: no deferred calls
   exit line 21 [return]: no deferred calls
+  exit line 17 [panic (panic)]: no deferred calls
+  exit line 21 [return]: no deferred calls
+  exit line 21 [return]: no deferred calls
+  exit line 21 [return]: no deferred calls
+  exit line 21 [return]: no deferred calls
 
 == func 11_global_escape.scenario  (benchmarks/11_global_escape/main.go:7)
 0: entry
@@ -557,6 +629,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: no deferred calls
+  exit line 12 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
 
 == func 11_global_escape.main  (benchmarks/11_global_escape/main.go:16)
 0: entry
@@ -620,6 +696,11 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 21 [return]: no deferred calls
   exit line 21 [return]: no deferred calls
   exit line 21 [return]: no deferred calls
+  exit line 17 [panic (panic)]: no deferred calls
+  exit line 21 [return]: no deferred calls
+  exit line 21 [return]: no deferred calls
+  exit line 21 [return]: no deferred calls
+  exit line 21 [return]: no deferred calls
 
 == func 12_alias.scenario  (benchmarks/12_alias/main.go:7)
 0: entry
@@ -648,6 +729,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 13 [return]: defer@11->[f@8]
+  exit line 13 [return]: defer@11->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 13 [return]: defer@11->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 13_eager_argument.scenario  (benchmarks/13_eager_argument/main.go:7)
 0: entry
@@ -694,6 +779,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
   exit line 16 [return]: defer@10->[f@8]
+  exit line 16 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 16 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 14_late_closure.scenario  (benchmarks/14_late_closure/main.go:7)
 0: entry
@@ -752,6 +843,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
   exit line 17 [return]: defer@10->[g@11]
+  exit line 17 [return]: defer@10->[g@11]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 17 [return]: defer@10->[g@11]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 14_late_closure.scenario$1  (benchmarks/14_late_closure/main.go:10)
 0: entry
@@ -804,6 +901,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
   exit line 15 [return]: defer@10->[f@8]
+  exit line 15 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 15 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 16_named_result.scenario  (benchmarks/16_named_result/main.go:7)
 0: entry
@@ -846,6 +949,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return t13
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 16_named_result.scenario$1  (benchmarks/16_named_result/main.go:10)
 0: entry
@@ -892,6 +999,12 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
   exit line 14 [return after recover]: no deferred calls
   exit line 10 [return]: defer@8->[]
   exit line 13 [panic->recovered (panic)]: defer@11->[f@9] defer@8->[]
+  exit line 13 [panic->recovered (panic)]: defer@11->[f@9] defer@8->[]
+  exit line 14 [return after recover]: no deferred calls
+  exit line 10 [return]: defer@8->[]
+  exit line 13 [panic->recovered (panic)]: defer@11->[f@9] defer@8->[]
+  exit line 14 [return after recover]: no deferred calls
+  exit line 10 [return]: defer@8->[]
 
 == func 18_helper_boundary.scenario  (benchmarks/18_helper_boundary/main.go:7)
 0: entry
@@ -914,6 +1027,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: no deferred calls
+  exit line 12 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: no deferred calls
+  exit line 9 [return]: no deferred calls
 
 == func 18_helper_boundary.helper  (benchmarks/18_helper_boundary/main.go:14)
 0: entry
@@ -931,6 +1048,8 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 1: recover  [unreachable]
 	return
   exit line 17 [return]: defer@15->[input#0]
+  exit line 17 [return]: defer@15->[f@8]
+  exit line 17 [return]: defer@15->[f@8]
 
 == func 19_double_close.scenario  (benchmarks/19_double_close/main.go:7)
 0: entry
@@ -959,6 +1078,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 12 [return]: defer@10->[f@8]
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 12 [return]: defer@10->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 20_interface_dispatch.scenario  (benchmarks/20_interface_dispatch/main.go:7)
 0: entry
@@ -994,6 +1117,10 @@ RescFlow analysis (go1.26.5) of ./benchmarks/...
 	return
   exit line 9 [return]: no deferred calls
   exit line 13 [return]: defer@11->[f@8]
+  exit line 13 [return]: defer@11->[f@8]
+  exit line 9 [return]: no deferred calls
+  exit line 13 [return]: defer@11->[f@8]
+  exit line 9 [return]: no deferred calls
 
 == func 20_interface_dispatch.(tracked).Close  (benchmarks/20_interface_dispatch/main.go:17)
 0: entry
@@ -1013,6 +1140,7 @@ benchmarks/01_local/main.go:8  var f in 01_local.scenario  (loop=false goroutine
   acquire  line 8   [unacquired] via os.Open
   use      line 11  [Open]    via call 01_local.useFile
   release  line 10  [Open]    via defer@10 at return@12
+  use      line 33  [Open]    via call os.(*File).Stat
   defer@10 (always) example.com/rescflow/benchmarks/01_local.closeFile("A":string, t2)
       captures f: value fixed at registration = {f@8}
       at return@12 acts on [f@8]
@@ -1029,10 +1157,11 @@ benchmarks/03_early_after/main.go:8  var f in 03_early_after.scenario  (loop=fal
   release  line 10  [Open]    via defer@10 at return@11
   use      line 12  [Open]    via call 03_early_after.useFile
   release  line 10  [Open]    via defer@10 at return@13
+  use      line 34  [Open]    via call os.(*File).Stat
   defer@10 (always) example.com/rescflow/benchmarks/03_early_after.closeFile("A":string, t2)
       captures f: value fixed at registration = {f@8}
-      at return@13 acts on [f@8]
       at return@11 acts on [f@8]
+      at return@13 acts on [f@8]
 
 benchmarks/04_failed_acquire/main.go:8  var f in 04_failed_acquire.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
@@ -1069,6 +1198,8 @@ benchmarks/07_conditional/main.go:8  var f in 07_conditional.scenario  (loop=fal
   use      line 13  [Open]    via call 07_conditional.useFile
   release  line 14  [Open]    via call 07_conditional.closeFile
   release  line 11  [Open]    via defer@11 at return@16
+  use      line 37  [Open]    via call os.(*File).Stat
+  release  line 32  [Open]    via call os.(*File).Close
   defer@11 (conditional) example.com/rescflow/benchmarks/07_conditional.closeFile("A":string, t2)
       captures f: value fixed at registration = {f@8}
       at return@16 acts on [f@8]
@@ -1080,14 +1211,20 @@ benchmarks/08_loop/main.go:10  var f in 08_loop.scenario  (loop=true goroutine=f
   release  line 12  [Failed]  via defer@12 at return@11
   defer@12 (loop) example.com/rescflow/benchmarks/08_loop.closeFile(t6, t9)
       captures f: value fixed at registration = {f@10}
-      at return@11 acts on [f@10]
-      at return@16 acts on [f@10]
+      captures f: value fixed at registration = {benchmarks/08_loop/main.go:10#1}
+      captures f: value fixed at registration = {benchmarks/08_loop/main.go:10#2}
+      captures f: value fixed at registration = {benchmarks/08_loop/main.go:10#3}
+      captures f: value fixed at registration = {benchmarks/08_loop/main.go:10#4}
+      at return@16 acts on [benchmarks/08_loop/main.go:10#1]
+      at return@11 acts on [benchmarks/08_loop/main.go:10#1]
 
 benchmarks/09_return_open/main.go:8  var f in 09_return_open.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
   acquire  line 19  [unacquired] via returned by 09_return_open.scenario (result 0)
   use      line 19  [Open]    via call 09_return_open.useFile
   release  line 19  [Open]    via call 09_return_open.closeFile
+  use      line 32  [Open]    via call os.(*File).Stat
+  release  line 27  [Open]    via call os.(*File).Close
   escape   line 10: returned to the caller of 09_return_open.scenario (ownership transfer)
 
 benchmarks/10_return_closed/main.go:8  var f in 10_return_closed.scenario  (loop=false goroutine=false)
@@ -1095,22 +1232,27 @@ benchmarks/10_return_closed/main.go:8  var f in 10_return_closed.scenario  (loop
   release  line 10  [Open]    via defer@10 at return@11
   acquire  line 20  [unacquired] via returned by 10_return_closed.scenario (result 0)
   use      line 20  [Closed]  via call 10_return_closed.useFile
+  use      line 33  [Closed]  via call os.(*File).Stat
   defer@10 (always) example.com/rescflow/benchmarks/10_return_closed.closeFile("A":string, t3)
       captures f: value fixed at registration = {f@8}
       at return@11 acts on [f@8]
   escape   line 11: returned to the caller of 10_return_closed.scenario (ownership transfer)
   ANOMALY  use after close at line 20 (call 10_return_closed.useFile)
+  ANOMALY  use after close at line 33 (call os.(*File).Stat)
 
 benchmarks/11_global_escape/main.go:8  var f in 11_global_escape.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
   use      line 20  [Outer]   via call 11_global_escape.useFile
   release  line 20  [Outer]   via call 11_global_escape.closeFile
+  use      line 33  [Open]    via call os.(*File).Stat
+  release  line 28  [Open]    via call os.(*File).Close
   escape   line 10: stored in global example.com/rescflow/benchmarks/11_global_escape.saved
 
 benchmarks/12_alias/main.go:8  var f in 12_alias.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
   use      line 12  [Open]    via call 12_alias.useFile
   release  line 11  [Open]    via defer@11 at return@13
+  use      line 34  [Open]    via call os.(*File).Stat
   defer@11 (always) example.com/rescflow/benchmarks/12_alias.closeFile("A":string, t2)
       captures f: value fixed at registration = {f@8}
       at return@13 acts on [f@8]
@@ -1128,11 +1270,14 @@ benchmarks/13_eager_argument/main.go:11  var g in 13_eager_argument.scenario  (l
   acquire  line 11  [unacquired] via os.Open
   use      line 14  [Open]    via call 13_eager_argument.useFile
   release  line 15  [Open]    via call 13_eager_argument.closeFile
+  use      line 37  [Open]    via call os.(*File).Stat
+  release  line 32  [Open]    via call os.(*File).Close
 
 benchmarks/14_late_closure/main.go:8  var f in 14_late_closure.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
   release  line 10  [Open]    via defer@10 at return@12
   release  line 15  [Open]    via call 14_late_closure.closeFile
+  release  line 33  [Open]    via call os.(*File).Close
   defer@10 (always) t7()
       captures f: cell t0(f), read at exit
       at return@12 acts on [f@8]
@@ -1142,6 +1287,7 @@ benchmarks/14_late_closure/main.go:11  var g in 14_late_closure.scenario  (loop=
   acquire  line 11  [unacquired] via os.Open
   use      line 16  [Open]    via call 14_late_closure.useFile
   release  line 10  [Open]    via defer@10 at return@17
+  use      line 38  [Open]    via call os.(*File).Stat
   defer@10 (always) t7()
       captures f: cell t0(f), read at exit
       at return@12 acts on [f@8]
@@ -1159,11 +1305,13 @@ benchmarks/15_closure_parameter/main.go:8  var f in 15_closure_parameter.scenari
 benchmarks/15_closure_parameter/main.go:11  var g in 15_closure_parameter.scenario  (loop=false goroutine=false)
   acquire  line 11  [unacquired] via os.Open
   release  line 14  [Open]    via call 15_closure_parameter.closeFile
+  release  line 31  [Open]    via call os.(*File).Close
 
 benchmarks/16_named_result/main.go:8  var f in 16_named_result.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
   release  line 11  [Open]    via call 16_named_result.closeFile
   release  line 10  [Closed]  via defer@10 at return@12
+  release  line 29  [Open]    via call os.(*File).Close
   defer@10 (always) t9()
       captures result: cell t0(result), read at exit
       captures f: cell t1(f), read at exit
@@ -1183,16 +1331,20 @@ benchmarks/18_helper_boundary/main.go:8  var f in 18_helper_boundary.scenario  (
   acquire  line 8   [unacquired] via os.Open
   release  line 10  [Open]    via call 18_helper_boundary.helper
   use      line 11  [Closed]  via call 18_helper_boundary.useFile
+  release  line 15  [Open]    via defer@15 at return@17
+  use      line 36  [Closed]  via call os.(*File).Stat
   defer@15 (always) example.com/rescflow/benchmarks/18_helper_boundary.closeFile("A":string, f)
       captures f: cell *f, read at exit
-      at return@17 acts on [input#0]
+      at return@17 acts on [f@8]
       at exit of 18_helper_boundary.helper, called from 18_helper_boundary.scenario@10 acts on [f@8]
   ANOMALY  use after close at line 11 (call 18_helper_boundary.useFile)
+  ANOMALY  use after close at line 36 (call os.(*File).Stat)
 
 benchmarks/19_double_close/main.go:8  var f in 19_double_close.scenario  (loop=false goroutine=false)
   acquire  line 8   [unacquired] via os.Open
   release  line 11  [Open]    via call 19_double_close.closeFile
   release  line 10  [Closed]  via defer@10 at return@12
+  release  line 28  [Open]    via call os.(*File).Close
   defer@10 (always) example.com/rescflow/benchmarks/19_double_close.closeFile("A":string, t2)
       captures f: value fixed at registration = {f@8}
       at return@12 acts on [f@8]
@@ -1202,6 +1354,238 @@ benchmarks/20_interface_dispatch/main.go:8  var f in 20_interface_dispatch.scena
   acquire  line 8   [unacquired] via os.Open
   use      line 12  [Open]    via call 20_interface_dispatch.useFile
   release  line 11  [Open]    via defer@11 at return@13
+  use      line 36  [Open]    via call os.(*File).Stat
   defer@11 (always) invoke t8.Close()
       captures c: value fixed at registration = {f@8}
       at return@13 acts on [f@8]
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/01_local (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@10 at return@12)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/02_early_before (4 paths)
+  [] exit=panic
+  [] exit=return
+  [] exit=return
+      open f@9 FAILED
+  [o1 c1] exit=return
+      open f@9
+      close f@9 (defer@11 at return@13)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/03_early_after (4 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@10 at return@11)
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@10 at return@13)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/04_failed_acquire (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@10 at return@12)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/05_two_lifo (4 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      open g@11 FAILED
+      close f@8 (defer@10 at return@12)
+  [o1 o2 c2 c1] exit=return
+      open f@8
+      open g@11
+      close g@11 (defer@13 at return@15)
+      close f@8 (defer@10 at return@15)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/06_nested_block (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@9 FAILED
+  [o1 c1] exit=return
+      open f@9
+      close f@9 (defer@11 at return@15)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/07_conditional (4 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (call os.(*File).Close)
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@11 at return@16)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/08_loop (10 paths)
+  [] exit=panic
+  [] exit=return
+  [] exit=return
+      open f@10#1 FAILED
+  [o1 c1] exit=return
+      open f@10#1
+      close f@10#1 (defer@12 at return@16)
+  [o1 c1] exit=return
+      open f@10#1
+      open f@10#2 FAILED
+      close f@10#1 (defer@12 at return@11)
+  [o1 o2 c2 c1] exit=return
+      open f@10#1
+      open f@10#2
+      close f@10#2 (defer@12 at return@16)
+      close f@10#1 (defer@12 at return@16)
+  [o1 o2 c2 c1] exit=return
+      open f@10#1
+      open f@10#2
+      open f@10#3 FAILED
+      close f@10#2 (defer@12 at return@11)
+      close f@10#1 (defer@12 at return@11)
+  [o1 o2 o3 c3 c2 c1] exit=return
+      open f@10#1
+      open f@10#2
+      open f@10#3
+      close f@10#3 (defer@12 at return@16)
+      close f@10#2 (defer@12 at return@16)
+      close f@10#1 (defer@12 at return@16)
+  [o1 o2 o3 c3 c2 c1] exit=return
+      open f@10#1
+      open f@10#2
+      open f@10#3
+      open f@10#4 FAILED
+      close f@10#3 (defer@12 at return@11)
+      close f@10#2 (defer@12 at return@11)
+      close f@10#1 (defer@12 at return@11)
+  [o1 o2 o3 o4 c4 c3 c2 c1] exit=return
+      open f@10#1
+      open f@10#2
+      open f@10#3
+      open f@10#4
+      close f@10#4 (defer@12 at return@16)
+      close f@10#3 (defer@12 at return@16)
+      close f@10#2 (defer@12 at return@16)
+      close f@10#1 (defer@12 at return@16)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/09_return_open (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (call os.(*File).Close)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/10_return_closed (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@10 at return@11)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/11_global_escape (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (call os.(*File).Close)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/12_alias (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@11 at return@13)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/13_eager_argument (4 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      open g@11 FAILED
+      close f@8 (defer@10 at return@12)
+  [o1 o2 c2 c1] exit=return
+      open f@8
+      open g@11
+      close g@11 (call os.(*File).Close)
+      close f@8 (defer@10 at return@16)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/14_late_closure (4 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      open g@11 FAILED
+      close f@8 (defer@10 at return@12)
+  [o1 o2 c1 c2] exit=return
+      open f@8
+      open g@11
+      close f@8 (call os.(*File).Close)
+      close g@11 (defer@10 at return@17)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/15_closure_parameter (4 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      open g@11 FAILED
+      close f@8 (defer@10 at return@12)
+  [o1 o2 c2 c1] exit=return
+      open f@8
+      open g@11
+      close g@11 (call os.(*File).Close)
+      close f@8 (defer@10 at return@15)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/16_named_result (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (call os.(*File).Close)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/17_panic_unwind (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@9 FAILED
+  [o1 c1] exit=return
+      open f@9
+      close f@9 (defer@11 at panic->recovered@13)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/18_helper_boundary (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@15 at return@17)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/19_double_close (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (call os.(*File).Close)
+
+== predicted open/close paths from main: example.com/rescflow/benchmarks/20_interface_dispatch (3 paths)
+  [] exit=panic
+  [] exit=return
+      open f@8 FAILED
+  [o1 c1] exit=return
+      open f@8
+      close f@8 (defer@11 at return@13)

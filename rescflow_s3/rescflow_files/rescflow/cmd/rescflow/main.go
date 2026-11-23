@@ -22,12 +22,13 @@ func main() {
 	explainSSA := flag.Bool("explain", false, "include the SSA of each function annotated with the analysis state")
 	format := flag.String("format", "json", "json or text")
 	dir := flag.String("C", "", "directory to resolve package patterns in (default: current directory)")
+	traces := flag.Bool("traces", false, "also predict the open/close sequence of every path from main (for scripts/check_traces.py)")
 	flag.Parse()
 	patterns := flag.Args()
 	if len(patterns) == 0 {
 		patterns = []string{"./..."}
 	}
-	rep := analysis.Run(*dir, patterns, *explainSSA)
+	rep := analysis.Run(*dir, patterns, *explainSSA, *traces)
 	if *format == "text" {
 		printText(rep)
 	} else {
@@ -114,6 +115,19 @@ func printText(rep *analysis.Report) {
 		}
 		for _, n := range r.Notes {
 			fmt.Fprintf(w, "  note     %s\n", n)
+		}
+	}
+	for _, t := range rep.Traces {
+		fmt.Fprintf(w, "\n== predicted open/close paths from main: %s (%d paths)\n", t.Package, len(t.Paths))
+		for _, p := range t.Paths {
+			inc := ""
+			if p.Incomplete != "" {
+				inc = "  INCOMPLETE: " + p.Incomplete
+			}
+			fmt.Fprintf(w, "  [%s] exit=%s%s\n", p.Canonical, p.Exit, inc)
+			for _, e := range p.Events {
+				fmt.Fprintf(w, "      %s\n", e)
+			}
 		}
 	}
 	if len(rep.Unresolved) > 0 {

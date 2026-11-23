@@ -1,0 +1,5 @@
+.DS_Store
+__pycache__/
+*.pyc
+/rescflow_files/rescflow/rescflow
+target/
