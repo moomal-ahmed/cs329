@@ -1,0 +1,11 @@
+[package]
+name = "u04_struct_owns_two"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "prog"
+path = "main.rs"
+
+[dependencies]
+rescflow_rt = { path = "../../../../rescflow_rt" }

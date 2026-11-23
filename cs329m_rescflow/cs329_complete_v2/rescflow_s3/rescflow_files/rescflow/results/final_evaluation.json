@@ -1,0 +1,709 @@
+{
+  "summary": {
+    "RescFlow": {
+      "built": 5,
+      "identical_programs": 5,
+      "runs": 28,
+      "same_runs": 28,
+      "flagged_c": 3
+    },
+    "Go2Rust (as emitted)": {
+      "built": 0,
+      "identical_programs": 0,
+      "runs": 0,
+      "same_runs": 0,
+      "flagged_c": 0
+    },
+    "Go2Rust (2 stand-in patches)": {
+      "built": 8,
+      "identical_programs": 0,
+      "runs": 46,
+      "same_runs": 31,
+      "flagged_c": 0
+    },
+    "Rustygo": {
+      "built": 10,
+      "identical_programs": 10,
+      "runs": 59,
+      "same_runs": 59,
+      "flagged_c": 0
+    },
+    "LLM, plain prompt": {
+      "built": 10,
+      "identical_programs": 10,
+      "runs": 59,
+      "same_runs": 59,
+      "flagged_c": 0
+    },
+    "LLM + RescFlow analysis": {
+      "built": 10,
+      "identical_programs": 10,
+      "runs": 59,
+      "same_runs": 59,
+      "flagged_c": 3
+    }
+  },
+  "results": {
+    "RescFlow": {
+      "U01_two_files_error_join": {
+        "status": "identical to Go",
+        "note": "line 10: OWNED_GUARD; line 13: RESULT_SLOT_GUARD",
+        "flagged": false,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U02_retry_until_open": {
+        "status": "identical to Go",
+        "note": "line 12: DEFER_STACK",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U03_reopen_through_pointer": {
+        "status": "review report (no Rust, by design)",
+        "note": "",
+        "flagged": true,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U04_struct_owns_two": {
+        "status": "review report (no Rust, by design)",
+        "note": "",
+        "flagged": true,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U05_forgotten_close": {
+        "status": "review report (no Rust, by design)",
+        "note": "",
+        "flagged": true,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U06_bufio_reader": {
+        "status": "review report (no Rust, by design)",
+        "note": "",
+        "flagged": true,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U07_stored_closure_deferred": {
+        "status": "identical to Go",
+        "note": "line 12: CELL_CLOSURE_GUARD (stored closure)",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U08_kept_in_registry": {
+        "status": "review report (no Rust, by design)",
+        "note": "",
+        "flagged": true,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U09_callee_panics_owns_file": {
+        "status": "identical to Go",
+        "note": "line 8: OWNED_GUARD; line 13: CATCH_UNWIND (recover)",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U10_out_param_transfer": {
+        "status": "identical to Go",
+        "note": "line 11: OWNED_GUARD",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      }
+    },
+    "Go2Rust (as emitted)": {
+      "U01_two_files_error_join": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U02_retry_until_open": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U03_reopen_through_pointer": {
+        "status": "compile failed",
+        "note": "error[E0308] error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U04_struct_owns_two": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U05_forgotten_close": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U06_bufio_reader": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U07_stored_closure_deferred": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U08_kept_in_registry": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U09_callee_panics_owns_file": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U10_out_param_transfer": {
+        "status": "compile failed",
+        "note": "error[E0530] error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      }
+    },
+    "Go2Rust (2 stand-in patches)": {
+      "U01_two_files_error_join": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 4,
+        "diffs": [
+          "[''] : os",
+          "[''] close:1:EIO: stdout, os"
+        ]
+      },
+      "U02_retry_until_open": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 3,
+        "diffs": [
+          "[''] close:1:EIO: stdout"
+        ]
+      },
+      "U03_reopen_through_pointer": {
+        "status": "compile failed",
+        "note": "error[E0308]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U04_struct_owns_two": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 5,
+        "same": 3,
+        "diffs": [
+          "[''] : os",
+          "[''] close:1:EIO: stdout, os"
+        ]
+      },
+      "U05_forgotten_close": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 4,
+        "diffs": [
+          "['skip'] : os",
+          "[''] close:1:EIO: stdout"
+        ]
+      },
+      "U06_bufio_reader": {
+        "status": "compile failed",
+        "note": "error[E0599]",
+        "flagged": false,
+        "runs": 0,
+        "same": 0,
+        "diffs": []
+      },
+      "U07_stored_closure_deferred": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 3,
+        "diffs": [
+          "[''] close:1:EIO: stdout"
+        ]
+      },
+      "U08_kept_in_registry": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 5,
+        "diffs": [
+          "[''] close:1:EIO: stdout",
+          "['keep'] close:1:EIO: stdout"
+        ]
+      },
+      "U09_callee_panics_owns_file": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 4,
+        "diffs": [
+          "['panic'] : stdout, rc",
+          "[''] close:1:EIO: stdout",
+          "['panic'] close:1:EIO: stdout, rc"
+        ]
+      },
+      "U10_out_param_transfer": {
+        "status": "differs from Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 5,
+        "diffs": [
+          "[''] close:1:EIO: stdout",
+          "['give'] close:1:EIO: stdout"
+        ]
+      }
+    },
+    "Rustygo": {
+      "U01_two_files_error_join": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U02_retry_until_open": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U03_reopen_through_pointer": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 8,
+        "same": 8,
+        "diffs": []
+      },
+      "U04_struct_owns_two": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 5,
+        "same": 5,
+        "diffs": []
+      },
+      "U05_forgotten_close": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U06_bufio_reader": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 5,
+        "same": 5,
+        "diffs": []
+      },
+      "U07_stored_closure_deferred": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U08_kept_in_registry": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U09_callee_panics_owns_file": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U10_out_param_transfer": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      }
+    },
+    "LLM, plain prompt": {
+      "U01_two_files_error_join": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U02_retry_until_open": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U03_reopen_through_pointer": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 8,
+        "same": 8,
+        "diffs": []
+      },
+      "U04_struct_owns_two": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 5,
+        "same": 5,
+        "diffs": []
+      },
+      "U05_forgotten_close": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U06_bufio_reader": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 5,
+        "same": 5,
+        "diffs": []
+      },
+      "U07_stored_closure_deferred": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U08_kept_in_registry": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U09_callee_panics_owns_file": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U10_out_param_transfer": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      }
+    },
+    "LLM + RescFlow analysis": {
+      "U01_two_files_error_join": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U02_retry_until_open": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U03_reopen_through_pointer": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": true,
+        "runs": 8,
+        "same": 8,
+        "diffs": []
+      },
+      "U04_struct_owns_two": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": true,
+        "runs": 5,
+        "same": 5,
+        "diffs": []
+      },
+      "U05_forgotten_close": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": true,
+        "runs": 6,
+        "same": 6,
+        "diffs": []
+      },
+      "U06_bufio_reader": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": true,
+        "runs": 5,
+        "same": 5,
+        "diffs": []
+      },
+      "U07_stored_closure_deferred": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 4,
+        "same": 4,
+        "diffs": []
+      },
+      "U08_kept_in_registry": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": true,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U09_callee_panics_owns_file": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      },
+      "U10_out_param_transfer": {
+        "status": "identical to Go",
+        "note": "",
+        "flagged": false,
+        "runs": 7,
+        "same": 7,
+        "diffs": []
+      }
+    }
+  },
+  "analysis": {
+    "U01_two_files_error_join": {
+      "acq_found": 2,
+      "acq_labelled": 2,
+      "acq_extra": [],
+      "def_found": 2,
+      "def_labelled": 2,
+      "expected": "A",
+      "decided": "A",
+      "plans": [
+        "OWNED_GUARD",
+        "RESULT_SLOT_GUARD"
+      ],
+      "review": []
+    },
+    "U02_retry_until_open": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "A",
+      "decided": "A",
+      "plans": [
+        "OWNED_GUARD"
+      ],
+      "review": []
+    },
+    "U03_reopen_through_pointer": {
+      "acq_found": 2,
+      "acq_labelled": 2,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "A",
+      "decided": "C",
+      "plans": [
+        "OUT_PARAM_TRANSFER",
+        "REVIEW"
+      ],
+      "review": [
+        "`f` is used after it is closed. Which side owns the file? `f` is closed twice. Which close is the real one?"
+      ]
+    },
+    "U04_struct_owns_two": {
+      "acq_found": 2,
+      "acq_labelled": 2,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "A",
+      "decided": "C",
+      "plans": [
+        "REVIEW",
+        "REVIEW"
+      ],
+      "review": [
+        "On at least one path `a` is never closed. Is that intended?",
+        "On at least one path `b` is never closed. Is that intended?"
+      ]
+    },
+    "U05_forgotten_close": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 0,
+      "def_labelled": 0,
+      "expected": "C",
+      "decided": "C",
+      "plans": [
+        "REVIEW"
+      ],
+      "review": [
+        "On at least one path `f` is never closed. Is that intended?"
+      ]
+    },
+    "U06_bufio_reader": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "C",
+      "decided": "C",
+      "plans": [
+        "REVIEW"
+      ],
+      "review": [
+        "A fact needed to translate `f` is unavailable (unknown-callee)."
+      ]
+    },
+    "U07_stored_closure_deferred": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "A",
+      "decided": "A",
+      "plans": [
+        "OWNED_GUARD"
+      ],
+      "review": []
+    },
+    "U08_kept_in_registry": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "C",
+      "decided": "C",
+      "plans": [
+        "REVIEW"
+      ],
+      "review": [
+        "A fact needed to translate `f` is unavailable (collection)."
+      ]
+    },
+    "U09_callee_panics_owns_file": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 2,
+      "def_labelled": 2,
+      "expected": "A",
+      "decided": "A",
+      "plans": [
+        "CALLEE_OWNS + CATCH_UNWIND"
+      ],
+      "review": []
+    },
+    "U10_out_param_transfer": {
+      "acq_found": 1,
+      "acq_labelled": 1,
+      "acq_extra": [],
+      "def_found": 1,
+      "def_labelled": 1,
+      "expected": "B",
+      "decided": "B",
+      "plans": [
+        "OUT_PARAM_TRANSFER | OWNED_GUARD"
+      ],
+      "review": []
+    }
+  }
+}

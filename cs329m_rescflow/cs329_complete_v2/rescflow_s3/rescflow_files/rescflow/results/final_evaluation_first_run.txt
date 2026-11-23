@@ -1,0 +1,25 @@
+Final evaluation on the sealed set (10 programs, 59 runs per tool)
+
+| Tool | Translated & compiled | Programs identical to Go | Runs identical to Go | Expected-C programs surfaced for review |
+|---|---|---|---|---|
+| RescFlow | 5/10 | 5/10 | 28/28 | 3/3 |
+| Go2Rust (as emitted) | 0/10 | 0/10 | 0/0 | 0/3 |
+| Go2Rust (2 stand-in patches) | 8/10 | 0/10 | 31/46 | 0/3 |
+| Rustygo | 10/10 | 10/10 | 59/59 | 0/3 |
+
+Per program (status; runs identical/total):
+  U01_two_files_error_join (expected A, RescFlow decided A): RescFlow: identical to Go 6/6 | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 4/6 | Rustygo: identical to Go 6/6
+  U02_retry_until_open (expected A, RescFlow decided A): RescFlow: identical to Go 4/4 | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 3/4 | Rustygo: identical to Go 4/4
+  U03_reopen_through_pointer (expected A, RescFlow decided C): RescFlow: review report (no Rust, by design) 0/0 REVIEW | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): compile failed 0/0 | Rustygo: identical to Go 8/8
+  U04_struct_owns_two (expected A, RescFlow decided C): RescFlow: review report (no Rust, by design) 0/0 REVIEW | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 3/5 | Rustygo: identical to Go 5/5
+  U05_forgotten_close (expected C, RescFlow decided C): RescFlow: review report (no Rust, by design) 0/0 REVIEW | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 4/6 | Rustygo: identical to Go 6/6
+  U06_bufio_reader (expected C, RescFlow decided C): RescFlow: review report (no Rust, by design) 0/0 REVIEW | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): compile failed 0/0 | Rustygo: identical to Go 5/5
+  U07_stored_closure_deferred (expected A, RescFlow decided A): RescFlow: identical to Go 4/4 | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 3/4 | Rustygo: identical to Go 4/4
+  U08_kept_in_registry (expected C, RescFlow decided C): RescFlow: review report (no Rust, by design) 0/0 REVIEW | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 5/7 | Rustygo: identical to Go 7/7
+  U09_callee_panics_owns_file (expected A, RescFlow decided A): RescFlow: identical to Go 7/7 | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 4/7 | Rustygo: identical to Go 7/7
+  U10_out_param_transfer (expected B, RescFlow decided B): RescFlow: identical to Go 7/7 | Go2Rust (as emitted): compile failed 0/0 | Go2Rust (2 stand-in patches): differs from Go 5/7 | Rustygo: identical to Go 7/7
+
+RescFlow analysis on the sealed set:
+  acquisition sites 13/13, defer sites 11/11, categories agree 8/10
+  U03_reopen_through_pointer: expected A, decided C; plans ['OUT_PARAM_TRANSFER', 'REVIEW']; review: ['`f` is used after it is closed. Which side owns the file? `f` is closed twice. Which close is the real one?']
+  U04_struct_owns_two: expected A, decided C; plans ['REVIEW', 'REVIEW']; review: ['On at least one path `a` is never closed. Is that intended?', 'On at least one path `b` is never closed. Is that intended?']

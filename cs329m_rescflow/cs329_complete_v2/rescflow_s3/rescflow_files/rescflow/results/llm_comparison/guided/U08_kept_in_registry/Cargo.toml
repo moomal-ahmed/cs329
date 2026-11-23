@@ -1,0 +1,11 @@
+[package]
+name = "u08_kept_in_registry"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "prog"
+path = "main.rs"
+
+[dependencies]
+rescflow_rt = { path = "../../../../rescflow_rt" }
